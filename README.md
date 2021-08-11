@@ -1,1 +1,1 @@
-# SDA8-Covid-Vaccine-Reservation
+# SDA8-COVID-Vaccine-Reservation-System
