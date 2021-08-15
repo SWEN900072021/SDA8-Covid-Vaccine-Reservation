@@ -24,7 +24,7 @@ The application will be a centralised vaccine management platform that can help 
 [Part 1 - Use Cases and Domain Model](docs/part1)
 
 - [Report](docs/part1/part_1_use_cases.pdf)
-- [Checklist](docs/part1/Checklist Part 1.pdf)
+- [Checklist](docs/part1/Checklist%20Part%201.pdf)
 
 [Part 2](docs/part2)
 
