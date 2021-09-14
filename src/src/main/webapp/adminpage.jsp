@@ -1,18 +1,20 @@
 <%--
   Created by IntelliJ IDEA.
   User: 白咕咕
-  Date: 2021/9/13
-  Time: 14:34
+  Date: 2021/9/14
+  Time: 20:17
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Recipient Home Page</title>
+    <title>Admin Page</title>
 </head>
 <body>
-<a href="bookvaccination">View all timeslots and book a vaccination </a></br>
-<a href="showcertification">Show proof of vaccination </a></br>
+<a href="add_vaccine">Add new vaccine type </a></br>
+<a href="signup">Create new account </a></br>
+<a href="get_timeslot">View all time slots </a></br>
+<a href="get_user">View all users </a></br>
 <a href="signout">Sign out </a></br>
 </body>
 </html>

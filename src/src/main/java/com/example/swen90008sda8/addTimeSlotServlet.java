@@ -2,6 +2,7 @@ package com.example.swen90008sda8;
 
 import java.io.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
@@ -13,7 +14,7 @@ public class addTimeSlotServlet extends HttpServlet{
         message = "Hello World123!";
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if(((String) request.getSession().getAttribute("identity")).equals("Health Care Provider")){
+        if((request.getSession().getAttribute("identity")!=null)&&((String) request.getSession().getAttribute("identity")).equals("Health Care Provider")){
             response.sendRedirect("addtimeslot.jsp");
         } else{
             PrintWriter writer = response.getWriter();
@@ -25,8 +26,12 @@ public class addTimeSlotServlet extends HttpServlet{
         String date = request.getParameter("date");
         String from = request.getParameter("from");
         String to = request.getParameter("to");
+        String provider = (String)request.getSession().getAttribute("hcpname");
+        String numberofshots = request.getParameter("numberofshots");
+        String vname = request.getParameter("vname");
         PrintWriter writer = response.getWriter();
-        String s = "INSERT INTO timeslots(date, fromTime, toTime) VALUES (" +"'"+date+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
+        String s = "INSERT INTO timeslots(date, fromTime, toTime, provider, numberofshots, vaccineName) VALUES (" +"'"+date+"'"+','+"'"+from+"'"
+                +','+"'"+to+"'"+','+"'"+provider+"', "+numberofshots+", '"+vname+ "');";
         ResultSet rs = new postgresqlConnector().connect(s);
         writer.println("<h3> Slot "+date+" added!");
     }

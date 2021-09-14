@@ -25,10 +25,11 @@ public class signUpServlet extends HttpServlet{
         String identity = request.getParameter("identity");
         String post = request.getParameter("postcode");
         String top = request.getParameter("typeOfProvider");
+        String hcpname = request.getParameter("hcpName");
         PrintWriter writer = response.getWriter();
-        String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity, postcode," +
+        String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity, postcode, hcpname," +
                 " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
-                +"'"+lastName+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+top+"'"+ ");";
+                +"'"+lastName+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
         ResultSet rs = new postgresqlConnector().connect(s);
         writer.println("<h3> Welcome,"+firstName+"!");
     }

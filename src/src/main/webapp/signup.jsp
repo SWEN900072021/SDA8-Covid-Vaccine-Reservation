@@ -27,6 +27,7 @@
                             <option value="Doctor or GP">Doctor or GP</option>
                             <option value="Hospital">Hospital</option>
                       </select><br/>
+    Organisation Name(If you are a Health Care Provider): <input type = "text" name = "hcpName"><br/>
     <input type = "submit" value = "sign up">
 </form>
 </body>

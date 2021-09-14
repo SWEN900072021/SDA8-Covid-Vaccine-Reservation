@@ -20,7 +20,7 @@ public class logInServlet extends HttpServlet{
         String user = request.getParameter("email");
         String pass = request.getParameter("passWord");
         PrintWriter writer = response.getWriter();
-        String s = "SELECT email,password,user_identity FROM users where email =" + "'" +user + "'" + " AND password = "+ "'" +pass+ "';";
+        String s = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +user + "'" + " AND password = "+ "'" +pass+ "';";
         ResultSet rs = new postgresqlConnector().connect(s);
         try {
             if (rs.next() == false) {
@@ -28,8 +28,15 @@ public class logInServlet extends HttpServlet{
             } else {
                 request.getSession().setAttribute("email", user);
                 request.getSession().setAttribute("identity", rs.getString(3));
+                request.getSession().setAttribute("hcpname", rs.getString(4));
                 writer.println("Welcome!" + rs.getString(1));
-                response.sendRedirect("mainpage.jsp");
+                if(rs.getString(3).equals("Admin")){
+                    response.sendRedirect("adminpage.jsp");
+                }else if(rs.getString(3).equals("Health Care Provider")) {
+                    response.sendRedirect("hcppage.jsp");
+                }else{
+                    response.sendRedirect("mainpage.jsp");
+                }
             }
         }catch (SQLException e) {
             e.printStackTrace();

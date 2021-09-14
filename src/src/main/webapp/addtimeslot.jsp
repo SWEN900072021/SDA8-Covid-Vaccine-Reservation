@@ -14,8 +14,14 @@
 <form action = "add_timeslot" method = "post">
     Date: <input type = "date" name = "date" required><br/>
     From<input type = "time" name = "from" required>
-    to<input type = "time" name = "to" required>
+    to<input type = "time" name = "to" required><br/>
+    Number of shots available <input type = "int" name = "numberofshots" required>
+    Vaccine Name: <select name="vname" required>
+                        <option value="AstraZeneca">AstraZeneca</option>
+                        <option value="Pfizer">Pfizer</option>
+                  </select><br/>
     <input type = "submit" value = "Add">
 </form>>
+<a href="mainpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to main page</a>
 </body>
 </html>

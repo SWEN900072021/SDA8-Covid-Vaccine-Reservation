@@ -18,6 +18,7 @@ public class addVaccineServlet extends HttpServlet{
         } else{
             PrintWriter writer = response.getWriter();
             writer.println("<h3> You don't have permission!" + (String) request.getSession().getAttribute("identity"));
+            return;
         }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{

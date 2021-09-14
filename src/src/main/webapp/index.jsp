@@ -12,6 +12,5 @@
     Password: <input type = "password" name = "passWord" required><br/>
     <input type = "submit" value = "Login">
 </form></br>
-<a href="signup">Don't have an account, register one. </a>
 </body>
 </html>
