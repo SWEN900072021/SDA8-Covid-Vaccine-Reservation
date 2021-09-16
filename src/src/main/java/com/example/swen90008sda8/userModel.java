@@ -14,6 +14,16 @@ public class userModel {
     private Boolean vaccinated;
     private String hcpName;
 
+    public Integer getTimeslotID() {
+        return timeslotID;
+    }
+
+    public void setTimeslotID(Integer timeslotID) {
+        this.timeslotID = timeslotID;
+    }
+
+    private Integer timeslotID;
+
     public Boolean getVaccinated() {
         return vaccinated;
     }

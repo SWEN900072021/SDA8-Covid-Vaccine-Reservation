@@ -23,28 +23,28 @@ public class getUserServlet extends HttpServlet{
         }
         if(request.getParameter("vaccinated") ==null){
             if (request.getSession().getAttribute("identity").equals("Admin")){
-                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated FROM users " +
+                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
                         "WHERE email != 'admin@gmail.com';";
             }else {
-                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated FROM users " +
+                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
                         "WHERE user_identity = 'Recipient' AND email != 'admin@gmail.com';";
             }
         }
         else if(request.getParameter("vaccinated").equals("True")){
             if (request.getSession().getAttribute("identity").equals("Admin")){
-                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated FROM users " +
+                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
                         "WHERE vaccinated = True;";
             }else {
-                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated FROM users " +
+                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
                         "WHERE user_identity = 'Recipient' AND vaccinated = True;";
             }
         }
         else{
             if (request.getSession().getAttribute("identity").equals("Admin")){
-                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated FROM users " +
+                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
                         "WHERE vaccinated = False;";
             }else {
-                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated FROM users " +
+                s = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
                         "WHERE user_identity = 'Recipient' AND vaccinated = False;";
             }
         }
@@ -60,6 +60,7 @@ public class getUserServlet extends HttpServlet{
                 user.setDate(rs.getDate("dateofbirth"));
                 user.setIdentity(rs.getString("user_identity"));
                 user.setVaccinated(rs.getBoolean("vaccinated"));
+                user.setTimeslotID(rs.getInt("bookedtimeslot"));
                 users.add(user);
             }
         }catch(Exception e){
