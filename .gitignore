@@ -30,7 +30,6 @@ nb-configuration.xml
 
 # Intellij
 .idea/
-*.iml
 *.iws
 
 # Mac
