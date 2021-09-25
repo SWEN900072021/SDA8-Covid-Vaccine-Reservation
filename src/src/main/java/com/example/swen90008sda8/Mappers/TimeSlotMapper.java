@@ -26,20 +26,16 @@ public class TimeSlotMapper {
         }
         return result;
     }
-    public static void updateNumberOfShotsByID (Integer slotId, Integer numberOfShots, Integer offset){
-        String stmt = "UPDATE  timeslots  SET numberofshots =" + (numberOfShots + offset) + "WHERE id =" + slotId + ";";
-        new postgresqlConnector().connect(stmt);
+    public static void updateNumberOfShotsByEmail (Integer newslotId,  String email){
+        String stmt1 = "UPDATE  timeslots  SET numberofshots = numberofshots + 1 WHERE id = (SELECT bookedtimeslot From users WHERE email ='"+email+"') And numberofshots >=0;";
+        String stmt2 = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ newslotId+" AND numberofshots>1;";
+        String stmt3 = "UPDATE users SET bookedtimeslot ="+newslotId+" WHERE bookedtimeslot !="+ newslotId+";";
+        postgresqlConnector conn = new postgresqlConnector();
+        conn.connect(stmt1);
+        conn.connect(stmt2);
+        conn.connect(stmt3);
     }
-    public static Integer getNumberOfShotsById(Integer id) throws SQLException {
-        if(id == 0){
-            return 0;
-        }
-        String stmt = "SELECT numberofshots From timeslots WHERE id =" + id + ";";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        rs.next();
-        Integer numberOfShots = rs.getInt(1);
-        return numberOfShots;
-    }
+
     public static Integer getIdByDetails(String date, String from, String to, String provider) throws SQLException {
         String stmt = "SELECT id FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
                 + "' And"+ " provider = '"+provider+"';";
@@ -47,14 +43,6 @@ public class TimeSlotMapper {
         rs.next();
         Integer id = rs.getInt(1);
         return id;
-    }
-    public static Integer getNumberOfShotsByDetails(String date, String from, String to, String provider) throws SQLException {
-        String stmt = "SELECT numberofshots FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
-                + "' And"+ " provider = '"+provider+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        rs.next();
-        Integer numberofshots = rs.getInt(1);
-        return numberofshots;
     }
     public static void deleteTimeSlotByDetails(String date, String from, String to, String provider) throws SQLException {
         Integer slotId = getIdByDetails(date, from, to, provider);
