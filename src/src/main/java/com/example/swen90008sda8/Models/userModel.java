@@ -12,6 +12,15 @@ public class userModel {
     private String postcode;
     private String typeofprovider;
     private Boolean vaccinated;
+
+    public String getHcpName() {
+        return hcpName;
+    }
+
+    public void setHcpName(String hcpName) {
+        this.hcpName = hcpName;
+    }
+
     private String hcpName;
 
     public Integer getTimeslotID() {

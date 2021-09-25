@@ -2,13 +2,58 @@ package com.example.swen90008sda8.Mappers;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 import com.example.swen90008sda8.Models.userModel;
+import org.postgresql.util.PSQLException;
 
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserMapper {
+    public static Boolean getVaccinatedByEmail(String email){
+        Boolean result = null;
+        String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";
+        ResultSet rs = new postgresqlConnector().connect(s);
+        try {
+            if (rs.next()) {
+                result = rs.getBoolean(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public static void setVaccinatedByEmail(String email){
+        String s = "UPDATE  users  SET vaccinated = True WHERE email ="+"'"+ email+"';";
+        new postgresqlConnector().connect(s);
+    }
+    public static void setNotVaccinatedByEmail(String email){
+        String s = "UPDATE  users  SET vaccinated = False WHERE email ="+"'"+ email+"';";
+        new postgresqlConnector().connect(s);
+    }
+    public static userModel findUser(String email, String password){
+        String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "'" +
+                " AND password = "+ "'" +password+ "';";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        userModel user = new userModel();
+        try {
+            if (rs.next() == false) {
+                return null;
+            } else {
+                user.setEmail(email);
+                user.setIdentity(rs.getString(3));
+                user.setHcpName(rs.getString(4));
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+    public static void deleteBookingById(Integer slotId){
+        String stmt = "UPDATE  users  SET bookedtimeslot = 0 WHERE bookedtimeslot =" + slotId + ";";
+        new postgresqlConnector().connect(stmt);
+    }
     public static void updateBookingByEmail(Integer slotId, String email){
         String stmt = "UPDATE  users  SET bookedtimeslot =" + slotId + "WHERE email =" + "'" + email + "';";
         new postgresqlConnector().connect(stmt);
@@ -19,6 +64,16 @@ public class UserMapper {
         rs.next();
         Integer id = rs.getInt(1);
         return id;
+    }
+    public static String isUserExisted(String email) throws SQLException {
+        String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        if(rs.next()){
+            String result = rs.getString(1);
+            return result;
+        }else{
+            return null;
+        }
     }
     public static List<userModel> findWithVaccinated (String vaccinated,String identity) {
         List<userModel> result = new ArrayList<>();
@@ -65,5 +120,17 @@ public class UserMapper {
             e.printStackTrace();
         }
         return result;
+    }
+    public static Boolean insertNewUser(String user,String pass,String date,String firstName,String lastName,String identity,
+                                     String post,String top,String hcpname) throws SQLException {
+        String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity, postcode, hcpname," +
+                " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
+                +"'"+lastName+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
+        if(isUserExisted(user)==null){
+            ResultSet rs = new postgresqlConnector().connect(s);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

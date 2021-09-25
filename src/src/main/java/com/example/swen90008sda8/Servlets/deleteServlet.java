@@ -1,9 +1,11 @@
 package com.example.swen90008sda8.Servlets;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Mappers.TimeSlotMapper;
 
 import java.io.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
@@ -14,10 +16,11 @@ public class deleteServlet extends HttpServlet{
         String from = (String) request.getParameter("from");
         String to = (String) request.getParameter("to");
         String provider = (String) request.getParameter("provider");
-        String s = "Delete FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
-                + "' And"+ " provider = '"+provider+"';";
-        System.out.println(s);
-        ResultSet rs = new postgresqlConnector().connect(s);
+        try {
+            TimeSlotMapper.deleteTimeSlotByDetails(date,from,to,provider);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         response.sendRedirect("get_timeslot");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{

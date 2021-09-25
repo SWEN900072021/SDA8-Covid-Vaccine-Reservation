@@ -9,10 +9,11 @@ public class UnitOfWork {
     public static Boolean bookTimeSlot (String email,String date,String from,String to, String provider) throws SQLException {
         Boolean result = false;
         Integer oldSlotId = UserMapper.getBookingIdByEmail(email);
-        Integer oldNumberOfShots = TimeSlotMapper.getNumberOfShotsById(oldSlotId);
+        Integer oldNumberOfShots = 0;
         Integer newSlotId = TimeSlotMapper.getIdByDetails(date,from,to,provider);
-        Integer newNumberOfShots = TimeSlotMapper.getNumberOfShotsByDetails(date,from,to,provider);
+        Integer newNumberOfShots = 0;
         if(oldSlotId == 0){
+            newNumberOfShots = TimeSlotMapper.getNumberOfShotsByDetails(date,from,to,provider);
             if(newNumberOfShots>0){
                 result = true;
                 UserMapper.updateBookingByEmail(newSlotId,email);
@@ -23,6 +24,8 @@ public class UnitOfWork {
         }else if (oldSlotId == newSlotId){
             return false;
         }else {
+            newNumberOfShots = TimeSlotMapper.getNumberOfShotsByDetails(date,from,to,provider);
+            oldNumberOfShots = TimeSlotMapper.getNumberOfShotsById(oldSlotId);
             if(newNumberOfShots>0){
                 result = true;
                 UserMapper.updateBookingByEmail(newSlotId,email);
@@ -32,15 +35,7 @@ public class UnitOfWork {
                 return false;
             }
         }
-        return result;
-    }
-    public static Boolean updateTimeSlot (String email,String date,String from,String to, String provider) throws SQLException {
-        Boolean result = false;
-        Integer slotId = UserMapper.getBookingIdByEmail(email);
-        Integer numberOfShots = TimeSlotMapper.getNumberOfShotsById(slotId);
-        String stmt = "UPDATE  timeslots  SET numberofshots =" + (numberOfShots + 1) + "WHERE id =" + slotId + ";";
-        new postgresqlConnector().connect(stmt);
-        result = bookTimeSlot(email,date,from,to,provider);
+        System.out.println("Why not\n");
         return result;
     }
 }

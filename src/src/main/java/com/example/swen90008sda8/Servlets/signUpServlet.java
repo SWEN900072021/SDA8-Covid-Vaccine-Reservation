@@ -1,6 +1,7 @@
 package com.example.swen90008sda8.Servlets;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Mappers.UserMapper;
 
 import java.io.*;
 import java.sql.*;
@@ -29,10 +30,14 @@ public class signUpServlet extends HttpServlet{
         String top = request.getParameter("typeOfProvider");
         String hcpname = request.getParameter("hcpName");
         PrintWriter writer = response.getWriter();
-        String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity, postcode, hcpname," +
-                " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
-                +"'"+lastName+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        writer.println("<h3> Welcome,"+firstName+"!");
+        try {
+            if(UserMapper.insertNewUser(user,pass,date,firstName,lastName,identity,post,top,hcpname)){
+                writer.println("<h3> Welcome,"+firstName+"!");
+            }else{
+                writer.println("<h3> User Existed!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

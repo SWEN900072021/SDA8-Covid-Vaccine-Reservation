@@ -1,16 +1,14 @@
 package com.example.swen90008sda8.Servlets;
 
-import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Mappers.UserMapper;
+import com.example.swen90008sda8.Models.userModel;
 
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
 @WebServlet(name = "logInServlet", value = "/login")
 public class logInServlet extends HttpServlet{
-    private String message;
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("index.jsp");
     }
@@ -20,26 +18,21 @@ public class logInServlet extends HttpServlet{
         String user = request.getParameter("email");
         String pass = request.getParameter("passWord");
         PrintWriter writer = response.getWriter();
-        String s = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +user + "'" + " AND password = "+ "'" +pass+ "';";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        try {
-            if (rs.next() == false) {
-                writer.println("Email or password isn't correct!");
-            } else {
-                request.getSession().setAttribute("email", user);
-                request.getSession().setAttribute("identity", rs.getString(3));
-                request.getSession().setAttribute("hcpname", rs.getString(4));
-                writer.println("Welcome!" + rs.getString(1));
-                if(rs.getString(3).equals("Admin")){
+        userModel currentUser = UserMapper.findUser(user,pass);
+        if(currentUser == null){
+            writer.println("Email or password isn't correct!");
+        }else{
+            request.getSession().setAttribute("email", user);
+            request.getSession().setAttribute("identity", currentUser.getIdentity());
+            request.getSession().setAttribute("hcpname", currentUser.getHcpName());
+            String identity = currentUser.getIdentity();
+            if(identity.equals("Admin")){
                     response.sendRedirect("adminpage.jsp");
-                }else if(rs.getString(3).equals("Health Care Provider")) {
-                    response.sendRedirect("hcppage.jsp");
-                }else{
-                    response.sendRedirect("mainpage.jsp");
-                }
+            }else if(identity.equals("Health Care Provider")) {
+                response.sendRedirect("hcppage.jsp");
+            }else{
+                response.sendRedirect("mainpage.jsp");
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

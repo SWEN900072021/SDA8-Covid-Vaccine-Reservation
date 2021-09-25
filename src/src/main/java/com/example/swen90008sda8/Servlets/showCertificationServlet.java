@@ -1,6 +1,7 @@
 package com.example.swen90008sda8.Servlets;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Mappers.UserMapper;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,17 +15,12 @@ import java.sql.ResultSet;
 @WebServlet(name = "showCertificationServlet", value = "/showcertification")
 public class showCertificationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PrintWriter writer = response.getWriter();
         String email = (String) request.getSession().getAttribute("email");
-        String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        try {
-            if (rs.next()) {
-                PrintWriter writer = response.getWriter();
-                Boolean vaccinated = rs.getBoolean(1);
-                writer.println(vaccinated);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        if(UserMapper.getVaccinatedByEmail(email)){
+            writer.println("vaccinated");
+        }else{
+            writer.println("Not vaccinated");
         }
     }
 }

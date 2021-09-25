@@ -1,5 +1,6 @@
 package com.example.swen90008sda8.Servlets;
 
+import com.example.swen90008sda8.Mappers.TimeSlotMapper;
 import com.example.swen90008sda8.Models.timeSlotModel;
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 
@@ -19,22 +20,7 @@ public class bookVaccinationServlet extends HttpServlet {
         message = "Hello World123!";
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String s = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots;";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        List<timeSlotModel> timeslots = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                timeSlotModel timeSlot = new timeSlotModel();
-                timeSlot.setDate(rs.getDate("date"));
-                timeSlot.setFrom(rs.getTime("fromtime"));
-                timeSlot.setTo(rs.getTime("totime"));
-                timeSlot.setProvider(rs.getString("provider"));
-                timeSlot.setNumberofshots(rs.getInt("numberofshots"));
-                timeslots.add(timeSlot);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        List<timeSlotModel> timeslots = TimeSlotMapper.getTimeSlots();
         request.setAttribute("timeslots", timeslots);
         request.getRequestDispatcher("bookVaccination.jsp").forward(request,response);
     }

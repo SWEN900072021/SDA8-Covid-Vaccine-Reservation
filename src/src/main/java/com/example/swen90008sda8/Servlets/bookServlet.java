@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 @WebServlet(name = "bookServlet", value = "/book")
 public class bookServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PrintWriter writer = response.getWriter();
         String date = (String) request.getParameter("date");
         String from = (String) request.getParameter("from");
         String to = (String) request.getParameter("to");
