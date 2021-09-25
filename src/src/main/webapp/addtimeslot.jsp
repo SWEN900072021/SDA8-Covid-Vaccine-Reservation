@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.swen90008sda8.Models.vaccineModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,8 +22,11 @@
     to<input type = "time" name = "to" required><br/>
     Number of shots available <input type = "int" name = "numberofshots" required>
     Vaccine Name: <select name="vname" required>
-                        <option value="AstraZeneca">AstraZeneca</option>
-                        <option value="Pfizer">Pfizer</option>
+                        <%
+                            for(int i = 0;i<vaccines.size();i++){
+                                vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
+                                <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
+                        <% }%>
                   </select><br/>
     <input type = "submit" value = "Add">
 </form>>
