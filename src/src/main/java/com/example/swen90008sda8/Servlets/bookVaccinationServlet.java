@@ -25,6 +25,19 @@ public class bookVaccinationServlet extends HttpServlet {
         request.getRequestDispatcher("bookVaccination.jsp").forward(request,response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        doGet(request,response);
+        String postcode = request.getParameter("postcode");
+        String hcpname = request.getParameter("hcpname");
+        List<timeSlotModel> timeslots = null;
+        if(postcode != null){
+            timeslots = TimeSlotMapper.getTimeSlotByPostCode(postcode);
+            request.setAttribute("timeslots", timeslots);
+            request.getRequestDispatcher("bookVaccination.jsp").forward(request,response);
+        }else if(hcpname != null){
+            timeslots = TimeSlotMapper.getTimeSlotByProvider(hcpname);
+            request.setAttribute("timeslots", timeslots);
+            request.getRequestDispatcher("bookVaccination.jsp").forward(request,response);
+        }else{
+            doGet(request,response);
+        }
     }
 }

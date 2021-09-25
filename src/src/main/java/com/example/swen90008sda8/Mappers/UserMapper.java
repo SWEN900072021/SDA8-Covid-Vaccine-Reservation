@@ -75,6 +75,28 @@ public class UserMapper {
             return null;
         }
     }
+    public static List<userModel> findWithVaccineName (String vaccineName){
+        List<userModel> result = new ArrayList<>();
+        String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot From\n" +
+                "(SELECT * FROM users LEFT JOIN timeslots ON users.bookedtimeslot = timeslots.id) AS Users WHERE vaccinename = '" + vaccineName+ "' AND email != 'admin@gmail.com';";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        try {
+            while (rs.next()) {
+                userModel user = new userModel();
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setLastName(rs.getString("lastname"));
+                user.setDate(rs.getDate("dateofbirth"));
+                user.setIdentity(rs.getString("user_identity"));
+                user.setVaccinated(rs.getBoolean("vaccinated"));
+                user.setTimeslotID(rs.getInt("bookedtimeslot"));
+                result.add(user);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
     public static List<userModel> findWithVaccinated (String vaccinated,String identity) {
         List<userModel> result = new ArrayList<>();
         String stmt = "";
@@ -92,13 +114,13 @@ public class UserMapper {
         }else if(identity.equals("Health Care Provider")){
             if (vaccinated == null){
                 stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
-                        "WHERE user_identity = 'Recipient' AND email != 'admin@gmail.com';";
+                        "WHERE user_identity = 'Recipient' AND email != 'admin@gmail.com' ORDER BY email ASC;";
             }else if(vaccinated.equals("True")){
                 stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
-                        "WHERE user_identity = 'Recipient' AND vaccinated = True;";
+                        "WHERE user_identity = 'Recipient' AND vaccinated = True ORDER BY email ASC;";
             }else{
                 stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
-                        "WHERE user_identity = 'Recipient' AND vaccinated = False;";
+                        "WHERE user_identity = 'Recipient' AND vaccinated = False ORDER BY email ASC;";
             }
         }else{
             return result;
@@ -121,11 +143,19 @@ public class UserMapper {
         }
         return result;
     }
-    public static Boolean insertNewUser(String user,String pass,String date,String firstName,String lastName,String identity,
-                                     String post,String top,String hcpname) throws SQLException {
-        String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity, postcode, hcpname," +
-                " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
-                +"'"+lastName+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
+    public static Boolean insertNewProvider(String user, String pass,String identity, String post, String top, String hcpname) throws SQLException {
+        String s = "INSERT INTO users(email, password, user_identity, postcode, hcpname," +
+                " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
+        if(isUserExisted(user)==null){
+            ResultSet rs = new postgresqlConnector().connect(s);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static Boolean insertNewRecipient(String user, String pass, String date, String firstName, String lastName, String identity) throws SQLException {
+        String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
+                +"'"+lastName+"'"+','+"'"+identity+"'"+ ");";
         if(isUserExisted(user)==null){
             ResultSet rs = new postgresqlConnector().connect(s);
             return true;

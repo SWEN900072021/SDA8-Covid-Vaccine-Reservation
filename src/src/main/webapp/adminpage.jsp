@@ -12,7 +12,8 @@
 </head>
 <body>
 <a href="add_vaccine">Add new vaccine type </a></br>
-<a href="signup">Create new account </a></br>
+<a href="signuprecipient.jsp">Create new recipient account </a></br>
+<a href="signupprovider.jsp">Create new provider account </a></br>
 <a href="get_timeslot">View all time slots </a></br>
 <a href="get_user">View all users </a></br>
 <a href="signout">Sign out </a></br>

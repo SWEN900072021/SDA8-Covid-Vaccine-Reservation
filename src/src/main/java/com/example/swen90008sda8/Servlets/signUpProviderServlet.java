@@ -1,6 +1,5 @@
 package com.example.swen90008sda8.Servlets;
 
-import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 import com.example.swen90008sda8.Mappers.UserMapper;
 
 import java.io.*;
@@ -8,8 +7,8 @@ import java.sql.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-@WebServlet(name = "SignupServlet", value = "/signup")
-public class signUpServlet extends HttpServlet{
+@WebServlet(name = "signUpProviderServlet", value = "/signupprovider")
+public class signUpProviderServlet extends HttpServlet{
     private String message;
     public void init() {
         message = "Hello Signup!";
@@ -29,12 +28,15 @@ public class signUpServlet extends HttpServlet{
         String post = request.getParameter("postcode");
         String top = request.getParameter("typeOfProvider");
         String hcpname = request.getParameter("hcpName");
+        response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         try {
-            if(UserMapper.insertNewUser(user,pass,date,firstName,lastName,identity,post,top,hcpname)){
-                writer.println("<h3> Welcome,"+firstName+"!");
+            if(UserMapper.insertNewProvider(user,pass,identity,post,top,hcpname)){
+                writer.println("<h3>Registion Complete!<br>" +
+                        "<a href=\"adminpage.jsp\">Go Back<a>");
             }else{
-                writer.println("<h3> User Existed!");
+                writer.println("<h3> User Existed!" +
+                        "<a href=\"adminpage.jsp\">Go Back<a>");
             }
         } catch (SQLException e) {
             e.printStackTrace();

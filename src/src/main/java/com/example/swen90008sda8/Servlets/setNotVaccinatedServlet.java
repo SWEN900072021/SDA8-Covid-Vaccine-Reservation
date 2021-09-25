@@ -12,6 +12,7 @@ import javax.servlet.http.*;
 @WebServlet(name = "setNotVaccinatedServlet", value = "/setnotvaccinated")
 public class setNotVaccinatedServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        response.setContentType("text/html");
         if (!((String) request.getSession().getAttribute("identity")).equals("Health Care Provider")) {
             PrintWriter writer = response.getWriter();
             writer.println("You don't have permission to set vaccinated!" + (String) request.getSession().getAttribute("identity"));

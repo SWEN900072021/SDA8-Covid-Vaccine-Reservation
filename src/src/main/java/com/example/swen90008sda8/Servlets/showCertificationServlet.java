@@ -15,12 +15,15 @@ import java.sql.ResultSet;
 @WebServlet(name = "showCertificationServlet", value = "/showcertification")
 public class showCertificationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         String email = (String) request.getSession().getAttribute("email");
         if(UserMapper.getVaccinatedByEmail(email)){
-            writer.println("vaccinated");
+            writer.println("<h1>You are vaccinated!"+
+                    "<br><a href=\"mainpage.jsp\">Go Back<a>");
         }else{
-            writer.println("Not vaccinated");
+            writer.println("<h1>You Are Not vaccinated!"+
+                    "<br><a href=\"mainpage.jsp\">Go Back<a>");
         }
     }
 }

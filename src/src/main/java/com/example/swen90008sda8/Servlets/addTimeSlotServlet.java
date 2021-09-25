@@ -25,8 +25,8 @@ public class addTimeSlotServlet extends HttpServlet{
             List<vaccineModel> vaccines = VaccineMapper.getVaccines();
             request.setAttribute("vaccines", vaccines);
             request.getRequestDispatcher("addtimeslot.jsp").forward(request,response);
-//            response.sendRedirect("addtimeslot.jsp");
         } else{
+            response.setContentType("text/html");
             PrintWriter writer = response.getWriter();
             writer.println("<h3> You don't have permission!" + (String) request.getSession().getAttribute("identity"));
         }
@@ -42,9 +42,13 @@ public class addTimeSlotServlet extends HttpServlet{
 
         PrintWriter writer = response.getWriter();
         if(TimeSlotMapper.insertTimeSlot(date,from,to,provider,numberofshots,vname)){
-            writer.println("<h3> Slot "+date+" added!");
+            response.setContentType("text/html");
+            writer.println("<h3> Slot "+date+" added!" +
+                    "<br><a href=\"hcppage.jsp\">Go Back<a>");
         }else{
-            writer.println("Time range wrong!");
+            response.setContentType("text/html");
+            writer.println("Time range wrong!" +
+                    "<br><a href=\"hcppage.jsp\">Go Back<a>");
         }
     }
 }

@@ -14,12 +14,22 @@
     <title>Users</title>
 </head>
 <body>
+<%
+    ArrayList users = (ArrayList) request.getAttribute("users");
+    ArrayList vaccines = (ArrayList) request.getAttribute("vaccines");
+%>
+<a href="get_user" οnclick= "return confirm('Are you sure about this deletion?')">Show All users</a><br>
+<form action = "get_user" method = "post">
+    Vaccine User plan to inject: <select name="vname" required>
     <%
-        ArrayList users = (ArrayList) request.getAttribute("users");
-
-    %>
-    <a href="get_user" οnclick= "return confirm('Are you sure about this deletion?')">Show All users</a><br>
-
+        for(int i = 0;i<vaccines.size();i++){
+            vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
+    <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
+    <% }%>
+</select><br/>
+    <input type = "submit" value = "View">
+</form><br>
+<p>Now viewing <%=(String)request.getAttribute("viewing") %>
 <table>
     <tr>
         <th>email</th>
@@ -40,12 +50,6 @@
         <th><%=user.getIdentity()%></th><br>
         <th><%=user.getVaccinated()%></th><br>
         <th><%=user.getTimeslotID()%></th><br>
-        <th>
-            <a href="setvaccinated?email=<%=user.getEmail()%>" οnclick= "return confirm('Are you sure about this vaccination?')">Set vaccinated</a>
-        </th>
-        <th>
-            <a href="setnotvaccinated?email=<%=user.getEmail()%>" οnclick= "return confirm('Are you sure about this vaccination?')">Set Not vaccinated</a>
-        </th>
             <% }
   		 %>
 </table>

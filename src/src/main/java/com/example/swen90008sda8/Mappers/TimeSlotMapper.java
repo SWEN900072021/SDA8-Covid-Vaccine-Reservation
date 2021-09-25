@@ -65,7 +65,7 @@ public class TimeSlotMapper {
     }
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();
-        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots;";
+        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots ORDER BY date ASC;";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try{
             while (rs.next()) {
@@ -82,7 +82,47 @@ public class TimeSlotMapper {
         }
         return timeslots;
     }
-
+    public static List<timeSlotModel> getTimeSlotByPostCode(String postcode){
+        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots From (SELECT * FROM timeslots " +
+                "LEFT JOIN users ON timeslots.provider = users.hcpname) AS timeslot WHERE postcode = '"+ postcode+"' " +
+                "ORDER BY date ASC;";
+        List<timeSlotModel> timeslots = new ArrayList<>();
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        try{
+            while (rs.next()) {
+                timeSlotModel timeSlot = new timeSlotModel();
+                timeSlot.setDate(rs.getDate("date"));
+                timeSlot.setFrom(rs.getTime("fromtime"));
+                timeSlot.setTo(rs.getTime("totime"));
+                timeSlot.setProvider(rs.getString("provider"));
+                timeSlot.setNumberofshots(rs.getInt("numberofshots"));
+                timeslots.add(timeSlot);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return timeslots;
+    }
+    public static List<timeSlotModel> getTimeSlotByProvider(String provider){
+        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots WHERE provider = '"+
+                provider+"' ORDER BY date ASC;";
+        List<timeSlotModel> timeslots = new ArrayList<>();
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        try{
+            while (rs.next()) {
+                timeSlotModel timeSlot = new timeSlotModel();
+                timeSlot.setDate(rs.getDate("date"));
+                timeSlot.setFrom(rs.getTime("fromtime"));
+                timeSlot.setTo(rs.getTime("totime"));
+                timeSlot.setProvider(rs.getString("provider"));
+                timeSlot.setNumberofshots(rs.getInt("numberofshots"));
+                timeslots.add(timeSlot);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return timeslots;
+    }
     public static List<timeSlotModel> getTimeSlotsByDetails(String identity,String hcpname){
         String stmt = "";
         try {
@@ -91,10 +131,10 @@ public class TimeSlotMapper {
             }
             else if(identity.equals("Health Care Provider")){
                 stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots"+" WHERE provider="
-                        +"'"+hcpname+"';";
+                        +"'"+hcpname+"' ORDER BY date ASC;";
             }
             else{
-                stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots;";
+                stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots ORDER BY date ASC;";
             }
         }catch(Exception e){
             e.printStackTrace();
