@@ -1,7 +1,8 @@
 package com.example.swen90008sda8.Servlets;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
-
+import com.example.swen90008sda8.Mappers.VaccineMapper;
+import com.example.swen90008sda8.Mappers.VaccineMapper.*;
 import java.io.*;
 import java.sql.ResultSet;
 import javax.servlet.annotation.*;
@@ -28,8 +29,11 @@ public class addVaccineServlet extends HttpServlet{
         String from = request.getParameter("from");
         String to = request.getParameter("to");
         PrintWriter writer = response.getWriter();
-        String s = "INSERT INTO vaccines(name, fromAge, toAge) VALUES (" +"'"+name+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        writer.println("<h3> Vaccine "+name+" added!");
+        if(VaccineMapper.insertVaccine(name,from,to)){
+            writer.println("<h3> Vaccine "+name+" added!");
+        }
+        else{
+            writer.println("<h3> Age range is wrong!");
+        }
     }
 }

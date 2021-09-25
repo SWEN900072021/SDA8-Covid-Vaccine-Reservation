@@ -1,9 +1,12 @@
 package com.example.swen90008sda8.Servlets;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Mappers.TimeSlotMapper;
+import com.example.swen90008sda8.Mappers.TimeSlotMapper.*;
 
 import java.io.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
@@ -29,10 +32,12 @@ public class addTimeSlotServlet extends HttpServlet{
         String provider = (String)request.getSession().getAttribute("hcpname");
         String numberofshots = request.getParameter("numberofshots");
         String vname = request.getParameter("vname");
+
         PrintWriter writer = response.getWriter();
-        String s = "INSERT INTO timeslots(date, fromTime, toTime, provider, numberofshots, vaccineName) VALUES (" +"'"+date+"'"+','+"'"+from+"'"
-                +','+"'"+to+"'"+','+"'"+provider+"', "+numberofshots+", '"+vname+ "');";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        writer.println("<h3> Slot "+date+" added!");
+        if(TimeSlotMapper.insertTimeSlot(date,from,to,provider,numberofshots,vname)){
+            writer.println("<h3> Slot "+date+" added!");
+        }else{
+            writer.println("Time range wrong!");
+        }
     }
 }
