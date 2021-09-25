@@ -1,9 +1,9 @@
-package com.example.swen90008sda8;
+package com.example.swen90008sda8.Servlets;
+
+import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 
 import java.io.*;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 

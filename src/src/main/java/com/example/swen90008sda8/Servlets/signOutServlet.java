@@ -1,4 +1,4 @@
-package com.example.swen90008sda8;
+package com.example.swen90008sda8.Servlets;
 
 import java.io.*;
 import javax.servlet.ServletException;

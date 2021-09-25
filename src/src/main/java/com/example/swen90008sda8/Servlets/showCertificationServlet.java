@@ -1,4 +1,6 @@
-package com.example.swen90008sda8;
+package com.example.swen90008sda8.Servlets;
+
+import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,10 +10,6 @@ import java.io.IOException;
 
 import java.io.*;
 import java.sql.ResultSet;
-import javax.servlet.ServletException;
-        import javax.servlet.annotation.*;
-        import javax.servlet.http.*;
-import javax.xml.transform.Result;
 
 @WebServlet(name = "showCertificationServlet", value = "/showcertification")
 public class showCertificationServlet extends HttpServlet {

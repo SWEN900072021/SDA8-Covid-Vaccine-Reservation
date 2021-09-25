@@ -1,15 +1,15 @@
-package com.example.swen90008sda8;
+package com.example.swen90008sda8.Servlets;
+
+import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 
 import java.io.*;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-@WebServlet(name = "setNotVaccinatedServlet", value = "/setnotvaccinated")
-public class setNotVaccinatedServlet extends HttpServlet{
+@WebServlet(name = "setVaccinatedServlet", value = "/setvaccinated")
+public class setVaccinatedServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (!((String) request.getSession().getAttribute("identity")).equals("Health Care Provider")) {
             PrintWriter writer = response.getWriter();
@@ -17,7 +17,7 @@ public class setNotVaccinatedServlet extends HttpServlet{
             return;
         }
         String email = (String) request.getParameter("email");
-        String s = "UPDATE  users  SET vaccinated = False WHERE email ="+"'"+ email+"';";
+        String s = "UPDATE  users  SET vaccinated = True WHERE email ="+"'"+ email+"';";
         System.out.println(s);
         ResultSet rs = new postgresqlConnector().connect(s);
         response.sendRedirect("get_user");

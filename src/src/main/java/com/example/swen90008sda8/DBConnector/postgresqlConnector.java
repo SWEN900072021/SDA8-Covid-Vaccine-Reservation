@@ -1,4 +1,4 @@
-package com.example.swen90008sda8;
+package com.example.swen90008sda8.DBConnector;
 
 import org.postgresql.util.PSQLException;
 

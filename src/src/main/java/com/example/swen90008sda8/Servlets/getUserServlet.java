@@ -1,4 +1,7 @@
-package com.example.swen90008sda8;
+package com.example.swen90008sda8.Servlets;
+
+import com.example.swen90008sda8.Models.userModel;
+import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 
 import java.io.*;
 import java.sql.ResultSet;
