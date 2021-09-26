@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/SWEN90008-SDA8-1.0-SNAPSHOT.war
+web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/swen90007sda8-1.0-SNAPSHOT.war
