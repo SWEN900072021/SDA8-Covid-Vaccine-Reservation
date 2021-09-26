@@ -4,12 +4,30 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class timeSlotModel {
+
+
+    private Integer id;
     private Date date;
     private Time from;
     private Time to;
     private String provider;
     private Integer numberofshots;
 
+    public String getVaccineName() {
+        return vaccineName;
+    }
+
+    public void setVaccineName(String vaccineName) {
+        this.vaccineName = vaccineName;
+    }
+    private String vaccineName;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public String getProvider() {
         return provider;
     }

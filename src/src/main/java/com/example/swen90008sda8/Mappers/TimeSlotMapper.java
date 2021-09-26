@@ -3,7 +3,6 @@ package com.example.swen90008sda8.Mappers;
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
 import com.example.swen90008sda8.Models.timeSlotModel;
 
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
@@ -36,6 +35,8 @@ public class TimeSlotMapper {
         conn.connect(stmt3);
     }
 
+    public static void delete (timeSlotModel timeslot){
+    }
     public static Integer getIdByDetails(String date, String from, String to, String provider) throws SQLException {
         String stmt = "SELECT id FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
                 + "' And"+ " provider = '"+provider+"';";
@@ -53,16 +54,18 @@ public class TimeSlotMapper {
     }
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();
-        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots ORDER BY date ASC;";
+        String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename FROM timeslots ORDER BY date ASC;";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
+                timeSlot.setId(rs.getInt("id"));
                 timeSlot.setDate(rs.getDate("date"));
                 timeSlot.setFrom(rs.getTime("fromtime"));
                 timeSlot.setTo(rs.getTime("totime"));
                 timeSlot.setProvider(rs.getString("provider"));
                 timeSlot.setNumberofshots(rs.getInt("numberofshots"));
+                timeSlot.setVaccineName(rs.getString("vaccinename"));
                 timeslots.add(timeSlot);
             }
         }catch(Exception e){

@@ -1,6 +1,7 @@
 package com.example.swen90008sda8.Mappers;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Models.timeSlotModel;
 import com.example.swen90008sda8.Models.userModel;
 import org.postgresql.util.PSQLException;
 
@@ -13,6 +14,10 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class UserMapper {
+    public static void modify(Integer id){
+
+
+    }
     public static Boolean getVaccinatedByEmail(String email){
         Boolean result = null;
         String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";

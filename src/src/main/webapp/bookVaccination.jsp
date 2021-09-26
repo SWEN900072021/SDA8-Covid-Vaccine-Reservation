@@ -27,25 +27,28 @@
 </form></br>
 <table>
     <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>From</th>
         <th>To</th>
         <th>Provider</th>
         <th>Number of shots available</th>
+        <th>Vaccine Name</th>
     </tr>
 
     <%
         for(int i = 0;i<timeslots.size();i++){
             timeSlotModel timeslot =(timeSlotModel) timeslots.get(i);%>
     <tr>
+        <th><%=timeslot.getId() %></th>
         <th><%=timeslot.getDate() %></th>
         <th><%=timeslot.getFrom()%></th>
         <th><%=timeslot.getTo()%></th><br>
         <th><%=timeslot.getProvider()%></th><br>
         <th><%=timeslot.getNumberofshots()%></th><br>
+        <th><%=timeslot.getVaccineName()%></th><br>
         <th>
-            <a href="book?date=<%=timeslot.getDate()%>&from=<%=timeslot.getFrom()%>&to=<%=timeslot.getTo()%>
-                    &provider=<%=timeslot.getProvider()%>" >Book</a>
+            <a href="book?id=<%=timeslot.getId()%>&name=<%=timeslot.getVaccineName()%>" >Book</a>
         </th>
             <% }
   		 %>
