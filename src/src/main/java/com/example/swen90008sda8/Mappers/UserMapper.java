@@ -1,11 +1,8 @@
 package com.example.swen90008sda8.Mappers;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
-import com.example.swen90008sda8.Models.timeSlotModel;
 import com.example.swen90008sda8.Models.userModel;
-import org.postgresql.util.PSQLException;
 
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,10 +11,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class UserMapper {
-    public static void modify(Integer id){
-
-
-    }
     public static Boolean getVaccinatedByEmail(String email){
         Boolean result = null;
         String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";
@@ -45,7 +38,7 @@ public class UserMapper {
         ResultSet rs = new postgresqlConnector().connect(stmt);
         userModel user = new userModel();
         try {
-            if (rs.next() == false) {
+            if (!rs.next()) {
                 return null;
             } else {
                 user.setEmail(email);
@@ -66,8 +59,7 @@ public class UserMapper {
         String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         if(rs.next()){
-            String result = rs.getString(1);
-            return result;
+            return rs.getString(1);
         }else{
             return null;
         }
@@ -76,6 +68,10 @@ public class UserMapper {
         List<userModel> result = new ArrayList<>();
         String stmt = "SELECT email From\n" +
                 "(SELECT * FROM users LEFT JOIN timeslots ON users.bookedtimeslot = timeslots.id) AS Users WHERE vaccinename = '" + vaccineName+ "' AND email != 'admin@gmail.com';";
+        return getUserModels(result, stmt);
+    }
+
+    private static List<userModel> getUserModels(List<userModel> result, String stmt) {
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try {
             while (rs.next()) {
@@ -88,9 +84,10 @@ public class UserMapper {
         }
         return result;
     }
+
     public static List<userModel> findWithVaccinated (String vaccinated,String identity) {
         List<userModel> result = new ArrayList<>();
-        String stmt = "";
+        String stmt;
         if(identity.equals("Admin")){
             if (vaccinated == null){
                 stmt = "SELECT email FROM users " +
@@ -116,23 +113,13 @@ public class UserMapper {
         }else{
             return result;
         }
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        try {
-            while (rs.next()) {
-                userModel user = new userModel();
-                user.setEmail(rs.getString("email"));
-                result.add(user);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return result;
+        return getUserModels(result, stmt);
     }
     public static Boolean insertNewProvider(String user, String pass,String identity, String post, String top, String hcpname) throws SQLException {
         String s = "INSERT INTO users(email, password, user_identity, postcode, hcpname," +
                 " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
         if(isUserExisted(user)==null){
-            ResultSet rs = new postgresqlConnector().connect(s);
+            new postgresqlConnector().connect(s);
             return true;
         }else{
             return false;
@@ -142,17 +129,17 @@ public class UserMapper {
         String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
                 +"'"+lastName+"'"+','+"'"+identity+"'"+ ");";
         if(isUserExisted(user)==null){
-            ResultSet rs = new postgresqlConnector().connect(s);
+            new postgresqlConnector().connect(s);
             return true;
         }else{
             return false;
         }
     }
-    public static Dictionary findUserByEmail(String email){
+    public static Dictionary<Object, Object> findUserByEmail(String email){
         String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot, hcpname FROM users " +
                 "WHERE email = '"+email+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
-        Dictionary user = new Hashtable();
+        Dictionary<Object, Object> user = new Hashtable<>();
         try {
             while (rs.next()) {
                 user.put("firstname", rs.getString("firstname"));
