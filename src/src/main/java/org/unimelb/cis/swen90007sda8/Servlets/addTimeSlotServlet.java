@@ -12,19 +12,15 @@ import javax.servlet.http.*;
 
 @WebServlet(name = "addTimeSlotServlet", value = "/add_timeslot")
 public class addTimeSlotServlet extends HttpServlet{
-    private String message;
-    public void init() {
-        message = "Hello World123!";
-    }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if(((String) request.getSession().getAttribute("identity")).equals("Health Care Provider")){
+        if(request.getSession().getAttribute("identity").equals("Health Care Provider")){
             List<vaccineModel> vaccines = VaccineMapper.getVaccines();
             request.setAttribute("vaccines", vaccines);
             request.getRequestDispatcher("addtimeslot.jsp").forward(request,response);
         } else{
             response.setContentType("text/html");
             PrintWriter writer = response.getWriter();
-            writer.println("<h3> You don't have permission!" + (String) request.getSession().getAttribute("identity"));
+            writer.println("<h3> You don't have permission!" + request.getSession().getAttribute("identity"));
         }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{

@@ -43,16 +43,17 @@ public class UserMapper {
             } else {
                 user.setEmail(email);
                 user.setIdentity(rs.getString(3));
-                user.setHcpName(rs.getString(4));
+                if(rs.getString(4)!=null){
+                    user.setHcpName(rs.getString(4));
+                }else{
+                    user.setHcpName("----");
+                }
+
             }
         }catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
-    }
-    public static void deleteBookingById(Integer slotId){
-        String stmt = "UPDATE  users  SET bookedtimeslot = 0 WHERE bookedtimeslot =" + slotId + ";";
-        new postgresqlConnector().connect(stmt);
     }
 
     public static String isUserExisted(String email) throws SQLException {
@@ -66,8 +67,7 @@ public class UserMapper {
     }
     public static List<userModel> findWithVaccineName (String vaccineName){
         List<userModel> result = new ArrayList<>();
-        String stmt = "SELECT email From\n" +
-                "(SELECT * FROM users LEFT JOIN bookings ON users.email = bookings.email) AS Users WHERE vaccinename = '" + vaccineName+ "' AND email != 'admin@gmail.com';";
+        String stmt = "SELECT users.email FROM users LEFT JOIN bookings ON users.email = bookings.email WHERE vaccinename = '" + vaccineName+ "' AND users.email != 'admin@gmail.com';";
         return getUserModels(result, stmt);
     }
 
@@ -101,14 +101,18 @@ public class UserMapper {
             }
         }else if(identity.equals("Health Care Provider")){
             if (vaccinated == null){
-                stmt = "SELECT email, user_identity, vaccinated FROM users " +
-                        "WHERE user_identity = 'Recipient' AND email != 'admin@gmail.com' ORDER BY email ASC;";
+                stmt = "SELECT users.email, user_identity, vaccinated From bookings Left JOIN users on " +
+                        "bookings.email=users.email WHERE users.user_identity = 'Recipient' AND " +
+                        "users.email != 'admin@gmail.com' ORDER BY users.email ASC;";
             }else if(vaccinated.equals("True")){
-                stmt = "SELECT email, user_identity, vaccinated FROM users " +
-                        "WHERE user_identity = 'Recipient' AND vaccinated = True AND email != 'admin@gmail.com' ORDER BY email ASC;";
+                stmt = "SELECT users.email, user_identity, vaccinated From bookings Left JOIN users on " +
+                        "bookings.email=users.email WHERE users.user_identity = 'Recipient' AND " +
+                        "users.email != 'admin@gmail.com' AND vaccinated = True ORDER BY users.email ASC;";
+
             }else{
-                stmt = "SELECT email, user_identity, vaccinated FROM users " +
-                        "WHERE user_identity = 'Recipient' AND vaccinated = False AND email != 'admin@gmail.com' ORDER BY email ASC;";
+                stmt = "SELECT users.email, user_identity, vaccinated From bookings Left JOIN users on " +
+                        "bookings.email=users.email WHERE users.user_identity = 'Recipient' AND " +
+                        "users.email != 'admin@gmail.com' AND vaccinated = False ORDER BY users.email ASC;";
             }
         }else{
             return result;
@@ -136,7 +140,7 @@ public class UserMapper {
         }
     }
     public static Dictionary<Object, Object> findUserByEmail(String email){
-        String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot, hcpname FROM users " +
+        String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, hcpname FROM users " +
                 "WHERE email = '"+email+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         Dictionary<Object, Object> user = new Hashtable<>();
@@ -147,10 +151,14 @@ public class UserMapper {
                 user.put("dateofbirth", rs.getDate("dateofbirth"));
                 user.put("user_identity", rs.getString("user_identity"));
                 user.put("vaccinated", rs.getBoolean("vaccinated"));
-                user.put("bookedtimeslot", rs.getInt("bookedtimeslot"));
                 user.put("postcode", rs.getString("postcode"));
                 user.put("typeofprovider", rs.getString("typeofprovider"));
-                user.put("hcpname", rs.getString("hcpname"));
+                if(rs.getString("hcpname")!=null){
+                    user.put("hcpname", rs.getString("hcpname"));
+                }else{
+                    user.put("hcpname", "----");
+                }
+
             }
         }catch(Exception e){
             e.printStackTrace();

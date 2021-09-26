@@ -128,7 +128,7 @@ public class userModel {
     }
 
     void load(){
-        Dictionary currentUser = UserMapper.findUserByEmail(email);
+        Dictionary<Object, Object> currentUser = UserMapper.findUserByEmail(email);
         if (this.hcpName == null){
             this.hcpName = (String) currentUser.get("hcpname");
         }
@@ -136,19 +136,19 @@ public class userModel {
             this.timeslotID = (Integer) currentUser.get("bookedtimeslot");
         }
         if (this.vaccinated == null){
-            this.vaccinated = (Boolean) currentUser.get("vaccinated");;
+            this.vaccinated = (Boolean) currentUser.get("vaccinated");
         }
         if (this.date == null){
-            this.date = (Date) currentUser.get("dateofbirth");;
+            this.date = (Date) currentUser.get("dateofbirth");
         }
         if (this.firstName == null){
-            this.firstName = (String) currentUser.get("firstname");;
+            this.firstName = (String) currentUser.get("firstname");
         }
         if (this.lastName == null){
-            this.lastName = (String) currentUser.get("lastname");;
+            this.lastName = (String) currentUser.get("lastname");
         }
         if (this.identity == null){
-            this.identity = (String) currentUser.get("user_identity");;
+            this.identity = (String) currentUser.get("user_identity");
         }
         if (this.postcode == null){
             this.postcode = (String) currentUser.get("postcode");

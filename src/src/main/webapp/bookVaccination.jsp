@@ -25,6 +25,7 @@
     Filter by Health Care Provider: <input type = "text" name = "hcpname" required><br/>
     <input type = "submit" value = "Filter">
 </form></br>
+<a href = "bookvaccination">Show all time slots<a><br>
 <table>
     <tr>
         <th>ID</th>

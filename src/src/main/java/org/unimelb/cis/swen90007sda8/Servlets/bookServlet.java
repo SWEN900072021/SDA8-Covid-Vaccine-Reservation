@@ -11,10 +11,10 @@ import java.util.List;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
+@SuppressWarnings("InstantiationOfUtilityClass")
 @WebServlet(name = "bookServlet", value = "/book")
 public class bookServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter writer = response.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
         String vname = request.getParameter("name");
         userModel user = (userModel) request.getSession().getAttribute("user");

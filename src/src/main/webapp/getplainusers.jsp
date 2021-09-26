@@ -37,7 +37,6 @@
         <th>|Last name</th>
         <th>|Identity</th>
         <th>|Vaccinated</th>
-        <th>|Booked slot ID</th>
     </tr>
 
     <%
@@ -49,7 +48,6 @@
         <th><%=user.getLastName()%></th>
         <th><%=user.getIdentity()%></th><br>
         <th><%=user.getVaccinated()%></th><br>
-        <th><%=user.getTimeslotID()%></th><br>
             <% }
   		 %>
 </table>

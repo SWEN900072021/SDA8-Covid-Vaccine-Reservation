@@ -12,10 +12,6 @@ import java.io.IOException;
 import java.util.List;
 @WebServlet(name = "bookVaccinationServlet", value = "/bookvaccination")
 public class bookVaccinationServlet extends HttpServlet {
-    private String message;
-    public void init() {
-        message = "Hello World123!";
-    }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<timeSlotModel> timeslots = TimeSlotMapper.getTimeSlots();
         request.setAttribute("timeslots", timeslots);
@@ -24,7 +20,7 @@ public class bookVaccinationServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String postcode = request.getParameter("postcode");
         String hcpname = request.getParameter("hcpname");
-        List<timeSlotModel> timeslots = null;
+        List<timeSlotModel> timeslots;
         if(postcode != null){
             timeslots = TimeSlotMapper.getTimeSlotByPostCode(postcode);
             request.setAttribute("timeslots", timeslots);

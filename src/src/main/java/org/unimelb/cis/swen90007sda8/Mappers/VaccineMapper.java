@@ -9,9 +9,9 @@ import java.util.List;
 
 public class VaccineMapper {
     public static Boolean insertVaccine(String name, String from, String to) {
-        Boolean result = true;
-        Integer fromAge = Integer.parseInt(from);
-        Integer toAge = Integer.parseInt(to);
+        boolean result = true;
+        int fromAge = Integer.parseInt(from);
+        int toAge = Integer.parseInt(to);
         if(toAge>=fromAge){
             String stmt = "INSERT INTO vaccines(name, fromAge, toAge) VALUES (" +"'"+name+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
             new postgresqlConnector().connect(stmt);

@@ -5,6 +5,18 @@ public class bookingModel {
     private Integer timeSlotId;
     private String vaccineName;
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setTimeSlotId(Integer timeSlotId) {
+        this.timeSlotId = timeSlotId;
+    }
+
+    public void setVaccineName(String vaccineName) {
+        this.vaccineName = vaccineName;
+    }
+
     public bookingModel(String userId, Integer timeSlotId, String vaccineName) {
         this.userId = userId;
         this.timeSlotId = timeSlotId;
@@ -15,23 +27,12 @@ public class bookingModel {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Integer getTimeSlotId() {
         return timeSlotId;
-    }
-
-    public void setTimeSlotId(Integer timeSlotId) {
-        this.timeSlotId = timeSlotId;
     }
 
     public String getVaccineName() {
         return vaccineName;
     }
 
-    public void setVaccineName(String vaccineName) {
-        this.vaccineName = vaccineName;
-    }
 }

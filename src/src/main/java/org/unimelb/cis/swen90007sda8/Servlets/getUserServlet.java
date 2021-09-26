@@ -21,11 +21,10 @@ public class getUserServlet extends HttpServlet{
         request.setAttribute("vaccines", vaccines);
         request.setAttribute("users", users);
         request.setAttribute("viewing", "All users");
-        if(((String)request.getSession().getAttribute("identity")).equals("Admin")){
+        if(request.getSession().getAttribute("identity").equals("Admin")){
             request.getRequestDispatcher("getplainusers.jsp").forward(request,response);
-        }else if(((String)request.getSession().getAttribute("identity")).equals("Health Care Provider")){
+        }else if(request.getSession().getAttribute("identity").equals("Health Care Provider")){
             request.getRequestDispatcher("getusers.jsp").forward(request,response);
-        }else{
         }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -35,11 +34,10 @@ public class getUserServlet extends HttpServlet{
         request.setAttribute("vaccines", vaccines);
         request.setAttribute("users", users);
         request.setAttribute("viewing", vaccineName);
-        if(((String)request.getSession().getAttribute("identity")).equals("Admin")){
+        if(request.getSession().getAttribute("identity").equals("Admin")){
             request.getRequestDispatcher("getplainusers.jsp").forward(request,response);
-        }else if(((String)request.getSession().getAttribute("identity")).equals("Health Care Provider")){
+        }else if(request.getSession().getAttribute("identity").equals("Health Care Provider")){
             request.getRequestDispatcher("getusers.jsp").forward(request,response);
-        }else{
         }
     }
 }

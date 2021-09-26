@@ -28,7 +28,6 @@
         <th>|Last name</th>
         <th>|Identity</th>
         <th>|Vaccinated</th>
-        <th>|Booked slot ID</th>
     </tr>
 
     <%
@@ -40,7 +39,6 @@
         <th><%=user.getLastName()%></th>
         <th><%=user.getIdentity()%></th><br>
         <th><%=user.getVaccinated()%></th><br>
-        <th><%=user.getTimeslotID()%></th><br>
         <th>
             <a href="setvaccinated?email=<%=user.getEmail()%>" οnclick= "return confirm('Are you sure about this vaccination?')">Set vaccinated</a>
         </th>

@@ -9,10 +9,6 @@ import javax.servlet.http.*;
 
 @WebServlet(name = "signUpRecipientServlet", value = "/signuprecipient")
 public class signUpRecipientServlet extends HttpServlet{
-    private String message;
-    public void init() {
-        message = "Hello Signup!";
-    }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("signup.jsp");
     }
