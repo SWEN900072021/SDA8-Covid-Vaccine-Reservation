@@ -61,17 +61,7 @@ public class UserMapper {
         String stmt = "UPDATE  users  SET bookedtimeslot = 0 WHERE bookedtimeslot =" + slotId + ";";
         new postgresqlConnector().connect(stmt);
     }
-    public static void updateBookingByEmail(Integer slotId, String email){
-        String stmt = "UPDATE  users  SET bookedtimeslot =" + slotId + "WHERE email =" + "'" + email + "';";
-        new postgresqlConnector().connect(stmt);
-    }
-    public static Integer getBookingIdByEmail(String email) throws SQLException {
-        String stmt = "SELECT bookedtimeslot From users WHERE email ="+"'"+email+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        rs.next();
-        Integer id = rs.getInt(1);
-        return id;
-    }
+
     public static String isUserExisted(String email) throws SQLException {
         String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);

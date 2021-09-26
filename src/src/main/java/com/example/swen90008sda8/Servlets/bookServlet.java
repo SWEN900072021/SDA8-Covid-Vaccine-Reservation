@@ -1,6 +1,7 @@
 package com.example.swen90008sda8.Servlets;
 
 
+import com.example.swen90008sda8.Mappers.BookingMapper;
 import com.example.swen90008sda8.Mappers.TimeSlotMapper;
 import com.example.swen90008sda8.Models.bookingModel;
 import com.example.swen90008sda8.Models.timeSlotModel;
@@ -21,10 +22,15 @@ public class bookServlet extends HttpServlet{
         Integer id = Integer.parseInt(request.getParameter("id"));
         String vname = request.getParameter("name");
         userModel user = (userModel) request.getSession().getAttribute("user");
-        HashMap<String, List<timeSlotModel>> context = new HashMap<>();
-        TimeSlotMapper timeSlotDB = new TimeSlotMapper();
-        UnitOfWork unitOfwork;
+        HashMap<String, List<bookingModel>> context = new HashMap<>();
+        BookingMapper bookingDB = new BookingMapper();
+        UnitOfWork unitOfwork = new UnitOfWork(context,bookingDB);
         bookingModel booking = new bookingModel(user.getEmail(),id,vname);
+
+        unitOfwork.registerNew(booking);
+
+        unitOfwork.commit();
+        
         response.sendRedirect("bookvaccination");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{

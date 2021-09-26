@@ -25,15 +25,6 @@ public class TimeSlotMapper {
         }
         return result;
     }
-    public static void updateNumberOfShotsByEmail (Integer newslotId,  String email){
-        String stmt1 = "UPDATE  timeslots  SET numberofshots = numberofshots + 1 WHERE id = (SELECT bookedtimeslot From users WHERE email ='"+email+"') And numberofshots >=0;";
-        String stmt2 = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ newslotId+" AND numberofshots>1;";
-        String stmt3 = "UPDATE users SET bookedtimeslot ="+newslotId+" WHERE bookedtimeslot !="+ newslotId+";";
-        postgresqlConnector conn = new postgresqlConnector();
-        conn.connect(stmt1);
-        conn.connect(stmt2);
-        conn.connect(stmt3);
-    }
 
     public static void delete (timeSlotModel timeslot){
     }

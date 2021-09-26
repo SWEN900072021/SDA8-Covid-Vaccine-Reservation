@@ -1,7 +1,6 @@
 package com.example.swen90008sda8.Mappers;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
-import com.example.swen90008sda8.Models.userModel;
 import com.example.swen90008sda8.Models.vaccineModel;
 
 import java.sql.ResultSet;
