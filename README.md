@@ -38,10 +38,91 @@ The application will be a centralised vaccine management platform that can help 
 
 ### **Change Log**
 
-| Date       | Changes                             |
-| ---------- | ----------------------------------- |
-| 15/08/2021 | Part 1 - Use Cases and Domain Model |
-|            |                                     |
-|            |                                     |
-|            |                                     |
+| Date       | Changes                                                      |
+| ---------- | ------------------------------------------------------------ |
+| 15/08/2021 | Part 1 - Use Cases and Domain Model                          |
+| 16/09/2021 | Part 2 - Implemented some functionalities based on back-end servlets |
+| 26/09/2021 | Part 2 - Implemented patterns, Detailed Use Case and Architecture Documentation |
+|            |                                                              |
+
+### **Database SQL**
+
+```sql
+CREATE TYPE identity AS ENUM ('Admin', 'Health Care Provider', 'Recipient');
+
+CREATE TABLE users
+(
+    email text UNIQUE,
+    password text default 123456,
+    dateOfBirth date default '1900-01-01',
+    firstName text default 'Default firstname',
+    lastName text default 'Default lastname',
+    user_identity identity,
+    postCode integer default 0,
+    typeOfProvider text default '----',
+    hcpName text UNIQUE,
+    vaccinated boolean DEFAULT False,
+    PRIMARY KEY (email)
+);
+
+CREATE TABLE vaccines
+(
+    name text,
+    fromage text,
+    toage text,
+    PRIMARY KEY (name)
+);
+
+CREATE TABLE timeslots
+(
+    id SERIAL UNIQUE,
+    date date,
+    fromtime time,
+    totime time,
+    provider text,
+    numberofshots integer,
+    vaccinename text,
+    PRIMARY KEY (id),
+    FOREIGN KEY (provider) REFERENCES users(hcpname),
+    FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
+);
+
+CREATE TABLE bookings
+(
+    bookingid SERIAL UNIQUE,
+    email text,
+    timeslotid integer,
+    vaccinename text,
+    PRIMARY KEY (email, timeslotid),
+    FOREIGN KEY (email) REFERENCES users(email),
+    FOREIGN KEY (timeslotid) REFERENCES timeslots(id),
+    FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
+);
+
+CREATE TABLE questions
+(
+    id SERIAL UNIQUE,
+    vaccinename text,
+    question varchar(1000),
+    desiredanswer bool,
+    PRIMARY KEY (id),
+    FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
+);
+
+CREATE TABLE certificates
+(
+    id SERIAL UNIQUE,
+    email text,
+    bookingid integer,
+    vaccinename text,
+    PRIMARY KEY (id),
+    FOREIGN KEY (email) REFERENCES users(email),
+    FOREIGN KEY (bookingid) REFERENCES bookings(bookingid),
+    FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
+);
+
+INSERT INTO users(email, password,user_identity) VALUES ('admin@gmail.com', 'admin','Admin');
+INSERT INTO vaccines(name, fromAge,toAge) VALUES ('AstraZeneca', '50','200');
+INSERT INTO vaccines(name, fromAge,toAge) VALUES ('Pfizer', '0','200');
+```
 
