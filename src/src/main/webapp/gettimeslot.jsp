@@ -16,6 +16,7 @@
 <%
     ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
 %>
+
 <table>
     <tr>
         <th>Date</th>

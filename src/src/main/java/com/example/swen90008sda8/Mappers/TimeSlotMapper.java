@@ -26,20 +26,16 @@ public class TimeSlotMapper {
         }
         return result;
     }
-    public static void updateNumberOfShotsByID (Integer slotId, Integer numberOfShots, Integer offset){
-        String stmt = "UPDATE  timeslots  SET numberofshots =" + (numberOfShots + offset) + "WHERE id =" + slotId + ";";
-        new postgresqlConnector().connect(stmt);
+    public static void updateNumberOfShotsByEmail (Integer newslotId,  String email){
+        String stmt1 = "UPDATE  timeslots  SET numberofshots = numberofshots + 1 WHERE id = (SELECT bookedtimeslot From users WHERE email ='"+email+"') And numberofshots >=0;";
+        String stmt2 = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ newslotId+" AND numberofshots>1;";
+        String stmt3 = "UPDATE users SET bookedtimeslot ="+newslotId+" WHERE bookedtimeslot !="+ newslotId+";";
+        postgresqlConnector conn = new postgresqlConnector();
+        conn.connect(stmt1);
+        conn.connect(stmt2);
+        conn.connect(stmt3);
     }
-    public static Integer getNumberOfShotsById(Integer id) throws SQLException {
-        if(id == 0){
-            return 0;
-        }
-        String stmt = "SELECT numberofshots From timeslots WHERE id =" + id + ";";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        rs.next();
-        Integer numberOfShots = rs.getInt(1);
-        return numberOfShots;
-    }
+
     public static Integer getIdByDetails(String date, String from, String to, String provider) throws SQLException {
         String stmt = "SELECT id FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
                 + "' And"+ " provider = '"+provider+"';";
@@ -47,14 +43,6 @@ public class TimeSlotMapper {
         rs.next();
         Integer id = rs.getInt(1);
         return id;
-    }
-    public static Integer getNumberOfShotsByDetails(String date, String from, String to, String provider) throws SQLException {
-        String stmt = "SELECT numberofshots FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
-                + "' And"+ " provider = '"+provider+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        rs.next();
-        Integer numberofshots = rs.getInt(1);
-        return numberofshots;
     }
     public static void deleteTimeSlotByDetails(String date, String from, String to, String provider) throws SQLException {
         Integer slotId = getIdByDetails(date, from, to, provider);
@@ -65,7 +53,7 @@ public class TimeSlotMapper {
     }
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();
-        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots;";
+        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots ORDER BY date ASC;";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try{
             while (rs.next()) {
@@ -82,7 +70,47 @@ public class TimeSlotMapper {
         }
         return timeslots;
     }
-
+    public static List<timeSlotModel> getTimeSlotByPostCode(String postcode){
+        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots From (SELECT * FROM timeslots " +
+                "LEFT JOIN users ON timeslots.provider = users.hcpname) AS timeslot WHERE postcode = '"+ postcode+"' " +
+                "ORDER BY date ASC;";
+        List<timeSlotModel> timeslots = new ArrayList<>();
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        try{
+            while (rs.next()) {
+                timeSlotModel timeSlot = new timeSlotModel();
+                timeSlot.setDate(rs.getDate("date"));
+                timeSlot.setFrom(rs.getTime("fromtime"));
+                timeSlot.setTo(rs.getTime("totime"));
+                timeSlot.setProvider(rs.getString("provider"));
+                timeSlot.setNumberofshots(rs.getInt("numberofshots"));
+                timeslots.add(timeSlot);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return timeslots;
+    }
+    public static List<timeSlotModel> getTimeSlotByProvider(String provider){
+        String stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots WHERE provider = '"+
+                provider+"' ORDER BY date ASC;";
+        List<timeSlotModel> timeslots = new ArrayList<>();
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        try{
+            while (rs.next()) {
+                timeSlotModel timeSlot = new timeSlotModel();
+                timeSlot.setDate(rs.getDate("date"));
+                timeSlot.setFrom(rs.getTime("fromtime"));
+                timeSlot.setTo(rs.getTime("totime"));
+                timeSlot.setProvider(rs.getString("provider"));
+                timeSlot.setNumberofshots(rs.getInt("numberofshots"));
+                timeslots.add(timeSlot);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return timeslots;
+    }
     public static List<timeSlotModel> getTimeSlotsByDetails(String identity,String hcpname){
         String stmt = "";
         try {
@@ -91,10 +119,10 @@ public class TimeSlotMapper {
             }
             else if(identity.equals("Health Care Provider")){
                 stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots"+" WHERE provider="
-                        +"'"+hcpname+"';";
+                        +"'"+hcpname+"' ORDER BY date ASC;";
             }
             else{
-                stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots;";
+                stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots ORDER BY date ASC;";
             }
         }catch(Exception e){
             e.printStackTrace();

@@ -18,6 +18,7 @@ public class addVaccineServlet extends HttpServlet{
         if(((String) request.getSession().getAttribute("identity")).equals("Admin")){
             response.sendRedirect("addvaccine.jsp");
         } else{
+            response.setContentType("text/html");
             PrintWriter writer = response.getWriter();
             writer.println("<h3> You don't have permission!" + (String) request.getSession().getAttribute("identity"));
             return;
@@ -28,12 +29,15 @@ public class addVaccineServlet extends HttpServlet{
         String name = request.getParameter("vaccinename");
         String from = request.getParameter("from");
         String to = request.getParameter("to");
+        response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         if(VaccineMapper.insertVaccine(name,from,to)){
-            writer.println("<h3> Vaccine "+name+" added!");
+            writer.println("<h3> Vaccine "+name+" added!" +
+                    "<br><a href=\"adminpage.jsp\">Go Back<a>");
         }
         else{
-            writer.println("<h3> Age range is wrong!");
+            writer.println("<h3> Age range is wrong!" +
+                    "<br><a href=\"adminpage.jsp\">Go Back<a>");
         }
     }
 }

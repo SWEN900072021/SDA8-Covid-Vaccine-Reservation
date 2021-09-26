@@ -17,10 +17,12 @@ public class logInServlet extends HttpServlet{
         System.out.println("Hello from GET method in logInServlet");
         String user = request.getParameter("email");
         String pass = request.getParameter("passWord");
+        response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         userModel currentUser = UserMapper.findUser(user,pass);
         if(currentUser == null){
-            writer.println("Email or password isn't correct!");
+            writer.println("Email or password isn't correct!"+
+                    "<br><a href=\"index.jsp\">Go Back<a>");
         }else{
             request.getSession().setAttribute("email", user);
             request.getSession().setAttribute("identity", currentUser.getIdentity());

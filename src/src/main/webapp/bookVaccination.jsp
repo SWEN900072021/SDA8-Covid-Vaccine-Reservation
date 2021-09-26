@@ -17,6 +17,14 @@
 <%
     ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
 %>
+<form action = "bookvaccination" method = "post">
+    Filter by Postcode: <input type = "text" name = "postcode" required><br/>
+    <input type = "submit" value = "Filter">
+</form></br>
+<form action = "bookvaccination" method = "post">
+    Filter by Health Care Provider: <input type = "text" name = "hcpname" required><br/>
+    <input type = "submit" value = "Filter">
+</form></br>
 <table>
     <tr>
         <th>Date</th>
