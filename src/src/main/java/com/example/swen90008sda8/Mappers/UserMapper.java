@@ -1,6 +1,7 @@
 package com.example.swen90008sda8.Mappers;
 
 import com.example.swen90008sda8.DBConnector.postgresqlConnector;
+import com.example.swen90008sda8.Models.timeSlotModel;
 import com.example.swen90008sda8.Models.userModel;
 import org.postgresql.util.PSQLException;
 
@@ -8,9 +9,15 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 public class UserMapper {
+    public static void modify(Integer id){
+
+
+    }
     public static Boolean getVaccinatedByEmail(String email){
         Boolean result = null;
         String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";
@@ -54,17 +61,7 @@ public class UserMapper {
         String stmt = "UPDATE  users  SET bookedtimeslot = 0 WHERE bookedtimeslot =" + slotId + ";";
         new postgresqlConnector().connect(stmt);
     }
-    public static void updateBookingByEmail(Integer slotId, String email){
-        String stmt = "UPDATE  users  SET bookedtimeslot =" + slotId + "WHERE email =" + "'" + email + "';";
-        new postgresqlConnector().connect(stmt);
-    }
-    public static Integer getBookingIdByEmail(String email) throws SQLException {
-        String stmt = "SELECT bookedtimeslot From users WHERE email ="+"'"+email+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
-        rs.next();
-        Integer id = rs.getInt(1);
-        return id;
-    }
+
     public static String isUserExisted(String email) throws SQLException {
         String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
@@ -77,19 +74,13 @@ public class UserMapper {
     }
     public static List<userModel> findWithVaccineName (String vaccineName){
         List<userModel> result = new ArrayList<>();
-        String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot From\n" +
+        String stmt = "SELECT email From\n" +
                 "(SELECT * FROM users LEFT JOIN timeslots ON users.bookedtimeslot = timeslots.id) AS Users WHERE vaccinename = '" + vaccineName+ "' AND email != 'admin@gmail.com';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try {
             while (rs.next()) {
                 userModel user = new userModel();
                 user.setEmail(rs.getString("email"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setLastName(rs.getString("lastname"));
-                user.setDate(rs.getDate("dateofbirth"));
-                user.setIdentity(rs.getString("user_identity"));
-                user.setVaccinated(rs.getBoolean("vaccinated"));
-                user.setTimeslotID(rs.getInt("bookedtimeslot"));
                 result.add(user);
             }
         }catch(Exception e){
@@ -102,25 +93,25 @@ public class UserMapper {
         String stmt = "";
         if(identity.equals("Admin")){
             if (vaccinated == null){
-                stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
+                stmt = "SELECT email FROM users " +
                         "WHERE email != 'admin@gmail.com';";
             }else if(vaccinated.equals("True")){
-                stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
+                stmt = "SELECT email, vaccinated FROM users " +
                         "WHERE vaccinated = True AND email != 'admin@gmail.com';";
             }else{
-                stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
+                stmt = "SELECT email, vaccinated FROM users " +
                         "WHERE vaccinated = False AND email != 'admin@gmail.com';";
             }
         }else if(identity.equals("Health Care Provider")){
             if (vaccinated == null){
-                stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
+                stmt = "SELECT email, user_identity, vaccinated FROM users " +
                         "WHERE user_identity = 'Recipient' AND email != 'admin@gmail.com' ORDER BY email ASC;";
             }else if(vaccinated.equals("True")){
-                stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
-                        "WHERE user_identity = 'Recipient' AND vaccinated = True ORDER BY email ASC;";
+                stmt = "SELECT email, user_identity, vaccinated FROM users " +
+                        "WHERE user_identity = 'Recipient' AND vaccinated = True AND email != 'admin@gmail.com' ORDER BY email ASC;";
             }else{
-                stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot FROM users " +
-                        "WHERE user_identity = 'Recipient' AND vaccinated = False ORDER BY email ASC;";
+                stmt = "SELECT email, user_identity, vaccinated FROM users " +
+                        "WHERE user_identity = 'Recipient' AND vaccinated = False AND email != 'admin@gmail.com' ORDER BY email ASC;";
             }
         }else{
             return result;
@@ -130,12 +121,6 @@ public class UserMapper {
             while (rs.next()) {
                 userModel user = new userModel();
                 user.setEmail(rs.getString("email"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setLastName(rs.getString("lastname"));
-                user.setDate(rs.getDate("dateofbirth"));
-                user.setIdentity(rs.getString("user_identity"));
-                user.setVaccinated(rs.getBoolean("vaccinated"));
-                user.setTimeslotID(rs.getInt("bookedtimeslot"));
                 result.add(user);
             }
         }catch(Exception e){
@@ -162,5 +147,27 @@ public class UserMapper {
         }else{
             return false;
         }
+    }
+    public static Dictionary findUserByEmail(String email){
+        String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, bookedtimeslot, hcpname FROM users " +
+                "WHERE email = '"+email+"';";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        Dictionary user = new Hashtable();
+        try {
+            while (rs.next()) {
+                user.put("firstname", rs.getString("firstname"));
+                user.put("lastname", rs.getString("lastname"));
+                user.put("dateofbirth", rs.getDate("dateofbirth"));
+                user.put("user_identity", rs.getString("user_identity"));
+                user.put("vaccinated", rs.getBoolean("vaccinated"));
+                user.put("bookedtimeslot", rs.getInt("bookedtimeslot"));
+                user.put("postcode", rs.getString("postcode"));
+                user.put("typeofprovider", rs.getString("typeofprovider"));
+                user.put("hcpname", rs.getString("hcpname"));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return user;
     }
 }

@@ -27,6 +27,7 @@ public class logInServlet extends HttpServlet{
             request.getSession().setAttribute("email", user);
             request.getSession().setAttribute("identity", currentUser.getIdentity());
             request.getSession().setAttribute("hcpname", currentUser.getHcpName());
+            request.getSession().setAttribute("user", currentUser);
             String identity = currentUser.getIdentity();
             if(identity.equals("Admin")){
                     response.sendRedirect("adminpage.jsp");
