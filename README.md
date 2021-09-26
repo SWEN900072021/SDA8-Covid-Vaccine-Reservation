@@ -29,9 +29,8 @@ The application will be a centralised vaccine management platform that can help 
 [Part 2](docs/part2)
 
 * [Detailed use cases](docs/part2/detailed%20use%20cases.pdf)
-
-- [Architecture documentation](docs/part2/architecture%20documentation.pdf)
-- [Checklist](docs/part2/Checklist%20Part%202.pdf)
+* [Architecture documentation](docs/part2/architecture%20documention.pdf)
+* [Checklist](docs/part2/Checklist%20Part%202.pdf)
 
 [Part 3](docs/part3)
 
