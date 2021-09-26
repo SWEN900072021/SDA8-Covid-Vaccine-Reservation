@@ -38,9 +38,11 @@ public class TimeSlotMapper {
     }
     public static void deleteTimeSlotByDetails(String date, String from, String to, String provider) throws SQLException {
         Integer slotId = getIdByDetails(date, from, to, provider);
-        String stmt = "Delete FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
-                + "' And"+ " provider = '"+provider+"';";
-        new postgresqlConnector().connect(stmt);
+        postgresqlConnector conn = new postgresqlConnector();
+        String stmt = "Delete FROM timeslots where id =" + slotId+";";
+        conn.connect(stmt);
+        stmt = "Delete FROM bookings where timeslotid =" + slotId+";";
+        conn.connect(stmt);
         UserMapper.deleteBookingById(slotId);
     }
     public static List<timeSlotModel> getTimeSlots(){

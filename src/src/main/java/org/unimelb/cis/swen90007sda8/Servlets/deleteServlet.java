@@ -10,16 +10,24 @@ import javax.servlet.http.*;
 @WebServlet(name = "deleteServlet", value = "/delete")
 public class deleteServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String date = (String) request.getParameter("date");
-        String from = (String) request.getParameter("from");
-        String to = (String) request.getParameter("to");
-        String provider = (String) request.getParameter("provider");
+        String date = request.getParameter("date");
+        String from = request.getParameter("from");
+        String to = request.getParameter("to");
+        String provider = request.getParameter("provider");
+        String identity = (String) request.getSession().getAttribute("identity");
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
         try {
-            TimeSlotMapper.deleteTimeSlotByDetails(date,from,to,provider);
+            if(identity.equals("Health Care Provider")){
+                TimeSlotMapper.deleteTimeSlotByDetails(date,from,to,provider);
+                response.sendRedirect("get_timeslot");
+            }else{
+                writer.println("<h3>You can't delete timeslots<br>" +
+                        "<br><a href=\"get_timeslot\">Go Back<a>");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        response.sendRedirect("get_timeslot");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         doGet(request,response);
