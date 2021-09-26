@@ -67,7 +67,7 @@ public class UserMapper {
     public static List<userModel> findWithVaccineName (String vaccineName){
         List<userModel> result = new ArrayList<>();
         String stmt = "SELECT email From\n" +
-                "(SELECT * FROM users LEFT JOIN timeslots ON users.bookedtimeslot = timeslots.id) AS Users WHERE vaccinename = '" + vaccineName+ "' AND email != 'admin@gmail.com';";
+                "(SELECT * FROM users LEFT JOIN bookings ON users.email = bookings.email) AS Users WHERE vaccinename = '" + vaccineName+ "' AND email != 'admin@gmail.com';";
         return getUserModels(result, stmt);
     }
 
