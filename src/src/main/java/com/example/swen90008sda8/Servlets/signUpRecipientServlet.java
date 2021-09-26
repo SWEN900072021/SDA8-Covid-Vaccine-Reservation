@@ -25,9 +25,6 @@ public class signUpRecipientServlet extends HttpServlet{
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String identity = request.getParameter("identity");
-        String post = request.getParameter("postcode");
-        String top = request.getParameter("typeOfProvider");
-        String hcpname = request.getParameter("hcpName");
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         try {

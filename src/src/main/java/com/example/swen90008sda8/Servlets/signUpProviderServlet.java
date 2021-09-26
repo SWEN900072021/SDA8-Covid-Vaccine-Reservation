@@ -21,9 +21,6 @@ public class signUpProviderServlet extends HttpServlet{
         System.out.println("Hello from GET method in signupServlet");
         String user = request.getParameter("email");
         String pass = request.getParameter("passWord");
-        String date = request.getParameter("dateOfBirth");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
         String identity = request.getParameter("identity");
         String post = request.getParameter("postcode");
         String top = request.getParameter("typeOfProvider");
