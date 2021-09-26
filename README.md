@@ -2,7 +2,13 @@
 
 This repository contains structure related reports and source code for the COVID vaccine reservation system
 
-Link to application: (not provided yet)
+Link to application: https://covidvaccinesystem-sda8.herokuapp.com/
+
+**Admin info**
+
+email - admin@gmail.com
+
+password - admin
 
 ### **Team Members**
 
@@ -12,6 +18,15 @@ Link to application: (not provided yet)
 | Sufan Xia          | 828840     | sufanx@student.unimelb.edu.au       |
 | Thomas Capicchiano | 831209     | tcapicchiano@student.unimelb.edu.au |
 | Zhuolun Wu         | 954465     | zhuolunw@student.unimelb.edu.au     |
+
+### **Change Log**
+
+| Date       | Changes                                                      |
+| ---------- | ------------------------------------------------------------ |
+| 15/08/2021 | Part 1 - Use Cases and Domain Model                          |
+| 16/09/2021 | Part 2 - Implemented some functionalities based on back-end servlets |
+| 26/09/2021 | Part 2 - Implemented patterns, Detailed Use Case and Architecture Documentation |
+|            |                                                              |
 
 ### **Project Overview**
 
@@ -40,16 +55,7 @@ The application will be a centralised vaccine management platform that can help 
 
 [Source code](src)
 
-### **Change Log**
-
-| Date       | Changes                                                      |
-| ---------- | ------------------------------------------------------------ |
-| 15/08/2021 | Part 1 - Use Cases and Domain Model                          |
-| 16/09/2021 | Part 2 - Implemented some functionalities based on back-end servlets |
-| 26/09/2021 | Part 2 - Implemented patterns, Detailed Use Case and Architecture Documentation |
-|            |                                                              |
-
-### **Database SQL**
+### **Database**
 
 ```sql
 CREATE TYPE identity AS ENUM ('Admin', 'Health Care Provider', 'Recipient');
