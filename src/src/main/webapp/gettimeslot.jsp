@@ -9,16 +9,25 @@
 <%@ page import="org.unimelb.cis.swen90007sda8.Models.timeSlotModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 <head>
     <title>Time slots</title>
 </head>
 <body>
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
+    <h2>View all Current Timeslots</h2>
+</header>
 <%
     ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
 %>
-
-<table>
-    <tr>
+<div style="text-align: center;">
+<table class="table">
+    <tr style="background-color: dimgrey">
         <th>Date</th>
         <th>From</th>
         <th>To</th>
@@ -30,17 +39,17 @@
         for(int i = 0;i<timeslots.size();i++){
             timeSlotModel timeslot =(timeSlotModel) timeslots.get(i);%>
     <tr>
-        <th><%=timeslot.getDate() %></th>
-        <th><%=timeslot.getFrom()%></th>
-        <th><%=timeslot.getTo()%></th><br>
-        <th><%=timeslot.getProvider()%></th><br>
-        <th><%=timeslot.getNumberofshots()%></th><br>
-        <th>
+        <td><%=timeslot.getDate() %></td>
+        <td><%=timeslot.getFrom()%></td>
+        <td><%=timeslot.getTo()%></td><br>
+        <td><%=timeslot.getProvider()%></td><br>
+        <td><%=timeslot.getNumberofshots()%></td><br>
+        <td>
             <a href="delete?date=<%=timeslot.getDate()%>&from=<%=timeslot.getFrom()%>&to=<%=timeslot.getTo()%>
                     &provider=<%=timeslot.getProvider()%>" οnclick= "return confirm('Are you sure about this deletion?')">Delete</a>
-        </th>
+        </td>
             <% }
   		 %>
-</table>
+</table></div>
 </body>
 </html>

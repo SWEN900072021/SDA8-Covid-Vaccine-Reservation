@@ -9,10 +9,22 @@
 <%@ page import="org.unimelb.cis.swen90007sda8.Models.vaccineModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .form {
+        font-size: 12px;
+        padding-bottom: 10px;
+        line-height: 30px;
+        text-align: center
+    }
+</style>
 <head>
     <title>Add time slots</title>
 </head>
 <body>
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
+    <h2>Add a Recipient</h2>
+</header>
+<div class="form">
     <%
         ArrayList vaccines = (ArrayList) request.getAttribute("vaccines");
     %>
@@ -31,5 +43,6 @@
     <input type = "submit" value = "Add">
 </form>>
 <a href="mainpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to main page</a>
+</div>
 </body>
 </html>

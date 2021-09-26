@@ -7,15 +7,28 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .link {
+        font-size: 20px;
+        padding-bottom: 10px;
+        line-height: 30px;
+        text-align: center
+    }
+</style>
 <head>
     <title>Admin Page</title>
 </head>
 <body>
-<a href="add_vaccine">Add new vaccine type </a></br>
-<a href="signuprecipient.jsp">Create new recipient account </a></br>
-<a href="signupprovider.jsp">Create new provider account </a></br>
-<a href="get_timeslot">View all time slots </a></br>
-<a href="get_user">View all users </a></br>
-<a href="signout">Sign out </a></br>
+<header style=" background-color: darksalmon; padding-top: 20px; padding-bottom: 20px; text-align: center">
+    <h1>Admin Homepage</h1>
+</header>
+<div class="link">
+    <a href="add_vaccine">Add new vaccine type </a></br>
+    <a href="signuprecipient.jsp">Create new recipient account </a></br>
+    <a href="signupprovider.jsp">Create new provider account </a></br>
+    <a href="get_timeslot">View all time slots </a></br>
+    <a href="get_user">View all users </a></br>
+    <a href="signout">Sign out </a></br>
+</div>
 </body>
 </html>

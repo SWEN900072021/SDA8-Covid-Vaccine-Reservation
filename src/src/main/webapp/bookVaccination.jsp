@@ -10,13 +10,23 @@
 <%@ page import="org.unimelb.cis.swen90007sda8.Models.timeSlotModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 <head>
     <title>Book a vaccination</title>
 </head>
 <body>
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
+    <h2>Book a Vaccination Timeslot Below</h2>
+</header>
 <%
     ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
 %>
+<div style="text-align: center; padding-top: 10px">
 <form action = "bookvaccination" method = "post">
     Filter by Postcode: <input type = "text" name = "postcode" required><br/>
     <input type = "submit" value = "Filter">
@@ -26,8 +36,8 @@
     <input type = "submit" value = "Filter">
 </form></br>
 <a href = "bookvaccination">Show all time slots<a><br>
-<table>
-    <tr>
+<table class="table">
+    <tr style="background-color: dimgrey">
         <th>ID</th>
         <th>Date</th>
         <th>From</th>
@@ -41,18 +51,19 @@
         for(int i = 0;i<timeslots.size();i++){
             timeSlotModel timeslot =(timeSlotModel) timeslots.get(i);%>
     <tr>
-        <th><%=timeslot.getId() %></th>
-        <th><%=timeslot.getDate() %></th>
-        <th><%=timeslot.getFrom()%></th>
-        <th><%=timeslot.getTo()%></th><br>
-        <th><%=timeslot.getProvider()%></th><br>
-        <th><%=timeslot.getNumberofshots()%></th><br>
-        <th><%=timeslot.getVaccineName()%></th><br>
-        <th>
+        <td><%=timeslot.getId() %></td>
+        <td><%=timeslot.getDate() %></td>
+        <td><%=timeslot.getFrom()%></td>
+        <td><%=timeslot.getTo()%></td><br>
+        <td><%=timeslot.getProvider()%></td><br>
+        <td><%=timeslot.getNumberofshots()%></td><br>
+        <td><%=timeslot.getVaccineName()%></td><br>
+        <td>
             <a href="book?id=<%=timeslot.getId()%>&name=<%=timeslot.getVaccineName()%>" >Book</a>
-        </th>
+        </td>
             <% }
   		 %>
 </table>
+</div>
 </body>
 </html>

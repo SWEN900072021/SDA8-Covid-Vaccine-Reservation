@@ -7,12 +7,26 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .link {
+        font-size: 20px;
+        padding-bottom: 10px;
+        line-height: 30px;
+        text-align: center;
+    }
+</style>
 <head>
     <title>Recipient Home Page</title>
 </head>
+<header style=" background-color: darksalmon; padding-top: 20px; padding-bottom: 20px; text-align: center">
+    <h1>Welcome to the COVID-19 booking centre</h1>
+    <h3>Book or view your proof of vaccination below</h3>
+</header>
 <body>
-<a href="bookvaccination">View all timeslots and book a vaccination </a></br>
-<a href="showcertification">Show proof of vaccination </a></br>
-<a href="signout">Sign out </a></br>
+<div class="link">
+    <a href="bookvaccination">View all timeslots and book a vaccination </a></br>
+    <a href="showcertification">Show proof of vaccination </a></br>
+    <a href="signout">Sign out </a></br>
+</div>
 </body>
 </html>

@@ -7,10 +7,22 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .form {
+        font-size: 12px;
+        padding-bottom: 10px;
+        line-height: 30px;
+        text-align: center
+    }
+</style>
 <head>
     <title>Sign up A Health Care Provider</title>
 </head>
 <body>
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
+    <h2>Add a Healthcare Provider</h2>
+</header>
+<div class="form">
 <form action = "signupprovider" method = "post">
     Email: <input type = "text" name = "email" required><br/>
     Password: <input type = "password" name = "passWord" required><br/>
@@ -24,5 +36,6 @@
     Organisation Name(If you are a Health Care Provider): <input type = "text" name = "hcpName" required><br/>
     <input type = "submit" value = "sign up">
 </form>
+</div>
 </body>
 </html>
