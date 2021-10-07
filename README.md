@@ -136,3 +136,14 @@ INSERT INTO vaccines(name, fromAge,toAge) VALUES ('AstraZeneca', '50','200');
 INSERT INTO vaccines(name, fromAge,toAge) VALUES ('Pfizer', '0','200');
 ```
 
+### **Part 3 Timeline**
+
+Meeting date: 7/10/2021
+
+| Group member       | 7/10/2021 - 11/10/2021                                       | 12/10/2021 - 13/10/2021            | 14/10/2021 - 16/10/2021         | 17/10/2021                               |
+| ------------------ | ------------------------------------------------------------ | ---------------------------------- | ------------------------------- | ---------------------------------------- |
+| Jiashuai Yu        | Fix patterns inappropriately used in part 2 and complete use cases | Apply concurrency patterns         |                                 | Final review on codes and documentations |
+| Sufan Xia          | Front-end UI polishing                                       | Certificate and questionnaire JSPs | Architecture documentation      | Final review on codes and documentations |
+| Thomas Capicchiano | Abstract testing plan or equivalent                          |                                    | Testing plan and JMeter scripts | Final review on codes and documentations |
+| Zhuolun Wu         | Fix patterns inappropriately used in part 2 and complete use cases | Architecture documentation         | Architecture documentation      | Final review on codes and documentations |
+
