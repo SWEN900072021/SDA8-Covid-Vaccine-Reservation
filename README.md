@@ -60,6 +60,8 @@ The application will be a centralised vaccine management platform that can help 
 ```sql
 CREATE TYPE identity AS ENUM ('Admin', 'Health Care Provider', 'Recipient');
 
+CREATE TYPE identity AS ENUM ('Admin', 'Health Care Provider', 'Recipient');
+
 CREATE TABLE users
 (
     email text UNIQUE,
@@ -83,17 +85,25 @@ CREATE TABLE vaccines
     PRIMARY KEY (name)
 );
 
-CREATE TABLE timeslots
+CREATE TABLE timerange
 (
-    id SERIAL UNIQUE,
+    timeid SERIAL UNIQUE,
     date date,
     fromtime time,
     totime time,
+    PRIMARY KEY (timeid),
+);
+
+CREATE TABLE timeslots
+(
+    id SERIAL UNIQUE,
+    timerange integer,
     provider text,
     numberofshots integer,
     vaccinename text,
     PRIMARY KEY (id),
     FOREIGN KEY (provider) REFERENCES users(hcpname),
+    FOREIGN KEY (timerange) REFERENCES timerange(timeid),
     FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
 );
 
