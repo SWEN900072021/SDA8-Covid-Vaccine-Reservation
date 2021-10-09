@@ -1,38 +1,28 @@
 package org.unimelb.cis.swen90007sda8.Models;
 
 public class bookingModel {
-    private String userId;
-    private Integer timeSlotId;
-    private String vaccineName;
+    private userModel user;
+    private timeSlotModel timeSlot;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public bookingModel(userModel user, timeSlotModel timeSlotId) {
+        this.user = user;
+        this.timeSlot = timeSlotId;
     }
 
-    public void setTimeSlotId(Integer timeSlotId) {
-        this.timeSlotId = timeSlotId;
+    public userModel getUser() {
+        return user;
     }
 
-    public void setVaccineName(String vaccineName) {
-        this.vaccineName = vaccineName;
+    public void setUser(userModel user) {
+        this.user = user;
     }
 
-    public bookingModel(String userId, Integer timeSlotId, String vaccineName) {
-        this.userId = userId;
-        this.timeSlotId = timeSlotId;
-        this.vaccineName = vaccineName;
+    public timeSlotModel getTimeSlot() {
+        return timeSlot;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public Integer getTimeSlotId() {
-        return timeSlotId;
-    }
-
-    public String getVaccineName() {
-        return vaccineName;
+    public void setTimeSlot(timeSlotModel timeSlot) {
+        this.timeSlot = timeSlot;
     }
 
 }

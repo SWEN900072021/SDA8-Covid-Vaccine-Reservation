@@ -11,7 +11,7 @@ public class BookingMapper {
             postgresqlConnector conn = new postgresqlConnector();
             int oldBooking;
             String stmt;
-            stmt = "SELECT timeslotid FROM bookings WHERE email ='"+ booking.getUserId()+"';";
+            stmt = "SELECT timeslotid FROM bookings WHERE email ='"+ booking.getUser().getEmail()+"';";
             ResultSet rs = conn.connect(stmt);
 
             try{
@@ -26,15 +26,15 @@ public class BookingMapper {
                 return;
             }
             if(oldBooking==0){
-                stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlotId()+" AND numberofshots>1;";
+                stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>1;";
             }else{stmt = "UPDATE timeslots SET numberofshots = numberofshots + 1 WHERE id ="+ oldBooking+";";
                 conn.connect(stmt);
-                stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlotId()+" AND numberofshots>1;";
+                stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>1;";
                 conn.connect(stmt);
-                stmt = "DELETE FROM bookings WHERE timeslotid ="+oldBooking+" AND email='"+booking.getUserId()+"';";
+                stmt = "DELETE FROM bookings WHERE timeslotid ="+oldBooking+" AND email='"+booking.getUser().getEmail()+"';";
             }
         conn.connect(stmt);
-        stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUserId()+"'"+','+booking.getTimeSlotId()+','+"'"+booking.getVaccineName()+"'"+");";
+        stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUser().getEmail()+"'"+','+booking.getTimeSlot().getId()+','+"'"+booking.getTimeSlot().getVaccine().getName()+"'"+");";
             conn.connect(stmt);
     }
 }

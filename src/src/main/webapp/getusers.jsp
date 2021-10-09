@@ -25,7 +25,6 @@
 </header>
     <%
         ArrayList users = (ArrayList) request.getAttribute("users");
-        ArrayList vaccines = (ArrayList) request.getAttribute("vaccines");
     %>
     <a href="get_user?vaccinated=True" οnclick= "return confirm('Are you sure about this deletion?')">Show vaccinated users    |</a>
     <a href="get_user?vaccinated=False" οnclick= "return confirm('Are you sure about this deletion?')">Show Not vaccinated users    |</a>

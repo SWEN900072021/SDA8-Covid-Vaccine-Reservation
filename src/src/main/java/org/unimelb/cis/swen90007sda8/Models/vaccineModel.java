@@ -5,6 +5,15 @@ public class vaccineModel {
     private String fromAge;
     private String toAge;
 
+    public vaccineModel(String name, String fromAge, String toAge) {
+        this.name = name;
+        this.fromAge = fromAge;
+        this.toAge = toAge;
+    }
+
+    public vaccineModel() {
+    }
+
     public String getName() {
         return name;
     }

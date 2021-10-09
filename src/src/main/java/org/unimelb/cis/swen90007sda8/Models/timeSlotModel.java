@@ -1,26 +1,22 @@
 package org.unimelb.cis.swen90007sda8.Models;
 
-import java.sql.Date;
-import java.sql.Time;
-
 public class timeSlotModel {
 
 
     private Integer id;
-    private Date date;
-    private Time from;
-    private Time to;
+    private timeRange timeRange;
     private String provider;
     private Integer numberofshots;
+    private vaccineModel vaccine;
 
-    public String getVaccineName() {
-        return vaccineName;
+    public vaccineModel getVaccine() {
+        return vaccine;
     }
 
-    public void setVaccineName(String vaccineName) {
-        this.vaccineName = vaccineName;
+    public void setVaccine(vaccineModel vaccine) {
+        this.vaccine = vaccine;
     }
-    private String vaccineName;
+
     public Integer getId() {
         return id;
     }
@@ -44,33 +40,14 @@ public class timeSlotModel {
         this.numberofshots = numberofshots;
     }
 
-    public Date getDate() {
-        return date;
+    public timeRange getTimeRange() {
+        return timeRange;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimeRange(timeRange timeRange) {
+        this.timeRange = timeRange;
     }
 
-    public Time getFrom() {
-        return from;
-    }
 
-    public void setFrom(Time from) {
-        this.from = from;
-    }
 
-    public Time getTo() {
-        return to;
-    }
-
-    public void setTo(Time to) {
-        this.to = to;
-    }
-
-    public String toString(){
-        String s ="";
-        s = s + "Time "+this.date+" From "+ this.from+" To " + this.to +"\n";
-        return s;
-    }
 }

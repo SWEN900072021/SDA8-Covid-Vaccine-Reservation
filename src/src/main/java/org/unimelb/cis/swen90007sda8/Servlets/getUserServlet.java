@@ -28,7 +28,7 @@ public class getUserServlet extends HttpServlet{
         }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String vaccineName = request.getParameter("vname");
+        vaccineModel vaccineName = (vaccineModel) request.getSession().getAttribute("vname");
         List<userModel> users = UserMapper.findWithVaccineName(vaccineName);
         List<vaccineModel> vaccines = VaccineMapper.getVaccines();
         request.setAttribute("vaccines", vaccines);

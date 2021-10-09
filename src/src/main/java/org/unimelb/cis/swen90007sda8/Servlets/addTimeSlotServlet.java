@@ -1,5 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
+import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.VaccineMapper;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
@@ -30,10 +31,11 @@ public class addTimeSlotServlet extends HttpServlet{
         String to = request.getParameter("to");
         String provider = (String)request.getSession().getAttribute("hcpname");
         String numberofshots = request.getParameter("numberofshots");
-        String vname = request.getParameter("vname");
-
         PrintWriter writer = response.getWriter();
-        if(TimeSlotMapper.insertTimeSlot(date,from,to,provider,numberofshots,vname)){
+        Integer timeid = TimeRangeMapper.insertTimeRange(date, from, to);
+        vaccineModel vaccine = VaccineMapper.find(request.getParameter("vname1"));
+        if(timeid!=null && timeid>=0){
+            TimeSlotMapper.insertTimeSlot(timeid,provider,numberofshots,vaccine);
             response.setContentType("text/html");
             writer.println("<h3> Slot "+date+" added!" +
                     "<br><a href=\"hcppage.jsp\">Go Back<a>");

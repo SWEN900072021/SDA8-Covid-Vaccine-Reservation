@@ -2,6 +2,7 @@ package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
 import org.unimelb.cis.swen90007sda8.Models.userModel;
+import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,9 +66,9 @@ public class UserMapper {
             return null;
         }
     }
-    public static List<userModel> findWithVaccineName (String vaccineName){
+    public static List<userModel> findWithVaccineName (vaccineModel vaccineName){
         List<userModel> result = new ArrayList<>();
-        String stmt = "SELECT users.email FROM users LEFT JOIN bookings ON users.email = bookings.email WHERE vaccinename = '" + vaccineName+ "' AND users.email != 'admin@gmail.com';";
+        String stmt = "SELECT users.email FROM users LEFT JOIN bookings ON users.email = bookings.email WHERE vaccinename = '" + vaccineName.getName()+ "' AND users.email != 'admin@gmail.com';";
         return getUserModels(result, stmt);
     }
 

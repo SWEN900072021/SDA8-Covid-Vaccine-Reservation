@@ -1,5 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
+import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 
 import java.io.*;
@@ -19,7 +20,8 @@ public class deleteServlet extends HttpServlet{
         PrintWriter writer = response.getWriter();
         try {
             if(identity.equals("Health Care Provider")){
-                TimeSlotMapper.deleteTimeSlotByDetails(date,from,to,provider);
+                Integer timeid = TimeRangeMapper.getIdByDetail(date,from,to);
+                TimeSlotMapper.deleteTimeSlotByDetails(timeid,provider);
                 response.sendRedirect("get_timeslot");
             }else{
                 writer.println("<h3>You can't delete timeslots<br>" +

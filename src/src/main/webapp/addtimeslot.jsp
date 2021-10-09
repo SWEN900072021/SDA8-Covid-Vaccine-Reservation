@@ -33,7 +33,7 @@
     From<input type = "time" name = "from" required>
     to<input type = "time" name = "to" required><br/>
     Number of shots available <input type = "int" name = "numberofshots" required>
-    Vaccine Name: <select name="vname" required>
+    Vaccine Name: <select name="vname1" required>
                         <%
                             for(int i = 0;i<vaccines.size();i++){
                                 vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>

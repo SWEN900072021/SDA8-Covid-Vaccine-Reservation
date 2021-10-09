@@ -37,4 +37,20 @@ public class VaccineMapper {
         }
         return result;
     }
+
+    public static vaccineModel find(String vname) {
+        String stmt = "SELECT name, fromage, toage FROM vaccines WHERE name='"+ vname +"';";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        vaccineModel vaccine = new vaccineModel();
+        try {
+            while (rs.next()) {
+                vaccine.setName(rs.getString(1));
+                vaccine.setFromAge(rs.getString(2));
+                vaccine.setToAge(rs.getString(3));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return vaccine;
+    }
 }

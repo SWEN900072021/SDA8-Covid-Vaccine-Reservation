@@ -52,14 +52,14 @@
             timeSlotModel timeslot =(timeSlotModel) timeslots.get(i);%>
     <tr>
         <td><%=timeslot.getId() %></td>
-        <td><%=timeslot.getDate() %></td>
-        <td><%=timeslot.getFrom()%></td>
-        <td><%=timeslot.getTo()%></td><br>
+        <td><%=timeslot.getTimeRange().getDate() %></td>
+        <td><%=timeslot.getTimeRange().getFrom()%></td>
+        <td><%=timeslot.getTimeRange().getTo()%></td><br>
         <td><%=timeslot.getProvider()%></td><br>
         <td><%=timeslot.getNumberofshots()%></td><br>
-        <td><%=timeslot.getVaccineName()%></td><br>
+        <td><%=timeslot.getVaccine().getName()%></td><br>
         <td>
-            <a href="book?id=<%=timeslot.getId()%>&name=<%=timeslot.getVaccineName()%>" >Book</a>
+            <a href="book?id=<%=timeslot.getId()%>&name=<%=timeslot.getVaccine()%>" >Book</a>
         </td>
             <% }
   		 %>

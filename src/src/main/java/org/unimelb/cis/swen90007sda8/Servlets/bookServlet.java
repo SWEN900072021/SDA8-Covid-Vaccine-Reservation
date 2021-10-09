@@ -2,8 +2,8 @@ package org.unimelb.cis.swen90007sda8.Servlets;
 
 
 import org.unimelb.cis.swen90007sda8.Mappers.BookingMapper;
-import org.unimelb.cis.swen90007sda8.Models.bookingModel;
-import org.unimelb.cis.swen90007sda8.Models.userModel;
+import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
+import org.unimelb.cis.swen90007sda8.Models.*;
 import org.unimelb.cis.swen90007sda8.UnitOfWork.UnitOfWork;
 import java.io.*;
 import java.util.HashMap;
@@ -18,10 +18,11 @@ public class bookServlet extends HttpServlet{
         Integer id = Integer.parseInt(request.getParameter("id"));
         String vname = request.getParameter("name");
         userModel user = (userModel) request.getSession().getAttribute("user");
+        timeSlotModel timeslot = TimeSlotMapper.find(id);
         HashMap<String, List<bookingModel>> context = new HashMap<>();
         BookingMapper bookingDB = new BookingMapper();
         UnitOfWork unitOfwork = new UnitOfWork(context,bookingDB);
-        bookingModel booking = new bookingModel(user.getEmail(),id,vname);
+        bookingModel booking = new bookingModel(user,timeslot);
 
         unitOfwork.registerNew(booking);
 

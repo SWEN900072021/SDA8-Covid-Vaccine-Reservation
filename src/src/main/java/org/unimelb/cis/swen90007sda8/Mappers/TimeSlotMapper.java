@@ -2,59 +2,93 @@ package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
 import org.unimelb.cis.swen90007sda8.Models.timeSlotModel;
+import org.unimelb.cis.swen90007sda8.Models.timeRange;
+import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalTime;
+import java.sql.Time;
 import java.util.ArrayList;
+
 import java.util.List;
 
 
 public class TimeSlotMapper {
-    public static Boolean insertTimeSlot (String date, String from, String to, String provider, String numberofshots,
-                                       String vaccinename) {
-        boolean result = true;
-        LocalTime fromTime = LocalTime.parse(from);
-        LocalTime toTime = LocalTime.parse(to);
-        if(toTime.compareTo(fromTime)>0){
-            String stmt = "INSERT INTO timeslots(date, fromTime, toTime, provider, numberofshots, vaccineName) VALUES (" +"'"+date+"'"+','+"'"+from+"'"
-                    +','+"'"+to+"'"+','+"'"+provider+"', "+numberofshots+", '"+vaccinename+ "');";
-            new postgresqlConnector().connect(stmt);
-        }else{
-            result = false;
+    public static void insertTimeSlot (Integer timeid, String provider, String numberofshots,
+                                       vaccineModel vaccinename) {
+        String stmt = "INSERT INTO timeslots(timerange, provider, numberofshots, vaccineName) VALUES (" +timeid+','+"'"+provider+"', "+numberofshots+", '"+vaccinename.getName()+ "');";
+        new postgresqlConnector().connect(stmt);
+    }
+    public static timeSlotModel find (Integer id) {
+        String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename, toage, fromage From (SELECT * FROM timeslots " +
+                "LEFT JOIN users ON timeslots.provider = users.hcpname " +
+                "LEFT JOIN vaccines ON timeslots.vaccinename = vaccines.name " +
+                "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE id='"+id+"' " +
+                "ORDER BY date ASC;";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        timeSlotModel timeSlot = new timeSlotModel();
+        try{
+            while (rs.next()) {
+                timeSlot.setId(id);
+
+                Date date = rs.getDate("date");
+                Time from = rs.getTime("fromtime");
+                Time to = rs.getTime("totime");
+                timeSlot.setTimeRange(new timeRange(date,from,to));
+
+                timeSlot.setProvider(rs.getString("provider"));
+
+                timeSlot.setNumberofshots(rs.getInt("numberofshots"));
+
+                String name = rs.getString("vaccinename");
+                String toage = rs.getString("toage");
+                String fromage = rs.getString("fromage");
+                timeSlot.setVaccine(new vaccineModel(name,fromage,toage));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        return result;
+        return timeSlot;
     }
 
-    public static Integer getIdByDetails(String date, String from, String to, String provider) throws SQLException {
-        String stmt = "SELECT id FROM timeslots where date =" + "'"+date+"' And"+ " fromtime = "+ "'" +from+ "' And"+ " totime = '"+to
-                + "' And"+ " provider = '"+provider+"';";
+    public static Integer getIdByDetails(Integer timeid, String provider) throws SQLException {
+        String stmt = "SELECT id FROM timeslots where timerange =" + timeid + " And"+ " provider = '"+provider+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         rs.next();
         return rs.getInt(1);
     }
-    public static void deleteTimeSlotByDetails(String date, String from, String to, String provider) throws SQLException {
-        Integer slotId = getIdByDetails(date, from, to, provider);
+    public static void deleteTimeSlotByDetails(Integer timeid, String provider) throws SQLException {
+        Integer slotId = getIdByDetails(timeid, provider);
         postgresqlConnector conn = new postgresqlConnector();
         String stmt = "Delete FROM bookings where timeslotid =" + slotId+";";
         conn.connect(stmt);
         stmt = "Delete FROM timeslots where id =" + slotId+";";
         conn.connect(stmt);
+        stmt = "Delete FROM timerange where timeid =" + timeid+";";
+        conn.connect(stmt);
     }
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();
-        String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename FROM timeslots ORDER BY date ASC;";
+        String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename From (SELECT * FROM timeslots " +
+                "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date ASC;";
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
                 timeSlot.setId(rs.getInt("id"));
-                timeSlot.setDate(rs.getDate("date"));
-                timeSlot.setFrom(rs.getTime("fromtime"));
-                timeSlot.setTo(rs.getTime("totime"));
+
+                Date date = rs.getDate("date");
+                Time from = rs.getTime("fromtime");
+                Time to = rs.getTime("totime");
+                timeSlot.setTimeRange(new timeRange(date,from,to));
+
                 timeSlot.setProvider(rs.getString("provider"));
+
                 timeSlot.setNumberofshots(rs.getInt("numberofshots"));
-                timeSlot.setVaccineName(rs.getString("vaccinename"));
+
+                vaccineModel vaccine = VaccineMapper.find(rs.getString("vaccinename"));
+                timeSlot.setVaccine(vaccine);
                 timeslots.add(timeSlot);
             }
         }catch(Exception e){
@@ -64,7 +98,8 @@ public class TimeSlotMapper {
     }
     public static List<timeSlotModel> getTimeSlotByPostCode(String postcode){
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename From (SELECT * FROM timeslots " +
-                "LEFT JOIN users ON timeslots.provider = users.hcpname) AS timeslot WHERE postcode = '"+ postcode+"' " +
+                "LEFT JOIN users ON timeslots.provider = users.hcpname " +
+                "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE postcode = '"+ postcode+"' " +
                 "ORDER BY date ASC;";
         List<timeSlotModel> timeslots = new ArrayList<>();
         ResultSet rs = new postgresqlConnector().connect(stmt);
@@ -72,12 +107,14 @@ public class TimeSlotMapper {
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
                 timeSlot.setId(rs.getInt("id"));
-                timeSlot.setDate(rs.getDate("date"));
-                timeSlot.setFrom(rs.getTime("fromtime"));
-                timeSlot.setTo(rs.getTime("totime"));
+                Date date = rs.getDate("date");
+                Time from = rs.getTime("fromtime");
+                Time to = rs.getTime("totime");
+                timeSlot.setTimeRange(new timeRange(date,from,to));
                 timeSlot.setProvider(rs.getString("provider"));
                 timeSlot.setNumberofshots(rs.getInt("numberofshots"));
-                timeSlot.setVaccineName(rs.getString("vaccinename"));
+                vaccineModel vaccine = VaccineMapper.find(rs.getString("vaccinename"));
+                timeSlot.setVaccine(vaccine);
                 timeslots.add(timeSlot);
             }
         }catch(Exception e){
@@ -86,20 +123,24 @@ public class TimeSlotMapper {
         return timeslots;
     }
     public static List<timeSlotModel> getTimeSlotByProvider(String provider){
-        String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename FROM timeslots WHERE provider = '"+
-                provider+"' ORDER BY date ASC;";
+        String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename FROM (SELECT * FROM timeslots " +
+                "LEFT JOIN users ON timeslots.provider = users.hcpname " +
+                "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid"+
+                ") AS timeslot WHERE provider = '"+ provider+"' ORDER BY date ASC;";
         List<timeSlotModel> timeslots = new ArrayList<>();
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
                 timeSlot.setId(rs.getInt("id"));
-                timeSlot.setDate(rs.getDate("date"));
-                timeSlot.setFrom(rs.getTime("fromtime"));
-                timeSlot.setTo(rs.getTime("totime"));
+                Date date = rs.getDate("date");
+                Time from = rs.getTime("fromtime");
+                Time to = rs.getTime("totime");
+                timeSlot.setTimeRange(new timeRange(date,from,to));
                 timeSlot.setProvider(rs.getString("provider"));
                 timeSlot.setNumberofshots(rs.getInt("numberofshots"));
-                timeSlot.setVaccineName(rs.getString("vaccinename"));
+                vaccineModel vaccine = VaccineMapper.find(rs.getString("vaccinename"));
+                timeSlot.setVaccine(vaccine);
                 timeslots.add(timeSlot);
             }
         }catch(Exception e){
@@ -114,11 +155,14 @@ public class TimeSlotMapper {
                 return null;
             }
             else if(identity.equals("Health Care Provider")){
-                stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots"+" WHERE provider="
+                stmt = "SELECT date, fromTime, toTime, provider, numberofshots From (SELECT * FROM timeslots " +
+                        "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE provider="
                         +"'"+hcpname+"' ORDER BY date ASC;";
+
             }
             else{
-                stmt = "SELECT date, fromTime, toTime, provider, numberofshots FROM timeslots ORDER BY date ASC;";
+                stmt = "SELECT date, fromTime, toTime, provider, numberofshots From (SELECT * FROM timeslots " +
+                        "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date ASC;";
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -128,9 +172,10 @@ public class TimeSlotMapper {
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
-                timeSlot.setDate(rs.getDate("date"));
-                timeSlot.setFrom(rs.getTime("fromtime"));
-                timeSlot.setTo(rs.getTime("totime"));
+                Date date = rs.getDate("date");
+                Time from = rs.getTime("fromtime");
+                Time to = rs.getTime("totime");
+                timeSlot.setTimeRange(new timeRange(date,from,to));
                 timeSlot.setProvider(rs.getString("provider"));
                 timeSlot.setNumberofshots(rs.getInt("numberofshots"));
                 timeslots.add(timeSlot);
