@@ -1,7 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
-import org.unimelb.cis.swen90007sda8.Mappers.UserMapper;
-import org.unimelb.cis.swen90007sda8.Mappers.VaccineMapper;
+import org.unimelb.cis.swen90007sda8.Mappers.*;
 import org.unimelb.cis.swen90007sda8.Models.userModel;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
 
@@ -16,7 +15,7 @@ public class getUserServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String identity = (String) request.getSession().getAttribute("identity");
         String vaccinated = request.getParameter("vaccinated");
-        List<userModel> users = UserMapper.findWithVaccinated(vaccinated, identity);
+        List<userModel> users = adminMapper.findWithVaccinated(vaccinated, identity);
         List<vaccineModel> vaccines = VaccineMapper.getVaccines();
         request.setAttribute("vaccines", vaccines);
         request.setAttribute("users", users);
@@ -29,7 +28,7 @@ public class getUserServlet extends HttpServlet{
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         vaccineModel vaccineName = (vaccineModel) request.getSession().getAttribute("vname");
-        List<userModel> users = UserMapper.findWithVaccineName(vaccineName);
+        List<userModel> users = adminMapper.findWithVaccineName(vaccineName);
         List<vaccineModel> vaccines = VaccineMapper.getVaccines();
         request.setAttribute("vaccines", vaccines);
         request.setAttribute("users", users);

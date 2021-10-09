@@ -1,6 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
-import org.unimelb.cis.swen90007sda8.Mappers.UserMapper;
+import org.unimelb.cis.swen90007sda8.Mappers.adminMapper;
 
 import java.io.*;
 import java.sql.*;
@@ -24,7 +24,7 @@ public class signUpRecipientServlet extends HttpServlet{
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         try {
-            if(UserMapper.insertNewRecipient(user,pass,date,firstName,lastName,identity)){
+            if(adminMapper.insertNewRecipient(user,pass,date,firstName,lastName,identity)){
                 writer.println("<h3>Registion Complete!" +
                         "<br><a href=\"adminpage.jsp\">Go Back<a>");
             }else{

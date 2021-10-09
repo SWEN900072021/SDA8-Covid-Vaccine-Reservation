@@ -1,8 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
-import org.unimelb.cis.swen90007sda8.Models.userModel;
-import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
+import org.unimelb.cis.swen90007sda8.Models.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,45 +10,24 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-public class UserMapper {
-    public static Boolean getVaccinatedByEmail(String email){
-        Boolean result = null;
-        String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";
-        ResultSet rs = new postgresqlConnector().connect(s);
-        try {
-            if (rs.next()) {
-                result = rs.getBoolean(1);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return result;
-    }
-    public static void setVaccinatedByEmail(String email){
-        String s = "UPDATE  users  SET vaccinated = True WHERE email ="+"'"+ email+"';";
-        new postgresqlConnector().connect(s);
-    }
-    public static void setNotVaccinatedByEmail(String email){
-        String s = "UPDATE  users  SET vaccinated = False WHERE email ="+"'"+ email+"';";
-        new postgresqlConnector().connect(s);
-    }
+public class adminMapper implements UserInterface {
     public static userModel findUser(String email, String password){
         String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "'" +
                 " AND password = "+ "'" +password+ "';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
-        userModel user = new userModel();
+        userModel user = null;
         try {
             if (!rs.next()) {
                 return null;
             } else {
-                user.setEmail(email);
-                user.setIdentity(rs.getString(3));
-                if(rs.getString(4)!=null){
-                    user.setHcpName(rs.getString(4));
-                }else{
-                    user.setHcpName("----");
+                if (rs.getString(3)=="Health Care Provider"){
+                    user = new hcpModel(email);
                 }
-
+                else if(rs.getString(3)=="Admin"){
+                    user = new adminModel(email);
+                }else{
+                    user = new recipientModel(email);
+                }
             }
         }catch (SQLException e) {
             e.printStackTrace();
@@ -76,8 +54,7 @@ public class UserMapper {
         ResultSet rs = new postgresqlConnector().connect(stmt);
         try {
             while (rs.next()) {
-                userModel user = new userModel();
-                user.setEmail(rs.getString("email"));
+                userModel user = new recipientModel(rs.getString("email"));
                 result.add(user);
             }
         }catch(Exception e){

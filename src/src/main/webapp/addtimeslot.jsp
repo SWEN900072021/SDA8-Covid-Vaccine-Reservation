@@ -22,7 +22,7 @@
 </head>
 <body>
 <header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
-    <h2>Add a Recipient</h2>
+    <h2>Add a time slots</h2>
 </header>
 <div class="form">
     <%

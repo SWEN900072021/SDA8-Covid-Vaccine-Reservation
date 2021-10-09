@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UnitOfWork implements IUnitOfWork<bookingModel>{
+public class bookingUnitOfWork implements IUnitOfWork<bookingModel>{
 
     private Map<String, List<bookingModel>> context;
     private final BookingMapper bookingDB;
 
 
-    public UnitOfWork(Map<String, List<bookingModel>> context, BookingMapper bookingDB) {
+    public bookingUnitOfWork(Map<String, List<bookingModel>> context, BookingMapper bookingDB) {
         this.context = context;
         this.bookingDB = bookingDB;
     }

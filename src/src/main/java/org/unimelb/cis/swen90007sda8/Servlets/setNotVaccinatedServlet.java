@@ -1,6 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
-import org.unimelb.cis.swen90007sda8.Mappers.UserMapper;
+import org.unimelb.cis.swen90007sda8.Mappers.hcpMapper;
 
 import java.io.*;
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ public class setNotVaccinatedServlet extends HttpServlet{
             return;
         }
         String email = request.getParameter("email");
-        UserMapper.setNotVaccinatedByEmail(email);
+        hcpMapper.setNotVaccinatedByEmail(email);
         response.sendRedirect("get_user");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

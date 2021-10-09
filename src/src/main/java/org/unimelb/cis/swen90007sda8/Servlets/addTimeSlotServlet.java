@@ -3,6 +3,7 @@ package org.unimelb.cis.swen90007sda8.Servlets;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.VaccineMapper;
+import org.unimelb.cis.swen90007sda8.Models.hcpModel;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
 
 import java.io.*;
@@ -29,7 +30,8 @@ public class addTimeSlotServlet extends HttpServlet{
         String date = request.getParameter("date");
         String from = request.getParameter("from");
         String to = request.getParameter("to");
-        String provider = (String)request.getSession().getAttribute("hcpname");
+        String email = (String)request.getSession().getAttribute("email");
+        String provider = new hcpModel(email).getHcpName();
         String numberofshots = request.getParameter("numberofshots");
         PrintWriter writer = response.getWriter();
         Integer timeid = TimeRangeMapper.insertTimeRange(date, from, to);

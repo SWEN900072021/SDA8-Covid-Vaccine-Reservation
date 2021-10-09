@@ -1,6 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
-import org.unimelb.cis.swen90007sda8.Mappers.UserMapper;
+import org.unimelb.cis.swen90007sda8.Mappers.recipientMapper;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ public class showCertificationServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         String email = (String) request.getSession().getAttribute("email");
-        if(UserMapper.getVaccinatedByEmail(email)){
+        if(recipientMapper.getVaccinatedByEmail(email)){
             writer.println("<h1>You are vaccinated!"+
                     "<br><a href=\"mainpage.jsp\">Go Back<a>");
         }else{

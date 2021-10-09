@@ -1,7 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
-import org.unimelb.cis.swen90007sda8.Mappers.UserMapper;
-import org.unimelb.cis.swen90007sda8.Models.userModel;
+import org.unimelb.cis.swen90007sda8.Mappers.adminMapper;
+import org.unimelb.cis.swen90007sda8.Models.*;
 
 import java.io.*;
 import javax.servlet.annotation.*;
@@ -19,14 +19,21 @@ public class logInServlet extends HttpServlet{
         String pass = request.getParameter("passWord");
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
-        userModel currentUser = UserMapper.findUser(user,pass);
+        userModel currentUser = adminMapper.findUser(user,pass);
         if(currentUser == null){
             writer.println("Email or password isn't correct!"+
                     "<br><a href=\"index.jsp\">Go Back<a>");
         }else{
             request.getSession().setAttribute("email", user);
             request.getSession().setAttribute("identity", currentUser.getIdentity());
-            request.getSession().setAttribute("hcpname", currentUser.getHcpName());
+            if(currentUser.getIdentity()=="Health Care Provider"){
+                currentUser = new hcpModel(user);
+            }
+            else if(currentUser.getIdentity()=="Admin"){
+                currentUser = new adminModel(user);
+            }else{
+                currentUser = new recipientModel(user);
+            }
             request.getSession().setAttribute("user", currentUser);
             String identity = currentUser.getIdentity();
             if(identity.equals("Admin")){

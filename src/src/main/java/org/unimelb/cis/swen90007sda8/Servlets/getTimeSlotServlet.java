@@ -1,7 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
-import org.unimelb.cis.swen90007sda8.Models.timeSlotModel;
+import org.unimelb.cis.swen90007sda8.Models.*;
 
 import java.io.*;
 import java.util.List;
@@ -13,7 +13,9 @@ import javax.servlet.http.*;
 public class getTimeSlotServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String identity = (String) request.getSession().getAttribute("identity");
-        String hcpname = (String)request.getSession().getAttribute("hcpname");
+        String email = (String)request.getSession().getAttribute("email");
+        String hcpname = new hcpModel(email).getHcpName();
+        System.out.println(email);
         List<timeSlotModel> timeslots = TimeSlotMapper.getTimeSlotsByDetails(identity,hcpname);
         request.setAttribute("timeslots", timeslots);
         request.getRequestDispatcher("gettimeslot.jsp").forward(request,response);
