@@ -4,13 +4,13 @@ This repository contains structure related reports and source code for the COVID
 
 Link to application: https://covidvaccinesystem-sda8.herokuapp.com/
 
-**Admin info**
+Admin info
 
 email - admin@gmail.com
 
 password - admin
 
-### **Team Members**
+### Team Members
 
 | Name               | Student ID | Email                               |
 | ------------------ | ---------- | ----------------------------------- |
@@ -19,7 +19,7 @@ password - admin
 | Thomas Capicchiano | 831209     | tcapicchiano@student.unimelb.edu.au |
 | Zhuolun Wu         | 954465     | zhuolunw@student.unimelb.edu.au     |
 
-### **Change Log**
+### Change Log
 
 | Date       | Changes                                                      |
 | ---------- | ------------------------------------------------------------ |
@@ -28,13 +28,13 @@ password - admin
 | 26/09/2021 | Part 2 - Implemented patterns, Detailed Use Case and Architecture Documentation |
 |            |                                                              |
 
-### **Project Overview**
+### Project Overview
 
 The Federal Government has recently released its plan to re-establish a "COVID-normal" in Australia, precipitated primarily on Australians receiving a dose of a COVID-19 vaccine. In order to assist with what is likely the single largest logistical challenge ever faced by this government, they require your help to build a vaccination booking and management system.
 
 The application will be a centralised vaccine management platform that can help public health officials manage vaccine distribution at scale and expedite vaccine administration for a large population. The solution should provide real-time access to vaccine-administration data to support decision-making and distribution efforts.
 
-### **Repository Index**
+### Repository Index
 
 [Part 1 - Use Cases and Domain Model](docs/part1)
 
@@ -55,11 +55,11 @@ The application will be a centralised vaccine management platform that can help 
 
 [Source code](src)
 
-### **Database**
+### Database
+<details>
+<summary>SQL for tables in database</summary>
 
 ```sql
-CREATE TYPE identity AS ENUM ('Admin', 'Health Care Provider', 'Recipient');
-
 CREATE TYPE identity AS ENUM ('Admin', 'Health Care Provider', 'Recipient');
 
 CREATE TABLE users
@@ -129,24 +129,26 @@ CREATE TABLE questions
     FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
 );
 
-CREATE TABLE certificates
+CREATE TABLE user_answers_question
 (
     id SERIAL UNIQUE,
-    email text,
-    bookingid integer,
-    vaccinename text,
+    userid text,
+    questionid integer,
+    answer bool,
     PRIMARY KEY (id),
-    FOREIGN KEY (email) REFERENCES users(email),
-    FOREIGN KEY (bookingid) REFERENCES bookings(bookingid),
-    FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
+    FOREIGN KEY (userid) REFERENCES users(email),
+    FOREIGN KEY (questionid) REFERENCES questions(id)
 );
 
-INSERT INTO users(email, password,user_identity) VALUES ('admin@gmail.com', 'admin','Admin');
+INSERT INTO users(email, password,user_identity) VALUES ('admin@gmail.com', '$shiro1$SHA-256$500000$v4eixUCvn6V9KSudK8Ne7g==$Nelv3843Bf6h3oBPp4EBU+qNCDu+tf5dDGcdQIIngDs=','Admin');
 INSERT INTO vaccines(name, fromAge,toAge) VALUES ('AstraZeneca', '50','200');
 INSERT INTO vaccines(name, fromAge,toAge) VALUES ('Pfizer', '0','200');
 ```
+</details>
 
-### **Part 3 Timeline**
+![](docs\report%20src\database.png)
+
+### Part 3 Timeline
 
 Meeting date: 7/10/2021
 
