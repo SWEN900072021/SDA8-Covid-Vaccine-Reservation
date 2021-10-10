@@ -18,6 +18,6 @@
     to<input type = "text" name = "to" required>
     <input type = "submit" value = "Add">
 </form>
-<a href="mainpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to main page</a>
+<a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to main page</a>
 </body>
 </html>
