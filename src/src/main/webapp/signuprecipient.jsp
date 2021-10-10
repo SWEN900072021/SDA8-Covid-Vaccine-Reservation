@@ -33,7 +33,9 @@
         Last Name: <input type = "text" name = "lastName" required><br/>
         <input type = "submit" value = "sign up">
     </form>
-    <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to homepage</a>
+    <form>
+        <input type="button" value="Back to homepage" onclick="history.back()">
+    </form>
 </div>
 </body>
 </html>
