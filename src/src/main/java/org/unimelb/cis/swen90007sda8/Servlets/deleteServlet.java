@@ -1,5 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 
@@ -15,11 +17,11 @@ public class deleteServlet extends HttpServlet{
         String from = request.getParameter("from");
         String to = request.getParameter("to");
         String provider = request.getParameter("provider");
-        String identity = (String) request.getSession().getAttribute("identity");
+        Subject currentUser = SecurityUtils.getSubject();
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         try {
-            if(identity.equals("Health Care Provider")){
+            if(currentUser.hasRole("Health Care Provider")){
                 Integer timeid = TimeRangeMapper.getIdByDetail(date,from,to);
                 TimeSlotMapper.deleteTimeSlotByDetails(timeid,provider);
                 response.sendRedirect("get_timeslot");
