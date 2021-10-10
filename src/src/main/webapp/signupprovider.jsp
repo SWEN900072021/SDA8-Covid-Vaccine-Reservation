@@ -22,20 +22,21 @@
 <header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
     <h2>Add a Healthcare Provider</h2>
 </header>
-<div class="form">
-<form action = "signupprovider" method = "post">
-    Email: <input type = "text" name = "email" required><br/>
-    Password: <input type = "password" name = "passWord" required><br/>
-    Postcode: <input type = "integer" name = "postcode" required><br/>
-    Identity: <input type = "String" name = "identity" value="Health Care Provider" readonly="readonly">
-    Type of provider: <select name="typeOfProvider" required>
-                        <option value="null">-------</option>
-                        <option value="Doctor or GP">Doctor or GP</option>
-                        <option value="Hospital">Hospital</option>
-                      </select><br/>
-    Organisation Name(If you are a Health Care Provider): <input type = "text" name = "hcpName" required><br/>
-    <input type = "submit" value = "sign up">
-</form>
-</div>
+    <div class="form">
+        <form action = "signupprovider" method = "post">
+            Email: <input type = "text" name = "email" required><br/>
+            Password: <input type = "password" name = "passWord" required><br/>
+            Postcode: <input type = "integer" name = "postcode" required><br/>
+            Identity: <input type = "String" name = "identity" value="Health Care Provider" readonly="readonly">
+            Type of provider: <select name="typeOfProvider" required>
+                                <option value="null">-------</option>
+                                <option value="Doctor or GP">Doctor or GP</option>
+                                <option value="Hospital">Hospital</option>
+                              </select><br/>
+            Organisation Name(If you are a Health Care Provider): <input type = "text" name = "hcpName" required><br/>
+            <input type = "submit" value = "sign up">
+        </form>
+        <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to homepage</a>
+    </div>
 </body>
 </html>
