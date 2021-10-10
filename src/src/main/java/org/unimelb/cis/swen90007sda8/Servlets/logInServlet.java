@@ -9,7 +9,7 @@ import java.io.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-@WebServlet(name = "logInServlet", value = "/")
+@WebServlet(name = "logInServlet", value = "")
 public class logInServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        response.sendRedirect("index.jsp");
