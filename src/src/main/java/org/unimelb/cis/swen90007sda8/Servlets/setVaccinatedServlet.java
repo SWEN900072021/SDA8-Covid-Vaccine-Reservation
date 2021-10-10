@@ -1,5 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.unimelb.cis.swen90007sda8.Mappers.hcpMapper;
 
 import java.io.*;
@@ -11,9 +13,11 @@ import javax.servlet.http.*;
 public class setVaccinatedServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-        if (!request.getSession().getAttribute("identity").equals("Health Care Provider")) {
+        Subject currentUser = SecurityUtils.getSubject();
+        if (!currentUser.hasRole("Health Care Provider")) {
             PrintWriter writer = response.getWriter();
-            writer.println("You don't have permission to set vaccinated!" + request.getSession().getAttribute("identity"));
+            writer.println("You don't have permission to set vaccinated!" +
+                    "<br><a href=\"getusers.jsp\">Go Back<a>");
             return;
         }
         String email = request.getParameter("email");

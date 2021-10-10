@@ -1,5 +1,6 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
+import org.apache.shiro.subject.Subject;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.VaccineMapper;
@@ -25,7 +26,8 @@ public class addTimeSlotServlet extends HttpServlet{
         String date = request.getParameter("date");
         String from = request.getParameter("from");
         String to = request.getParameter("to");
-        String email = (String)request.getSession().getAttribute("email");
+        Subject currentUser = SecurityUtils.getSubject();
+        String email = currentUser.getPrincipals().toString();
         String provider = new hcpModel(email).getHcpName();
         String numberofshots = request.getParameter("numberofshots");
         PrintWriter writer = response.getWriter();
