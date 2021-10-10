@@ -65,7 +65,7 @@
                  %>
         </table>
         <form>
-            <input type="button" value="Back to homepage" onclick="history.back()">
+            <input type="button" value="Back to last page" onclick="history.back()">
         </form>
     </div>
 </body>
