@@ -12,6 +12,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 public interface UserInterface {
+    public static void find(String email){
+    }
     public static void getVaccinatedByEmail(String email){
     }
     public static void setVaccinatedByEmail(String email){

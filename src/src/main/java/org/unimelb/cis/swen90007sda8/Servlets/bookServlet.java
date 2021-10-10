@@ -10,13 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
+import org.apache.shiro.SecurityUtils;
 
 @SuppressWarnings("InstantiationOfUtilityClass")
 @WebServlet(name = "bookServlet", value = "/book")
 public class bookServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
-        userModel user = (userModel) request.getSession().getAttribute("user");
+        userModel user = (userModel) SecurityUtils.getSubject().getSession().getAttribute("user");
         timeSlotModel timeslot = TimeSlotMapper.find(id);
         HashMap<String, List<bookingModel>> context = new HashMap<>();
         BookingMapper bookingDB = new BookingMapper();

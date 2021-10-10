@@ -35,6 +35,29 @@ public class adminMapper implements UserInterface {
         return user;
     }
 
+    public static userModel find(String email){
+        String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "';";
+        ResultSet rs = new postgresqlConnector().connect(stmt);
+        userModel user = null;
+        try {
+            if (!rs.next()) {
+                return null;
+            } else {
+                if (rs.getString(3)=="Health Care Provider"){
+                    user = new hcpModel(email);
+                }
+                else if(rs.getString(3)=="Admin"){
+                    user = new adminModel(email);
+                }else{
+                    user = new recipientModel(email);
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     public static String isUserExisted(String email) throws SQLException {
         String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
         ResultSet rs = new postgresqlConnector().connect(stmt);

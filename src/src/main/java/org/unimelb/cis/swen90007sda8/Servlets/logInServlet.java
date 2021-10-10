@@ -14,9 +14,10 @@ public class logInServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        response.sendRedirect("index.jsp");
         response.setContentType("text/html");
-        System.out.println("Hello from GET method in logInServlet");
         response.setContentType("text/html");
         Subject currentUser = SecurityUtils.getSubject();
+        userModel user = adminMapper.find(SecurityUtils.getSubject().getPrincipals().toString());
+        SecurityUtils.getSubject().getSession().setAttribute("user", user);
         if(currentUser.hasRole("Admin")){
             response.sendRedirect("adminpage.jsp");
         }else if(currentUser.hasRole("Health Care Provider")) {
