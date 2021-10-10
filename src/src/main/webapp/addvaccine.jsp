@@ -7,17 +7,33 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<style>
+    .form {
+        font-size: 12px;
+        padding-bottom: 10px;
+        line-height: 30px;
+        text-align: center
+    }
+</style>
 <head>
     <title>Add vaccine</title>
 </head>
+
 <body>
-<form action = "add_vaccine" method = "post">
-    Vaccine name: <input type = "text" name = "vaccinename" required><br/>
-    Age-appropriate:<br/>
-    From<input type = "text" name = "from" required>
-    to<input type = "text" name = "to" required>
-    <input type = "submit" value = "Add">
-</form>
-<a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to main page</a>
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
+    <h2>Add a vaccine</h2>
+</header>
+
+<body>
+    <div class="form">
+        <form action = "add_vaccine" method = "post">
+            Vaccine name: <input type = "text" name = "vaccinename" required><br/>
+            Age-appropriate:<br/>
+            From<input type = "text" name = "from" required><br/>
+            to<input type = "text" name = "to" required><br/>
+            <input type = "submit" value = "Add">
+        </form>
+        <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to homepage</a>
+    </div>
 </body>
 </html>

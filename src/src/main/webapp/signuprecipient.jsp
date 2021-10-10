@@ -32,7 +32,8 @@
         First Name: <input type = "text" name = "firstName" required><br/>
         Last Name: <input type = "text" name = "lastName" required><br/>
         <input type = "submit" value = "sign up">
+    </form>
+    <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to homepage</a>
 </div>
-</form>
 </body>
 </html>

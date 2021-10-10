@@ -26,30 +26,32 @@
     ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
 %>
 <div style="text-align: center;">
-<table class="table">
-    <tr style="background-color: dimgrey">
-        <th>Date</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Provider</th>
-        <th>Number of shots available</th>
-    </tr>
+    <table class="table">
+        <tr style="background-color: dimgrey">
+            <th>Date</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Provider</th>
+            <th>Number of shots available</th>
+        </tr>
 
-    <%
-        for(int i = 0;i<timeslots.size();i++){
-            timeSlotModel timeslot =(timeSlotModel) timeslots.get(i);%>
-    <tr>
-        <td><%=timeslot.getTimeRange().getDate() %></td>
-        <td><%=timeslot.getTimeRange().getFrom()%></td>
-        <td><%=timeslot.getTimeRange().getTo()%></td><br>
-        <td><%=timeslot.getProvider()%></td><br>
-        <td><%=timeslot.getNumberofshots()%></td><br>
-        <td>
-            <a href="delete?date=<%=timeslot.getTimeRange().getDate()%>&from=<%=timeslot.getTimeRange().getFrom()%>&to=<%=timeslot.getTimeRange().getTo()%>
-                    &provider=<%=timeslot.getProvider()%>" οnclick= "return confirm('Are you sure about this deletion?')">Delete</a>
-        </td>
-            <% }
-  		 %>
-</table></div>
+        <%
+            for(int i = 0;i<timeslots.size();i++){
+                timeSlotModel timeslot =(timeSlotModel) timeslots.get(i);%>
+        <tr>
+            <td><%=timeslot.getTimeRange().getDate() %></td>
+            <td><%=timeslot.getTimeRange().getFrom()%></td>
+            <td><%=timeslot.getTimeRange().getTo()%></td><br>
+            <td><%=timeslot.getProvider()%></td><br>
+            <td><%=timeslot.getNumberofshots()%></td><br>
+            <td>
+                <a href="delete?date=<%=timeslot.getTimeRange().getDate()%>&from=<%=timeslot.getTimeRange().getFrom()%>&to=<%=timeslot.getTimeRange().getTo()%>
+                        &provider=<%=timeslot.getProvider()%>" οnclick= "return confirm('Are you sure about this deletion?')">Delete</a>
+            </td>
+                <% }
+             %>
+    </table>
+    <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to homepage</a>
+</div>
 </body>
 </html>
