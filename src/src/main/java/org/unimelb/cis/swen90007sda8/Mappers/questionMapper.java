@@ -6,7 +6,9 @@ import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class questionMapper {
     public static List<questionModel> getQuestions (){
@@ -49,6 +51,22 @@ public class questionMapper {
             while (rs.next()) {
                 String vname = rs.getString("vaccinename");
                 result.add(vname);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        Set<String> set = new HashSet<String>();
+        set.addAll(result);
+        result = new ArrayList<>();
+        result.addAll(set);
+        stmt = "SELECT vaccinename From questions Left JOIN user_answers_question on " +
+                "questions.id=user_answers_question.questionid WHERE desiredanswer != answer AND " +
+                "userid ='"+ email +"';";
+        rs = new postgresqlConnector().connect(stmt);
+        try {
+            while (rs.next()) {
+                String vname = rs.getString("vaccinename");
+                result.remove(vname);
             }
         }catch(Exception e){
             e.printStackTrace();
