@@ -26,7 +26,10 @@
     <a href="add_timeslot">Add new time slot </a></br>
     <a href="get_timeslot">See all time slots </a></br>
     <a href="get_user">See all users </a></br>
-    <a href="signout">Sign out </a></br>
+    <form id="logout_form" name="logout_form"
+          action="${pageContext.request.contextPath}/logout" method="post">
+        <input type="submit" value="Logout"></br>
+    </form>
 </div>
 </body>
 </html>

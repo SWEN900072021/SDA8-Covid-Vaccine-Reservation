@@ -1,5 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.unimelb.cis.swen90007sda8.Mappers.*;
 import org.unimelb.cis.swen90007sda8.Models.userModel;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
@@ -13,29 +15,31 @@ import javax.servlet.http.*;
 @WebServlet(name = "getUserServlet", value = "/get_user")
 public class getUserServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String identity = (String) request.getSession().getAttribute("identity");
+        String identity = ((userModel) SecurityUtils.getSubject().getSession().getAttribute("user")).getIdentity();
         String vaccinated = request.getParameter("vaccinated");
+        Subject currentUser = SecurityUtils.getSubject();
         List<userModel> users = adminMapper.findWithVaccinated(vaccinated, identity);
         List<vaccineModel> vaccines = VaccineMapper.getVaccines();
         request.setAttribute("vaccines", vaccines);
         request.setAttribute("users", users);
         request.setAttribute("viewing", "All users");
-        if(request.getSession().getAttribute("identity").equals("Admin")){
+        if(currentUser.hasRole("Admin")){
             request.getRequestDispatcher("getplainusers.jsp").forward(request,response);
-        }else if(request.getSession().getAttribute("identity").equals("Health Care Provider")){
+        }else if(currentUser.hasRole("Health Care Provider")){
             request.getRequestDispatcher("getusers.jsp").forward(request,response);
         }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        vaccineModel vaccineName = (vaccineModel) request.getSession().getAttribute("vname");
+        vaccineModel vaccineName = new vaccineModel(request.getParameter("vname"));
         List<userModel> users = adminMapper.findWithVaccineName(vaccineName);
         List<vaccineModel> vaccines = VaccineMapper.getVaccines();
+        Subject currentUser = SecurityUtils.getSubject();
         request.setAttribute("vaccines", vaccines);
         request.setAttribute("users", users);
-        request.setAttribute("viewing", vaccineName);
-        if(request.getSession().getAttribute("identity").equals("Admin")){
+        request.setAttribute("viewing", vaccineName.getName());
+        if(currentUser.hasRole("Admin")){
             request.getRequestDispatcher("getplainusers.jsp").forward(request,response);
-        }else if(request.getSession().getAttribute("identity").equals("Health Care Provider")){
+        }else if(currentUser.hasRole("Health Care Provider")){
             request.getRequestDispatcher("getusers.jsp").forward(request,response);
         }
     }

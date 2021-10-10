@@ -28,7 +28,10 @@
     <a href="signupprovider.jsp">Create new provider account </a></br>
     <a href="get_timeslot">View all time slots </a></br>
     <a href="get_user">View all users </a></br>
-    <a href="signout">Sign out </a></br>
+    <form id="logout_form" name="logout_form"
+          action="${pageContext.request.contextPath}/logout" method="post">
+        <input type="submit" value="Logout"></br>
+    </form>
 </div>
 </body>
 </html>

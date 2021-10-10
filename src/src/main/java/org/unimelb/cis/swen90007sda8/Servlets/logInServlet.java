@@ -14,7 +14,6 @@ public class logInServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        response.sendRedirect("index.jsp");
         response.setContentType("text/html");
-        response.setContentType("text/html");
         Subject currentUser = SecurityUtils.getSubject();
         userModel user = adminMapper.find(SecurityUtils.getSubject().getPrincipals().toString());
         SecurityUtils.getSubject().getSession().setAttribute("user", user);

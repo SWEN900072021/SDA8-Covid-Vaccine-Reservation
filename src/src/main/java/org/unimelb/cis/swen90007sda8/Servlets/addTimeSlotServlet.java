@@ -5,6 +5,7 @@ import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.VaccineMapper;
 import org.unimelb.cis.swen90007sda8.Models.hcpModel;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
+import org.apache.shiro.SecurityUtils;
 
 import java.io.*;
 import java.util.List;
@@ -15,15 +16,9 @@ import javax.servlet.http.*;
 @WebServlet(name = "addTimeSlotServlet", value = "/add_timeslot")
 public class addTimeSlotServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if(request.getSession().getAttribute("identity").equals("Health Care Provider")){
-            List<vaccineModel> vaccines = VaccineMapper.getVaccines();
-            request.setAttribute("vaccines", vaccines);
-            request.getRequestDispatcher("addtimeslot.jsp").forward(request,response);
-        } else{
-            response.setContentType("text/html");
-            PrintWriter writer = response.getWriter();
-            writer.println("<h3> You don't have permission!" + request.getSession().getAttribute("identity"));
-        }
+        List<vaccineModel> vaccines = VaccineMapper.getVaccines();
+        request.setAttribute("vaccines", vaccines);
+        request.getRequestDispatcher("addtimeslot.jsp").forward(request,response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html");

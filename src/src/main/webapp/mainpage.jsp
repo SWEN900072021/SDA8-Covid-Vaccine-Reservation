@@ -26,7 +26,11 @@
 <div class="link">
     <a href="bookvaccination">View all timeslots and book a vaccination </a></br>
     <a href="showcertification">Show proof of vaccination </a></br>
-    <a href="signout">Sign out </a></br>
+<%--    <a href="logout">Sign out </a></br>--%>
+    <form id="logout_form" name="logout_form"
+          action="${pageContext.request.contextPath}/logout" method="post">
+        <input type="submit" value="Logout"></br>
+    </form>
 </div>
 </body>
 </html>

@@ -33,7 +33,7 @@
     <%
         for(int i = 0;i<vaccines.size();i++){
             vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
-    <option value=<%=vaccine %>><%=vaccine.getName() %></option>
+    <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
     <% }%>
 </select><br/>
     <input type = "submit" value = "View">

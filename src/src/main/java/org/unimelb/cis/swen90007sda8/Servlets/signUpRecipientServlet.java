@@ -14,7 +14,6 @@ public class signUpRecipientServlet extends HttpServlet{
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html");
-        System.out.println("Hello from GET method in signupServlet");
         String user = request.getParameter("email");
         String pass = request.getParameter("passWord");
         String date = request.getParameter("dateOfBirth");

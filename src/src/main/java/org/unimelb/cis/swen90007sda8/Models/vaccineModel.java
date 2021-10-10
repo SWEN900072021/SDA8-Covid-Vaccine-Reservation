@@ -11,9 +11,12 @@ public class vaccineModel {
         this.toAge = toAge;
     }
 
-    public vaccineModel() {
+    public vaccineModel(String name) {
+        this.name = name;
     }
 
+    public vaccineModel() {
+    }
     public String getName() {
         return name;
     }
