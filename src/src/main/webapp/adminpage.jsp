@@ -24,6 +24,7 @@
 </header>
 <div class="link">
     <a href="add_vaccine">Add new vaccine type </a></br>
+    <a href="add_question">Add a new question </a></br>
     <a href="signuprecipient.jsp">Create new recipient account </a></br>
     <a href="signupprovider.jsp">Create new provider account </a></br>
     <a href="get_timeslot">View all time slots </a></br>

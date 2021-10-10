@@ -35,6 +35,12 @@ public class adminMapper implements UserInterface {
         return user;
     }
 
+    public static void insertQuestion(String vname, String body, Boolean answer){
+        String stmt = "INSERT INTO questions(vaccinename, question, desiredanswer) " +
+                "VALUES('"+vname+"','"+body+"',"+answer+");";
+        new postgresqlConnector().connect(stmt);
+    }
+
     public static userModel find(String email){
         String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "';";
         ResultSet rs = new postgresqlConnector().connect(stmt);
