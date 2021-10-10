@@ -11,7 +11,7 @@
 </header>
 <br/>
 <form style="text-align: center" action = "login" method = "post">
-    User name: <input 20px" type = "text" name = "email" required><br/>
+    User name: <input  type = "text" name = "email" required><br/>
     <div style="padding-bottom: 20px"></div>
     Password: <input type = "password" name = "passWord" required><br/>
     <div style="padding-bottom: 20px"></div>

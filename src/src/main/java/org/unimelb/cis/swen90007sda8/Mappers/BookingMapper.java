@@ -29,12 +29,18 @@ public class BookingMapper {
                 stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>1;";
             }else{stmt = "UPDATE timeslots SET numberofshots = numberofshots + 1 WHERE id ="+ oldBooking+";";
                 conn.connect(stmt);
-                stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>1;";
-                conn.connect(stmt);
                 stmt = "DELETE FROM bookings WHERE timeslotid ="+oldBooking+" AND email='"+booking.getUser().getEmail()+"';";
+                conn.connect(stmt);
+                stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>1;";
             }
-        conn.connect(stmt);
-        stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUser().getEmail()+"'"+','+booking.getTimeSlot().getId()+','+"'"+booking.getTimeSlot().getVaccine().getName()+"'"+");";
-            conn.connect(stmt);
+        rs = conn.connect(stmt);
+        try{
+            if(rs.next()){
+                stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUser().getEmail()+"'"+','+booking.getTimeSlot().getId()+','+"'"+booking.getTimeSlot().getVaccine().getName()+"'"+");";
+                conn.connect(stmt);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
