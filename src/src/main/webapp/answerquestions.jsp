@@ -16,25 +16,17 @@
 <%
     ArrayList questions = (ArrayList) request.getAttribute("questions");
 %>
-<table class="table" style="padding-left: 10px">
-    <tr style="background-color: dimgrey">
-        <th>Question ID</th>
-        <th>Question Body</th>
-    </tr>
+<form action="answer_question" method="post" >
 
     <%
         for(int i = 0;i<questions.size();i++){
             questionModel question =(questionModel) questions.get(i);%>
-    <tr>
-        <td><%=question.getQuestions() %></br>
-            <input name="answer" type="radio" value="true" checked="checked">True
-            <input name="answer" type="radio" value="false">False
-        </td>
-
-    </tr>
+        Question<%=question.getId()%>: <%=question.getQuestions()%>
+            <input name=<%=question.getId()%> type="radio" value="true" checked="checked">True
+    <input name=<%=question.getId()%> type="radio" value="false">False</br>
     <% }
-    %>
-
-</table>
+    %></br>
+    <input type = "submit" value = "Submit">
+</form>
 </body>
 </html>

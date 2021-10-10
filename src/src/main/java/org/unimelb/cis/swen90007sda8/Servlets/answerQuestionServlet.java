@@ -23,5 +23,16 @@ public class answerQuestionServlet extends HttpServlet {
         request.getRequestDispatcher("answerquestions.jsp").forward(request,response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        List<questionModel> questions = questionMapper.getQuestions();
+        String email = SecurityUtils.getSubject().getPrincipals().toString();
+        questionMapper.clearOldAnswer(email);
+        for(questionModel question:questions){
+            Integer questionID = question.getId();
+            String answer = request.getParameter(question.getId().toString());
+            questionMapper.insertNewAnswer(email,questionID,Boolean.parseBoolean(answer));
+        }
+        List<String> suitableVaccines =  questionMapper.getSuitableVaccines(email);
+        request.setAttribute("suitableVaccines", suitableVaccines);
+        request.getRequestDispatcher("/bookvaccination").forward(request,response);
     }
 }

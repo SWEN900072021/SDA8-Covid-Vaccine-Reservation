@@ -24,7 +24,7 @@
 </header>
 <body>
 <div class="link">
-    <a href="bookvaccination">View all timeslots and book a vaccination </a></br>
+    <a href="answer_question">View all timeslots and book a vaccination </a></br>
     <a href="showcertification">Show proof of vaccination </a></br>
 <%--    <a href="logout">Sign out </a></br>--%>
     <form id="logout_form" name="logout_form"

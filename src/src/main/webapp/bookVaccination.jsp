@@ -25,7 +25,11 @@
     </header>
     <%
         ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
+        ArrayList suitableVaccines = (ArrayList) request.getAttribute("suitableVaccines");
     %>
+    <div style="text-align: center; padding-top: 10px;background-color: khaki">
+        Your suitable vaccine type: <%=suitableVaccines %>
+    </div>
     <div style="text-align: center; padding-top: 10px">
         <form action = "bookvaccination" method = "post">
             Filter by Postcode: <input type = "text" name = "postcode" required><br/>
