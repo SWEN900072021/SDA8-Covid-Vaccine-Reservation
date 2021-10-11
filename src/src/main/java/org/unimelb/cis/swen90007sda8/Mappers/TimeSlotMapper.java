@@ -1,6 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 import org.unimelb.cis.swen90007sda8.Models.timeSlotModel;
 import org.unimelb.cis.swen90007sda8.Models.timeRange;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
@@ -17,8 +18,10 @@ import java.util.List;
 public class TimeSlotMapper {
     public static void insertTimeSlot (Integer timeid, String provider, String numberofshots,
                                        vaccineModel vaccinename) {
+        lockManager.getInstance().acquireLock("timeRange "+timeid, Thread.currentThread().getName());
         String stmt = "INSERT INTO timeslots(timerange, provider, numberofshots, vaccineName) VALUES (" +timeid+','+"'"+provider+"', "+numberofshots+", '"+vaccinename.getName()+ "');";
         new postgresqlConnector().connect(stmt);
+        lockManager.getInstance().releaseLock("timeRange "+timeid, Thread.currentThread().getName());
     }
     public static timeSlotModel find (Integer id) {
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename, toage, fromage From (SELECT * FROM timeslots " +
@@ -61,12 +64,21 @@ public class TimeSlotMapper {
     public static void deleteTimeSlotByDetails(Integer timeid, String provider) throws SQLException {
         Integer slotId = getIdByDetails(timeid, provider);
         postgresqlConnector conn = new postgresqlConnector();
+
+        lockManager.getInstance().acquireLock("booking "+timeid, Thread.currentThread().getName());
+        lockManager.getInstance().acquireLock("timeSlot "+timeid, Thread.currentThread().getName());
+        lockManager.getInstance().acquireLock("timeRange "+timeid, Thread.currentThread().getName());
+
         String stmt = "Delete FROM bookings where timeslotid =" + slotId+";";
         conn.connect(stmt);
         stmt = "Delete FROM timeslots where id =" + slotId+";";
         conn.connect(stmt);
         stmt = "Delete FROM timerange where timeid =" + timeid+";";
         conn.connect(stmt);
+
+        lockManager.getInstance().releaseLock("booking "+timeid, Thread.currentThread().getName());
+        lockManager.getInstance().releaseLock("timeSlot "+timeid, Thread.currentThread().getName());
+        lockManager.getInstance().releaseLock("timeRange "+timeid, Thread.currentThread().getName());
     }
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();

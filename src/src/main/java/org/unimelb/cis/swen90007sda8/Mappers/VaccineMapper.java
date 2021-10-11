@@ -1,6 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
 
 import java.sql.ResultSet;
@@ -13,8 +14,10 @@ public class VaccineMapper {
         int fromAge = Integer.parseInt(from);
         int toAge = Integer.parseInt(to);
         if(toAge>=fromAge){
+            lockManager.getInstance().acquireLock("vaccines", Thread.currentThread().getName());
             String stmt = "INSERT INTO vaccines(name, fromAge, toAge) VALUES (" +"'"+name+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
             new postgresqlConnector().connect(stmt);
+            lockManager.getInstance().releaseLock("vaccines", Thread.currentThread().getName());
         }else{
             result = false;
         }

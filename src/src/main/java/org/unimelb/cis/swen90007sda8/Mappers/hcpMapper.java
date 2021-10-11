@@ -1,6 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 
 import java.sql.ResultSet;
 import java.util.Dictionary;
@@ -9,12 +10,16 @@ import java.util.Hashtable;
 public class hcpMapper implements UserInterface {
 
     public static void setVaccinatedByEmail(String email){
+        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String s = "UPDATE  users  SET vaccinated = True WHERE email ="+"'"+ email+"';";
         new postgresqlConnector().connect(s);
+        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
     }
     public static void setNotVaccinatedByEmail(String email){
+        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String s = "UPDATE  users  SET vaccinated = False WHERE email ="+"'"+ email+"';";
         new postgresqlConnector().connect(s);
+        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
     }
 
     public static Dictionary<Object, Object> findUserByEmail(String email){

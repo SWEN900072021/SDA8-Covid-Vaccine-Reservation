@@ -1,15 +1,38 @@
 package org.unimelb.cis.swen90007sda8.LockManager;
 
-import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 public class lockManager {
-    public static void lock(String tableName){
-        postgresqlConnector conn = new postgresqlConnector();
-        String stmt = "Begin work;LOCK TABLE "+ tableName+" IN ACCESS EXCLUSIVE MODE;";
-        conn.connect(stmt);
+
+    private static lockManager instance;
+
+    private ConcurrentMap<String, String> lockMap;
+
+    public static synchronized lockManager getInstance() {
+        if(instance == null) {
+            instance = new lockManager();
+        }
+        return instance;
     }
-    public static void unlock(){
-        postgresqlConnector conn = new postgresqlConnector();
-        String stmt = "Commit work;";
-        conn.connect(stmt);
+
+    private lockManager() {
+        lockMap = new ConcurrentHashMap<String, String>();
+    }
+
+    public synchronized void acquireLock(String lockable, String owner) {
+        while(lockMap.containsKey(lockable)) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        lockMap.put(lockable, owner);
+    }
+
+    public synchronized void releaseLock(String lockable, String owner) {
+        lockMap.remove(lockable);
+        notifyAll();
     }
 }

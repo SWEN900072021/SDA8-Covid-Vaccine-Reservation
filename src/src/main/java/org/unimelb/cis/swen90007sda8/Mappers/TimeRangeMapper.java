@@ -1,6 +1,7 @@
 package org.unimelb.cis.swen90007sda8.Mappers;
 
 import org.unimelb.cis.swen90007sda8.DBConnector.postgresqlConnector;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,9 +13,11 @@ public class TimeRangeMapper {
         LocalTime fromTime = LocalTime.parse(from);
         LocalTime toTime = LocalTime.parse(to);
         if(toTime.compareTo(fromTime)>0){
+            lockManager.getInstance().acquireLock("timeRange", Thread.currentThread().getName());
             String stmt = "INSERT INTO timerange(date, fromTime, toTime) VALUES (" +"'"+date+"'"+','+"'"+from+"'"
                     +','+"'"+to+ "');";
             new postgresqlConnector().connect(stmt);
+            lockManager.getInstance().releaseLock("timeRange", Thread.currentThread().getName());
             stmt = "SELECT timeid from timerange WHERE date = "+"'"+date+"'"+" AND"+" fromTime ="+"'"+from+"'"
                     +" AND "+"toTime="+"'"+to+ "';";
             ResultSet rs = new postgresqlConnector().connect(stmt);
