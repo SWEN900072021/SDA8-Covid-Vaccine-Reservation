@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>JSP - Hello World</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 <p>
@@ -14,17 +15,31 @@
         }
     %>
 </p >
-<header style="text-align: center; background-color: lightpink" >
-    <h1><%= "COVID-19 Booking System" %></h1>
-    <h2>Group SDA8</h2>
-</header>
+
 <br/>
-<form style="text-align: center" name = "loginform" action = "" method = "post">
-    User name: <input  type = "text" name = "username" required><br/>
-    <div style="padding-bottom: 20px"></div>
-    Password: <input type = "password" name = "password" required><br/>
-    <div style="padding-bottom: 20px"></div>
-    <input type = "submit" name = "submit" value = "Login">
-</form></br>
+<div class="wrapper">
+    <div class="container">
+        <h1><%= "COVID-19 Booking System" %></h1>
+        <h2>Group SDA8</h2>
+        <form class="form" name = "loginform" action = "" method = "post">
+            <input  type = "text" placeholder="Username" name = "username" required><br/>
+            <input type = "password" placeholder="Password" name = "password" required><br/>
+            <input type = "submit" name = "submit" value = "Login">
+        </form>
+    </div>
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./css/script.js"></script>
 </body>
 </html>
