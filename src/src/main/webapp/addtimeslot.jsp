@@ -21,7 +21,7 @@
     <title>Add timeslot</title>
 </head>
 <body>
-<header style="padding-top: 10px; padding-bottom: 10px;">
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
     <h2>Add a timeslot</h2>
 </header>
 <div class="form">
@@ -29,47 +29,22 @@
         ArrayList vaccines = (ArrayList) request.getAttribute("vaccines");
     %>
     <form action = "add_timeslot" method = "post">
-        <table cellpadding="5">
-            <tr>
-                <td>Date: </td>
-                <td><input type = "date" name = "date" required></td>
-            </tr>
-            <tr>
-                <td>From:</td>
-                <td><input type = "time" name = "from" required></td>
-            </tr>
-            <tr>
-                <td>to</td>
-                <td>
-                    <input type = "time" name = "to" required>
-            </tr>
-            <tr>
-                <td>Number of shots available:</td>
-                <td><input type = "int" name = "numberofshots" required></td>
-            </tr>
-            <tr>
-                <td> Vaccine Name:</td>
-                <td>
-                    <select name="vname1" required>
-                        <%
-                            for(int i = 0;i<vaccines.size();i++){
-                                vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
-                        <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
-                        <% }%>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input iconCls="icon-save" toggle type = "submit" value = "Add">
-                </td>
-            </tr>
-        </table>
-
+        Date: <input type = "date" name = "date" required><br/>
+        From<input type = "time" name = "from" required>
+        to<input type = "time" name = "to" required><br/>
+        Number of shots available <input type = "int" name = "numberofshots" required>
+        Vaccine Name: <select name="vname1" required>
+                            <%
+                                for(int i = 0;i<vaccines.size();i++){
+                                    vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
+                                    <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
+                            <% }%>
+                      </select><br/>
+        <input type = "submit" value = "Add">
     </form>
-<%--    <form>--%>
-<%--        <input type="button" value="Back to homepage" onclick="history.back()">--%>
-<%--    </form>--%>
+    <form>
+        <input type="button" value="Back to homepage" onclick="history.back()">
+    </form>
 </div>
 </body>
 </html>

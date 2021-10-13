@@ -15,34 +15,12 @@
         margin-left: auto;
         margin-right: auto;
     }
-    table.gridtable {
-        font-family: verdana,arial,sans-serif;
-        font-size:11px;
-        color:#333333;
-        border-width: 1px;
-        border-color: #666666;
-        border-collapse: collapse;
-    }
-    table.gridtable th {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #dedede;
-    }
-    table.gridtable td {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #ffffff;
-    }
 </style>
 <head>
     <title>Users</title>
 </head>
 <body>
-    <header style="padding-top: 10px; padding-bottom: 10px;>
+    <header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
         <h2>View all System users</h2>
     </header>
     <%
@@ -50,7 +28,7 @@
         ArrayList vaccines = (ArrayList) request.getAttribute("vaccines");
     %>
 
-    <div>
+    <div style="text-align: center;">
         <a href="get_user" οnclick= "return confirm('Are you sure about this deletion?')">Show All users</a><br>
         <form action = "get_user" method = "post">
             Vaccine User plan to inject: <select name="vname" required>
@@ -63,13 +41,13 @@
             <input type = "submit" value = "View">
         </form>
         <p>Now viewing <%=(String)request.getAttribute("viewing") %>
-        <table class="gridtable">
-            <tr>
+        <table class="table">
+            <tr style="background-color: dimgrey">
                 <th>email</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Identity</th>
-                <th>Vaccinated</th>
+                <th>|First name</th>
+                <th>|Last name</th>
+                <th>|Identity</th>
+                <th>|Vaccinated</th>
             </tr>
 
             <%
@@ -84,9 +62,9 @@
                     <% }
                  %>
         </table>
-<%--        <form>--%>
-<%--            <input type="button" value="Back to last page" onclick="history.back()">--%>
-<%--        </form>--%>
+        <form>
+            <input type="button" value="Back to last page" onclick="history.back()">
+        </form>
     </div>
 </body>
 </html>

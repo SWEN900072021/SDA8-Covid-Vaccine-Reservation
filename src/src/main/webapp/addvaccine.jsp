@@ -20,32 +20,21 @@
 </head>
 
 <body>
-<header style="padding-top: 10px; padding-bottom: 10px; ">
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
     <h2>Add a vaccine</h2>
 </header>
+
+<body>
     <div class="form">
         <form action = "add_vaccine" method = "post">
-            <table cellpadding="5">
-                <tr>
-                    <td>Vaccine name:</td>
-                    <td><input class="easyui-textbox" type="text" name = "vaccinename" required data-options="required:true"></input></td>
-                </tr>
-                <tr>
-                    <td>From:</td>
-                    <td><input class="easyui-textbox" type="text" name = "from" required data-options="required:true"></input></td>
-                </tr>
-                <tr>
-                    <td>to:</td>
-                    <td><input class="easyui-textbox" type="text" name = "to" required data-options="required:true"></input></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input iconCls="icon-save" toggle type = "submit" value = "Add">
-                    </td>
-                </tr>
-                </table>
-
-
+            Vaccine name: <input type = "text" name = "vaccinename" required><br/>
+            Age-appropriate:<br/>
+            From<input type = "text" name = "from" required><br/>
+            to<input type = "text" name = "to" required><br/>
+            <input type = "submit" value = "Add">
+        </form>
+        <form>
+            <input type="button" value="Back to homepage" onclick="history.back()">
         </form>
     </div>
 </body>

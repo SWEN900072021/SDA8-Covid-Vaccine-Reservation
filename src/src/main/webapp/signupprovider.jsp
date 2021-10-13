@@ -19,46 +19,25 @@
     <title>Sign up A Health Care Provider</title>
 </head>
 <body>
-<header style="padding-top: 10px; padding-bottom: 10px;">
+<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
     <h2>Add a Healthcare Provider</h2>
 </header>
     <div class="form">
         <form action = "signupprovider" method = "post">
-            <table cellpadding="5">
-                <tr>
-                    <td>Email:</td>
-                    <td><input class="easyui-textbox" type = "text" name = "email" required></td>
-                </tr>
-                <tr>
-                    <td> Password:</td>
-                    <td><input class="easyui-textbox" type="password" name = "passWord" required data-options="required:true"></input></td>
-                </tr>
-                <tr>
-                    <td>Postcode:</td>
-                    <td><input class="easyui-textbox" type="text" name = "postcode" required data-options="required:true"></input></td>
-                </tr>
-                <tr>
-                    <td>Identity:</td>
-                    <td><input class="easyui-textbox" value="Health Care Provider" readonly="readonly" type="text" name = "identity" required data-options="required:true"></input></td>
-                </tr>
-                <tr>
-                    <td> Type of provider: </td>
-                    <td><select name="typeOfProvider" required>
-                        <option value="null">-------</option>
-                        <option value="Doctor or GP">Doctor or GP</option>
-                        <option value="Hospital">Hospital</option>
-                    </select></td>
-                <tr>
-                <tr>
-                    <td>Organisation Name(If you are a Health Care Provider): </td>
-                    <td> <input type = "text" name = "hcpName" required></td>
-                </tr>
-                <td>
-                    <input iconCls="icon-save" toggle type = "submit" value = "sign up">
-                </td>
-                </tr>
-            </table>
-
+            Email: <input type = "text" name = "email" required><br/>
+            Password: <input type = "password" name = "passWord" required><br/>
+            Postcode: <input type = "integer" name = "postcode" required><br/>
+            Identity: <input type = "String" name = "identity" value="Health Care Provider" readonly="readonly">
+            Type of provider: <select name="typeOfProvider" required>
+                                <option value="null">-------</option>
+                                <option value="Doctor or GP">Doctor or GP</option>
+                                <option value="Hospital">Hospital</option>
+                              </select><br/>
+            Organisation Name(If you are a Health Care Provider): <input type = "text" name = "hcpName" required><br/>
+            <input type = "submit" value = "sign up">
+        </form>
+        <form>
+            <input type="button" value="Back to homepage" onclick="history.back()">
         </form>
     </div>
 </body>
