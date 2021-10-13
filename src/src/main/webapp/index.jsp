@@ -6,26 +6,25 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-<p>
-    <%
-        if (request.getAttribute("shiroLoginFailure")!=null) {
-    %>
-    Username or password incorrect
-    <%
-        }
-    %>
-</p >
 
-<br/>
 <div class="wrapper">
     <div class="container">
         <h1><%= "COVID-19 Booking System" %></h1>
         <h2>Group SDA8</h2>
         <form class="form" name = "loginform" action = "" method = "post">
-            <input  type = "text" placeholder="Username" name = "username" required><br/>
-            <input type = "password" placeholder="Password" name = "password" required><br/>
-            <input type = "submit" name = "submit" value = "Login">
+            <input  type = "text" placeholder="Username" name = "username" required>
+            <input type = "password" placeholder="Password" name = "password" required>
+            <button type = "submit" name = "submit" value = "Login">Login</button>
         </form>
+        <p style="font-family:monospace;color:#e54d4d;">
+            <%
+                if (request.getAttribute("shiroLoginFailure")!=null) {
+            %>
+            Username or password incorrect
+            <%
+                }
+            %>
+        </p >
     </div>
     <ul class="bg-bubbles">
         <li></li>
