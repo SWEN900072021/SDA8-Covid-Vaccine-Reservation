@@ -21,7 +21,7 @@
     <title>Add questions</title>
 </head>
 <body>
-<header style="background-color: darksalmon; padding-top: 10px; padding-bottom: 10px; text-align: center">
+<header style="padding-top: 10px; padding-bottom: 10px;">
     <h2>Add a question</h2>
 </header>
 <div class="form">
@@ -29,19 +29,35 @@
         ArrayList vaccines = (ArrayList) request.getAttribute("vaccines");
     %>
     <form action = "add_question" method = "post">
-        Vaccine Name: <select name="vname1" required>
-                            <%
-                                for(int i = 0;i<vaccines.size();i++){
-                                    vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
-                            <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
-                            <% }%>
-                     </select><br/>
-        Question body: <input type = "text" name = "questionBody" required><br/>
-        Desired Answer: <input name="answer" type="radio" value="true" checked="checked">True
-                        <input name="answer" type="radio" value="false">False
-        <input type = "submit" value = "Add">
+        <table cellpadding="5">
+            <tr>
+                <td>Vaccine Name:</td>
+                <td><select name="vname1" required>
+                    <%
+                        for(int i = 0;i<vaccines.size();i++){
+                            vaccineModel vaccine =(vaccineModel) vaccines.get(i);%>
+                    <option value=<%=vaccine.getName() %>><%=vaccine.getName() %></option>
+                    <% }%>
+                </select></td>
+            </tr>
+            <tr>
+                <td>Question body:</td>
+                <td><input class="easyui-textbox" type="text" name = "questionBody" required data-options="required:true"></input></td>
+            </tr>
+            <tr>
+                <td> Desired Answer:</td>
+                <td>
+                    <input  class="easyui-textbox" name="answer" type="radio" value="true" checked="checked">True
+                    <input name="answer" type="radio" value="false">False
+            </tr>
+            <tr>
+                <td>
+                    <input iconCls="icon-save" toggle type = "submit" value = "Add">
+                </td>
+            </tr>
+        </table>
     </form>>
-    <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to admin page</a>
+<%--    <a href="adminpage.jsp" οnclick= "return confirm('Are you sure about this deletion?')">Go back to admin page</a>--%>
 </div>
 </body>
 </html>
