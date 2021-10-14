@@ -42,7 +42,7 @@
     <title>Users</title>
 </head>
 <body>
-    <header style="padding-top: 10px; padding-bottom: 10px;>
+    <header style="padding-top: 10px; padding-bottom: 10px;">
         <h2>View all System users</h2>
     </header>
     <%
@@ -51,7 +51,6 @@
     %>
 
     <div>
-        <a href="get_user" οnclick= "return confirm('Are you sure about this deletion?')">Show All users</a><br>
         <form action = "get_user" method = "post">
             Vaccine User plan to inject: <select name="vname" required>
             <%
@@ -62,6 +61,7 @@
         </select><br/>
             <input type = "submit" value = "View">
         </form>
+        <button href="get_user">Show All users</button><br>
         <p>Now viewing <%=(String)request.getAttribute("viewing") %>
         <table class="gridtable">
             <tr>
