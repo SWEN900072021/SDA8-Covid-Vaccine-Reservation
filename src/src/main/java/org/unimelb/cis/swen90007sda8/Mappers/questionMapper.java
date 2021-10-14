@@ -32,18 +32,14 @@ public class questionMapper {
     }
 
     public static void clearOldAnswer(String email){
-        lockManager.getInstance().acquireLock("question "+email, Thread.currentThread().getName());
         String stmt = "DELETE FROM user_answers_question WHERE userid ='"+email+"';";
         new postgresqlConnector().connect(stmt);
-        lockManager.getInstance().releaseLock("question "+email, Thread.currentThread().getName());
     }
 
     public static void insertNewAnswer(String email, Integer qid, Boolean answer){
-        lockManager.getInstance().acquireLock("question "+email, Thread.currentThread().getName());
         String stmt = "INSERT INTO user_answers_question(userid,questionid,answer) VALUES('" +
                 email+"',"+qid+","+answer+");";
         new postgresqlConnector().connect(stmt);
-        lockManager.getInstance().releaseLock("question "+email, Thread.currentThread().getName());
     }
 
     public static List<String> getSuitableVaccines(String email){
