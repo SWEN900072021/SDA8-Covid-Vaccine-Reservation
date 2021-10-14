@@ -15,7 +15,7 @@ public class VaccineMapper {
         int toAge = Integer.parseInt(to);
         if(toAge>=fromAge){
             String stmt = "INSERT INTO vaccines(name, fromAge, toAge) VALUES (" +"'"+name+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
-            new postgresqlConnector().connect(stmt);
+            postgresqlConnector.getInstance().connect(stmt);
         }else{
             result = false;
         }
@@ -24,7 +24,7 @@ public class VaccineMapper {
     public static List<vaccineModel> getVaccines() {
         List<vaccineModel> result = new ArrayList<>();
         String stmt = "SELECT name, fromage, toage FROM vaccines;";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             while (rs.next()) {
                 vaccineModel vaccine = new vaccineModel();
@@ -41,7 +41,7 @@ public class VaccineMapper {
 
     public static vaccineModel find(String vname) {
         String stmt = "SELECT name, fromage, toage FROM vaccines WHERE name='"+ vname +"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         vaccineModel vaccine = new vaccineModel();
         try {
             while (rs.next()) {

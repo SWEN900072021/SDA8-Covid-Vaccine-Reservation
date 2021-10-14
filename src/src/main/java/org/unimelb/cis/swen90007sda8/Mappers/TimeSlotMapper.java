@@ -20,7 +20,7 @@ public class TimeSlotMapper {
                                        vaccineModel vaccinename) {
         lockManager.getInstance().acquireLock("timeRange "+timeid, Thread.currentThread().getName());
         String stmt = "INSERT INTO timeslots(timerange, provider, numberofshots, vaccineName) VALUES (" +timeid+','+"'"+provider+"', "+numberofshots+", '"+vaccinename.getName()+ "');";
-        new postgresqlConnector().connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
         lockManager.getInstance().releaseLock("timeRange "+timeid, Thread.currentThread().getName());
     }
     public static timeSlotModel find (Integer id) {
@@ -29,7 +29,7 @@ public class TimeSlotMapper {
                 "LEFT JOIN vaccines ON timeslots.vaccinename = vaccines.name " +
                 "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE id='"+id+"' " +
                 "ORDER BY date ASC;";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         timeSlotModel timeSlot = new timeSlotModel();
         try{
             while (rs.next()) {
@@ -57,23 +57,22 @@ public class TimeSlotMapper {
 
     public static Integer getIdByDetails(Integer timeid, String provider) throws SQLException {
         String stmt = "SELECT id FROM timeslots where timerange =" + timeid + " And"+ " provider = '"+provider+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         rs.next();
         return rs.getInt(1);
     }
     public static void deleteTimeSlotByDetails(Integer timeid, String provider) throws SQLException {
         Integer slotId = getIdByDetails(timeid, provider);
-        postgresqlConnector conn = new postgresqlConnector();
 
         lockManager.getInstance().acquireLock("booking "+timeid, Thread.currentThread().getName());
         lockManager.getInstance().acquireLock("timeSlot "+timeid, Thread.currentThread().getName());
 
         String stmt = "Delete FROM bookings where timeslotid =" + slotId+";";
-        conn.connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
         stmt = "Delete FROM timeslots where id =" + slotId+";";
-        conn.connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
         stmt = "Delete FROM timerange where timeid =" + timeid+";";
-        conn.connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
 
         lockManager.getInstance().releaseLock("booking "+timeid, Thread.currentThread().getName());
         lockManager.getInstance().releaseLock("timeSlot "+timeid, Thread.currentThread().getName());
@@ -82,7 +81,7 @@ public class TimeSlotMapper {
         List<timeSlotModel> timeslots = new ArrayList<>();
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename From (SELECT * FROM timeslots " +
                 "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date ASC;";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
@@ -112,7 +111,7 @@ public class TimeSlotMapper {
                 "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE postcode = '"+ postcode+"' " +
                 "ORDER BY date ASC;";
         List<timeSlotModel> timeslots = new ArrayList<>();
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
@@ -138,7 +137,7 @@ public class TimeSlotMapper {
                 "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid"+
                 ") AS timeslot WHERE provider = '"+ provider+"' ORDER BY date ASC;";
         List<timeSlotModel> timeslots = new ArrayList<>();
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();
@@ -178,7 +177,7 @@ public class TimeSlotMapper {
             e.printStackTrace();
         }
         List<timeSlotModel> timeslots = new ArrayList<>();
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
             while (rs.next()) {
                 timeSlotModel timeSlot = new timeSlotModel();

@@ -1,9 +1,20 @@
 package org.unimelb.cis.swen90007sda8.DBConnector;
 
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
+
 import java.sql.*;
 
 public class postgresqlConnector {
-    private Connection conn = null;
+    private static postgresqlConnector instance;
+    private Connection conn;
+
+    public static synchronized postgresqlConnector getInstance() {
+        if(instance == null) {
+            instance = new postgresqlConnector();
+        }
+        return instance;
+    }
+
     public postgresqlConnector() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
@@ -20,7 +31,7 @@ public class postgresqlConnector {
      * Connect to the PostgreSQL database
      * @return a Connection object
      */
-    public ResultSet connect(String stmt) {
+    public synchronized ResultSet connect(String stmt) {
         PreparedStatement findStatement;
         ResultSet rs = null;
         try {
@@ -33,7 +44,7 @@ public class postgresqlConnector {
         return rs;
     }
 
-    public Boolean connectBoolean(String stmt) {
+    public synchronized Boolean connectBoolean(String stmt) {
         PreparedStatement findStatement;
         Boolean result = null;
         try {

@@ -15,7 +15,7 @@ public class adminMapper implements UserInterface {
     public static userModel findUser(String email, String password){
         String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "'" +
                 " AND password = "+ "'" +password+ "';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         userModel user = null;
         try {
             if (!rs.next()) {
@@ -39,12 +39,12 @@ public class adminMapper implements UserInterface {
     public static void insertQuestion(String vname, String body, Boolean answer){
         String stmt = "INSERT INTO questions(vaccinename, question, desiredanswer) " +
                 "VALUES('"+vname+"','"+body+"',"+answer+");";
-        new postgresqlConnector().connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
     }
 
     public static userModel find(String email){
         String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         userModel user = null;
         try {
             if (!rs.next()) {
@@ -67,7 +67,7 @@ public class adminMapper implements UserInterface {
 
     public static String isUserExisted(String email) throws SQLException {
         String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         if(rs.next()){
             return rs.getString(1);
         }else{
@@ -81,7 +81,7 @@ public class adminMapper implements UserInterface {
     }
 
     private static List<userModel> getUserModels(List<userModel> result, String stmt) {
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             while (rs.next()) {
                 userModel user = new recipientModel(rs.getString("email"));
@@ -131,7 +131,7 @@ public class adminMapper implements UserInterface {
         String s = "INSERT INTO users(email, password, user_identity, postcode, hcpname," +
                 " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
         if(isUserExisted(user)==null){
-            new postgresqlConnector().connect(s);
+            postgresqlConnector.getInstance().connect(s);
             return true;
         }else{
             return false;
@@ -141,7 +141,7 @@ public class adminMapper implements UserInterface {
         String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
                 +"'"+lastName+"'"+','+"'"+identity+"'"+ ");";
         if(isUserExisted(user)==null){
-            new postgresqlConnector().connect(s);
+            postgresqlConnector.getInstance().connect(s);
             return true;
         }else{
             return false;
@@ -150,7 +150,7 @@ public class adminMapper implements UserInterface {
     public static Dictionary<Object, Object> findUserByEmail(String email){
         String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, hcpname FROM users " +
                 "WHERE email = '"+email+"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         Dictionary<Object, Object> user = new Hashtable<>();
         try {
             while (rs.next()) {

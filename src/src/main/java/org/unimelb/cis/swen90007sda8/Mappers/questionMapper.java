@@ -15,7 +15,7 @@ public class questionMapper {
     public static List<questionModel> getQuestions (){
         List<questionModel> result = new ArrayList<>();
         String stmt = "SELECT * FROM questions";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -33,13 +33,13 @@ public class questionMapper {
 
     public static void clearOldAnswer(String email){
         String stmt = "DELETE FROM user_answers_question WHERE userid ='"+email+"';";
-        new postgresqlConnector().connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
     }
 
     public static void insertNewAnswer(String email, Integer qid, Boolean answer){
         String stmt = "INSERT INTO user_answers_question(userid,questionid,answer) VALUES('" +
                 email+"',"+qid+","+answer+");";
-        new postgresqlConnector().connect(stmt);
+        postgresqlConnector.getInstance().connect(stmt);
     }
 
     public static List<String> getSuitableVaccines(String email){
@@ -47,7 +47,7 @@ public class questionMapper {
         String stmt = "SELECT vaccinename From questions Left JOIN user_answers_question on " +
                 "questions.id=user_answers_question.questionid WHERE desiredanswer = answer AND " +
                 "userid ='"+ email +"';";
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             while (rs.next()) {
                 String vname = rs.getString("vaccinename");
@@ -63,7 +63,7 @@ public class questionMapper {
         stmt = "SELECT vaccinename From questions Left JOIN user_answers_question on " +
                 "questions.id=user_answers_question.questionid WHERE desiredanswer != answer AND " +
                 "userid ='"+ email +"';";
-        rs = new postgresqlConnector().connect(stmt);
+        rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             while (rs.next()) {
                 String vname = rs.getString("vaccinename");

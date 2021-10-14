@@ -15,10 +15,10 @@ public class TimeRangeMapper {
         if(toTime.compareTo(fromTime)>0){
             String stmt = "INSERT INTO timerange(date, fromTime, toTime) VALUES (" +"'"+date+"'"+','+"'"+from+"'"
                     +','+"'"+to+ "');";
-            new postgresqlConnector().connect(stmt);
+            postgresqlConnector.getInstance().connect(stmt);
             stmt = "SELECT timeid from timerange WHERE date = "+"'"+date+"'"+" AND"+" fromTime ="+"'"+from+"'"
                     +" AND "+"toTime="+"'"+to+ "';";
-            ResultSet rs = new postgresqlConnector().connect(stmt);
+            ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
             try {
                 rs.next();
                 id = rs.getInt(1);
@@ -35,7 +35,7 @@ public class TimeRangeMapper {
         String stmt = "SELECT timeid from timerange WHERE date = "+"'"+date+"'"+" AND"+" fromTime ="+"'"+from+"'"
                 +" AND "+"toTime="+"'"+to+ "';";
         Integer id = null;
-        ResultSet rs = new postgresqlConnector().connect(stmt);
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             rs.next();
             id = rs.getInt(1);
