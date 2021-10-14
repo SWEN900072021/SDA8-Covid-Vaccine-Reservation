@@ -14,10 +14,8 @@ public class VaccineMapper {
         int fromAge = Integer.parseInt(from);
         int toAge = Integer.parseInt(to);
         if(toAge>=fromAge){
-            lockManager.getInstance().acquireLock("vaccines", Thread.currentThread().getName());
             String stmt = "INSERT INTO vaccines(name, fromAge, toAge) VALUES (" +"'"+name+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
             new postgresqlConnector().connect(stmt);
-            lockManager.getInstance().releaseLock("vaccines", Thread.currentThread().getName());
         }else{
             result = false;
         }

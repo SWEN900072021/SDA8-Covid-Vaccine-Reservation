@@ -37,11 +37,9 @@ public class adminMapper implements UserInterface {
     }
 
     public static void insertQuestion(String vname, String body, Boolean answer){
-        lockManager.getInstance().acquireLock("question", Thread.currentThread().getName());
         String stmt = "INSERT INTO questions(vaccinename, question, desiredanswer) " +
                 "VALUES('"+vname+"','"+body+"',"+answer+");";
         new postgresqlConnector().connect(stmt);
-        lockManager.getInstance().releaseLock("question", Thread.currentThread().getName());
     }
 
     public static userModel find(String email){
@@ -130,28 +128,22 @@ public class adminMapper implements UserInterface {
         return getUserModels(result, stmt);
     }
     public static Boolean insertNewProvider(String user, String pass,String identity, String post, String top, String hcpname) throws SQLException {
-        lockManager.getInstance().acquireLock("InsertUser", Thread.currentThread().getName());
         String s = "INSERT INTO users(email, password, user_identity, postcode, hcpname," +
                 " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
         if(isUserExisted(user)==null){
             new postgresqlConnector().connect(s);
-            lockManager.getInstance().releaseLock("InsertUser", Thread.currentThread().getName());
             return true;
         }else{
-            lockManager.getInstance().releaseLock("InsertUser", Thread.currentThread().getName());
             return false;
         }
     }
     public static Boolean insertNewRecipient(String user, String pass, String date, String firstName, String lastName, String identity) throws SQLException {
-        lockManager.getInstance().acquireLock("InsertUser", Thread.currentThread().getName());
         String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
                 +"'"+lastName+"'"+','+"'"+identity+"'"+ ");";
         if(isUserExisted(user)==null){
             new postgresqlConnector().connect(s);
-            lockManager.getInstance().releaseLock("InsertUser", Thread.currentThread().getName());
             return true;
         }else{
-            lockManager.getInstance().releaseLock("InsertUser", Thread.currentThread().getName());
             return false;
         }
     }

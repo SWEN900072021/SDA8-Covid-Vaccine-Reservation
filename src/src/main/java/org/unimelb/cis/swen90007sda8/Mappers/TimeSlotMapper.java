@@ -67,7 +67,6 @@ public class TimeSlotMapper {
 
         lockManager.getInstance().acquireLock("booking "+timeid, Thread.currentThread().getName());
         lockManager.getInstance().acquireLock("timeSlot "+timeid, Thread.currentThread().getName());
-        lockManager.getInstance().acquireLock("timeRange "+timeid, Thread.currentThread().getName());
 
         String stmt = "Delete FROM bookings where timeslotid =" + slotId+";";
         conn.connect(stmt);
@@ -78,7 +77,6 @@ public class TimeSlotMapper {
 
         lockManager.getInstance().releaseLock("booking "+timeid, Thread.currentThread().getName());
         lockManager.getInstance().releaseLock("timeSlot "+timeid, Thread.currentThread().getName());
-        lockManager.getInstance().releaseLock("timeRange "+timeid, Thread.currentThread().getName());
     }
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();
