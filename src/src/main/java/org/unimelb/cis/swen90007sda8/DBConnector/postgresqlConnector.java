@@ -33,4 +33,16 @@ public class postgresqlConnector {
         return rs;
     }
 
+    public Boolean connectBoolean(String stmt) {
+        PreparedStatement findStatement;
+        Boolean result = null;
+        try {
+            findStatement = conn.prepareStatement(stmt);
+            result = findStatement.execute();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return result;
+    }
+
 }
