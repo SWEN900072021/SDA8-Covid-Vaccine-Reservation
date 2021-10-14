@@ -30,7 +30,7 @@ public class BookingMapper {
                 if(oldBooking==0){
                     lockManager.getInstance().acquireLock("timeslots "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
                     stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>0;";
-                    if(postgresqlConnector.getInstance().connectBoolean(stmt)){
+                    if(!postgresqlConnector.getInstance().connectBoolean(stmt)){
                         stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUser().getEmail()+"'"+','+booking.getTimeSlot().getId()+','+"'"+booking.getTimeSlot().getVaccine().getName()+"'"+");";
                         postgresqlConnector.getInstance().connect(stmt);
                     }
@@ -39,7 +39,7 @@ public class BookingMapper {
                     lockManager.getInstance().acquireLock("timeslots "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
                     lockManager.getInstance().acquireLock("timeslots "+oldBooking, Thread.currentThread().getName());
                     stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>0;";
-                    if(postgresqlConnector.getInstance().connectBoolean(stmt)){
+                    if(!postgresqlConnector.getInstance().connectBoolean(stmt)){
                         stmt = "UPDATE timeslots SET numberofshots = numberofshots + 1 WHERE id ="+ oldBooking+";";
                         postgresqlConnector.getInstance().connect(stmt);
                         stmt = "DELETE FROM bookings WHERE timeslotid ="+oldBooking+" AND email='"+booking.getUser().getEmail()+"';";

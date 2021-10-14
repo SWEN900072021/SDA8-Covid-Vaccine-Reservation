@@ -32,7 +32,7 @@ public class answerQuestionServlet extends HttpServlet {
             questionMapper.insertNewAnswer(email,questionID,Boolean.parseBoolean(answer));
         }
         List<String> suitableVaccines =  questionMapper.getSuitableVaccines(email);
-        request.setAttribute("suitableVaccines", suitableVaccines);
+        request.getSession().setAttribute("suitableVaccines", suitableVaccines);
         request.getRequestDispatcher("/bookvaccination").forward(request,response);
     }
 }

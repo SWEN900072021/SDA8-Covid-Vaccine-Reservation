@@ -47,7 +47,7 @@
     </header>
     <%
         ArrayList timeslots = (ArrayList) request.getAttribute("timeslots");
-        ArrayList suitableVaccines = (ArrayList) request.getAttribute("suitableVaccines");
+        ArrayList suitableVaccines = (ArrayList) request.getSession().getAttribute("suitableVaccines");
     %>
     <div style="text-align: center; padding-top: 10px;background-color: khaki">
         Your suitable vaccine type: <%=suitableVaccines %>
