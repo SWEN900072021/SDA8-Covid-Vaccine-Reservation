@@ -40,8 +40,7 @@
             </tr>
             <tr>
                 <td> Date of Birth: </td>
-                <td><input type = "String" name = "" >
-                    <input type = "date" name = "dateOfBirth" required></td>
+                <td><input type = "date" name = "dateOfBirth" required></td>
             <tr>
             <tr>
                 <td>First Name: </td>
