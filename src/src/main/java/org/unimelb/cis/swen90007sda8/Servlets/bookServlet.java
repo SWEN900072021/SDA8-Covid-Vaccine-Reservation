@@ -18,6 +18,8 @@ import org.apache.shiro.SecurityUtils;
 public class bookServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
+        PrintWriter writer = response.getWriter();
+        response.setContentType("text/html");
         userModel user = (userModel) SecurityUtils.getSubject().getSession().getAttribute("user");
         timeSlotModel timeslot = TimeSlotMapper.find(id);
         HashMap<String, List<bookingModel>> context = new HashMap<>();
@@ -30,6 +32,11 @@ public class bookServlet extends HttpServlet{
         unitOfwork.registerNew(booking);
         unitOfwork.commit();
 
+        if(bookingDB.find(SecurityUtils.getSubject().getPrincipals().toString())){
+            writer.println("<h3>Book success!");
+        }else{
+            writer.println("<h3>No available shots");
+        }
         lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
 
         response.sendRedirect("bookvaccination");

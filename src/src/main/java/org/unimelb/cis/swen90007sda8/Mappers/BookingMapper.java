@@ -8,6 +8,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BookingMapper {
+
+    public static Boolean find(String email) {
+        String stmt;
+        stmt = "SELECT bookingid FROM bookings WHERE email ='"+ email+"';";
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
+        Boolean result = false;
+        try{
+            if(rs.next()){
+                result = true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static void insert(bookingModel booking) {
             int oldBooking;
             String stmt;
