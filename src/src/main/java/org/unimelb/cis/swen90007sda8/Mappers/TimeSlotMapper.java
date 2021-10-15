@@ -89,7 +89,7 @@ public class TimeSlotMapper {
     public static List<timeSlotModel> getTimeSlots(){
         List<timeSlotModel> timeslots = new ArrayList<>();
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename From (SELECT * FROM timeslots " +
-                "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date ASC;";
+                "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date, vaccinename ASC;";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
             while (rs.next()) {
@@ -118,7 +118,7 @@ public class TimeSlotMapper {
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename From (SELECT * FROM timeslots " +
                 "LEFT JOIN users ON timeslots.provider = users.hcpname " +
                 "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE postcode = '"+ postcode+"' " +
-                "ORDER BY date ASC;";
+                "ORDER BY date, vaccinename ASC;";
         List<timeSlotModel> timeslots = new ArrayList<>();
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
@@ -144,7 +144,7 @@ public class TimeSlotMapper {
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename FROM (SELECT * FROM timeslots " +
                 "LEFT JOIN users ON timeslots.provider = users.hcpname " +
                 "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid"+
-                ") AS timeslot WHERE provider = '"+ provider+"' ORDER BY date ASC;";
+                ") AS timeslot WHERE provider = '"+ provider+"' ORDER BY date, vaccinename ASC;";
         List<timeSlotModel> timeslots = new ArrayList<>();
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
@@ -175,12 +175,12 @@ public class TimeSlotMapper {
             else if(identity.equals("Health Care Provider")){
                 stmt = "SELECT date, fromTime, toTime, provider, numberofshots From (SELECT * FROM timeslots " +
                         "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot WHERE provider="
-                        +"'"+hcpname+"' ORDER BY date ASC;";
+                        +"'"+hcpname+"' ORDER BY date, vaccinename ASC;";
 
             }
             else{
                 stmt = "SELECT date, fromTime, toTime, provider, numberofshots From (SELECT * FROM timeslots " +
-                        "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date ASC;";
+                        "LEFT JOIN timerange ON timeslots.timerange = timerange.timeid) AS timeslot ORDER BY date, vaccinename ASC;";
             }
         }catch(Exception e){
             e.printStackTrace();
