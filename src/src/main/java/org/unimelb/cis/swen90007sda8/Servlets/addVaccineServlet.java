@@ -24,7 +24,7 @@ public class addVaccineServlet extends HttpServlet{
             writer.println("<h3> Vaccine "+name+" added!");
         }
         else{
-            writer.println("<h3> Age range is wrong!");
+            writer.println("<h3> Age range is wrong Or Vaccine existed!");
         }
     }
 }
