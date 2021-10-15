@@ -10,28 +10,18 @@ import java.util.Hashtable;
 public class hcpMapper implements UserInterface {
 
     public static void setVaccinatedByEmail(String email){
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String s = "UPDATE  users  SET vaccinated = True WHERE email ="+"'"+ email+"';";
         postgresqlConnector.getInstance().connect(s);
-        lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
     }
     public static void setNotVaccinatedByEmail(String email){
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String s = "UPDATE  users  SET vaccinated = False WHERE email ="+"'"+ email+"';";
         postgresqlConnector.getInstance().connect(s);
-        lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
     }
 
     public static Dictionary<Object, Object> findUserByEmail(String email){
-        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, hcpname FROM users " +
                 "WHERE email = '"+email+"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
         Dictionary<Object, Object> user = new Hashtable<>();
         try {
             while (rs.next()) {

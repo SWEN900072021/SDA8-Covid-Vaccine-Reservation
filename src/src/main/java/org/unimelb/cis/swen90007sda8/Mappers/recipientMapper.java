@@ -10,10 +10,8 @@ import java.util.Hashtable;
 public class recipientMapper implements UserInterface {
     public static Boolean getVaccinatedByEmail(String email){
         Boolean result = null;
-        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String s = "SELECT vaccinated FROM users WHERE email = '" + email + "';";
         ResultSet rs = postgresqlConnector.getInstance().connect(s);
-        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
         try {
             if (rs.next()) {
                 result = rs.getBoolean(1);
@@ -25,11 +23,9 @@ public class recipientMapper implements UserInterface {
     }
 
     public static Dictionary<Object, Object> findUserByEmail(String email){
-        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, hcpname FROM users " +
                 "WHERE email = '"+email+"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
         Dictionary<Object, Object> user = new Hashtable<>();
         try {
             while (rs.next()) {

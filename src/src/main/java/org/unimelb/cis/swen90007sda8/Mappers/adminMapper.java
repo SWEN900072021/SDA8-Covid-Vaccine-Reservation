@@ -14,18 +14,14 @@ import java.util.List;
 public class adminMapper implements UserInterface {
 
     public static void insertQuestion(String vname, String body, Boolean answer){
-        lockManager.getInstance().acquireLock("questions", Thread.currentThread().getName());
         String stmt = "INSERT INTO questions(vaccinename, question, desiredanswer) " +
                 "VALUES('"+vname+"','"+body+"',"+answer+");";
         postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("questions", Thread.currentThread().getName());
     }
 
     public static userModel find(String email){
-        lockManager.getInstance().acquireLock("user "+email, Thread.currentThread().getName());
         String stmt = "SELECT email,password,user_identity,hcpname FROM users where email =" + "'" +email + "';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("user "+email, Thread.currentThread().getName());
         userModel user = null;
         try {
             if (!rs.next()) {
@@ -47,10 +43,8 @@ public class adminMapper implements UserInterface {
     }
 
     public static String isUserExisted(String email) throws SQLException {
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
         String stmt = "SELECT email From users WHERE email ="+"'"+email+"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
         if(rs.next()){
             return rs.getString(1);
         }else{
@@ -59,12 +53,8 @@ public class adminMapper implements UserInterface {
     }
     public static List<userModel> findWithVaccineName (vaccineModel vaccineName){
         List<userModel> result = new ArrayList<>();
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().acquireLock("bookings", Thread.currentThread().getName());
         String stmt = "SELECT users.email FROM users LEFT JOIN bookings ON users.email = bookings.email WHERE vaccinename = '" + vaccineName.getName()+ "' AND users.email != 'admin@gmail.com';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
         try {
             while (rs.next()) {
                 userModel user = new recipientModel(rs.getString("email"));
@@ -79,8 +69,6 @@ public class adminMapper implements UserInterface {
     public static List<userModel> findWithVaccinated (String vaccinated,String identity) {
         List<userModel> result = new ArrayList<>();
         String stmt;
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().acquireLock("bookings", Thread.currentThread().getName());
         if(identity.equals("Admin")){
             if (vaccinated == null){
                 stmt = "SELECT email FROM users " +
@@ -111,8 +99,6 @@ public class adminMapper implements UserInterface {
             return result;
         }
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
-        lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
         try {
             while (rs.next()) {
                 userModel user = new recipientModel(rs.getString("email"));
@@ -124,37 +110,29 @@ public class adminMapper implements UserInterface {
         return result;
     }
     public static Boolean insertNewProvider(String user, String pass,String identity, String post, String top, String hcpname) throws SQLException {
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
         String s = "INSERT INTO users(email, password, user_identity, postcode, hcpname," +
                 " typeofprovider) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+identity+"'"+','+"'"+post+"'"+','+"'"+hcpname+"'"+','+"'"+top+"'"+ ");";
         if(isUserExisted(user)==null){
             postgresqlConnector.getInstance().connect(s);
-            lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
             return true;
         }else{
-            lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
             return false;
         }
     }
     public static Boolean insertNewRecipient(String user, String pass, String date, String firstName, String lastName, String identity) throws SQLException {
-        lockManager.getInstance().acquireLock("users", Thread.currentThread().getName());
         String s = "INSERT INTO users(email, password, dateofbirth, firstname, lastname, user_identity) VALUES (" +"'"+user+"'"+','+"'"+pass+"'"+','+"'"+date+"'"+','+"'"+ firstName+"'"+','
                 +"'"+lastName+"'"+','+"'"+identity+"'"+ ");";
         if(isUserExisted(user)==null){
             postgresqlConnector.getInstance().connect(s);
-            lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
             return true;
         }else{
-            lockManager.getInstance().releaseLock("users", Thread.currentThread().getName());
             return false;
         }
     }
     public static Dictionary<Object, Object> findUserByEmail(String email){
-        lockManager.getInstance().acquireLock("user " +email, Thread.currentThread().getName());
         String stmt = "SELECT email, dateofbirth, firstname, lastname, user_identity, postcode, typeofprovider, vaccinated, hcpname FROM users " +
                 "WHERE email = '"+email+"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        lockManager.getInstance().releaseLock("user " +email, Thread.currentThread().getName());
         Dictionary<Object, Object> user = new Hashtable<>();
         try {
             while (rs.next()) {
