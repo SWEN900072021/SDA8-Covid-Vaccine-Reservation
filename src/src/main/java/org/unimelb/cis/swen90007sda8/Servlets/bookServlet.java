@@ -26,7 +26,7 @@ public class bookServlet extends HttpServlet{
         BookingMapper bookingDB = new BookingMapper();
         bookingUnitOfWork unitOfwork = new bookingUnitOfWork(context,bookingDB);
 
-        lockManager.getInstance().acquireLock("bookings", Thread.currentThread().getName());
+        lockManager.getInstance().acquireLock("booking "+id, Thread.currentThread().getName());
 
         bookingModel booking = new bookingModel(user,timeslot);
         unitOfwork.registerNew(booking);
@@ -37,7 +37,8 @@ public class bookServlet extends HttpServlet{
         }else{
             writer.println("<h3>No available shots");
         }
-        lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
+
+        lockManager.getInstance().releaseLock("booking "+id, Thread.currentThread().getName());
 
         response.sendRedirect("bookvaccination");
     }

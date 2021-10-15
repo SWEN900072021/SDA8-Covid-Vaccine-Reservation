@@ -23,11 +23,15 @@ public class deleteServlet extends HttpServlet{
         PrintWriter writer = response.getWriter();
         try {
             if(currentUser.hasRole("Health Care Provider")){
-                lockManager.getInstance().acquireLock("bookings", Thread.currentThread().getName());
                 Integer timeid = TimeRangeMapper.getIdByDetail(date,from,to);
+                Integer slotID = TimeSlotMapper.getIdByDetails(timeid,provider);
+
+                lockManager.getInstance().acquireLock("booking "+slotID, Thread.currentThread().getName());
+
                 TimeSlotMapper.deleteTimeSlotByDetails(timeid,provider);
                 response.sendRedirect("get_timeslot");
-                lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
+
+                lockManager.getInstance().releaseLock("booking "+slotID, Thread.currentThread().getName());
             }else{
                 writer.println("<h3>You can't delete timeslots");
             }
