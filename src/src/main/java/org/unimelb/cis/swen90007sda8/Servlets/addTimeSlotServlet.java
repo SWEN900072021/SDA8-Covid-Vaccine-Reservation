@@ -34,12 +34,16 @@ public class addTimeSlotServlet extends HttpServlet{
         Integer timeid = TimeRangeMapper.insertTimeRange(date, from, to);
         vaccineModel vaccine = VaccineMapper.find(request.getParameter("vname1"));
         if(timeid!=null && timeid>=0){
-            TimeSlotMapper.insertTimeSlot(timeid,provider,numberofshots,vaccine);
-            response.setContentType("text/html");
-            writer.println("<h3> Slot "+date+" added!");
+            if(TimeSlotMapper.insertTimeSlot(timeid,provider,numberofshots,vaccine)){
+                response.setContentType("text/html");
+                writer.println("<h3> Slot "+date+" added!");
+            }else{
+                response.setContentType("text/html");
+                writer.println("<h3>Timeslot existed!");
+            }
         }else{
             response.setContentType("text/html");
-            writer.println("Time range wrong!");
+            writer.println("<h3>Time range wrong!");
         }
     }
 }

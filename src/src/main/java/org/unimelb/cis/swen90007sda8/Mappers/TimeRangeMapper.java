@@ -12,6 +12,10 @@ public class TimeRangeMapper {
         Integer id = null;
         LocalTime fromTime = LocalTime.parse(from);
         LocalTime toTime = LocalTime.parse(to);
+        id = getIdByDetail(date, from, to);
+        if(id!=null){
+            return id;
+        }
         if(toTime.compareTo(fromTime)>0){
             String stmt = "INSERT INTO timerange(date, fromTime, toTime) VALUES (" +"'"+date+"'"+','+"'"+from+"'"
                     +','+"'"+to+ "');";

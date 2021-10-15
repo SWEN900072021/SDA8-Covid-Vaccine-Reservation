@@ -16,10 +16,31 @@ import java.util.List;
 
 
 public class TimeSlotMapper {
-    public static void insertTimeSlot (Integer timeid, String provider, String numberofshots,
+    public static Integer isTimeSlotExisted(Integer timeid, String provider, String numberofshots,
+                                           vaccineModel vaccinename) {
+        String stmt = "SELECT id From timeslots WHERE timerange ="+timeid+",provider='"+provider+"',numberofshots='"+
+                numberofshots+"',vaccinename='"+vaccinename.getName()+"';";
+        ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
+        try{
+            if(rs.next()){
+                return rs.getInt(1);
+            }else{
+                return null;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static Boolean insertTimeSlot (Integer timeid, String provider, String numberofshots,
                                        vaccineModel vaccinename) {
-        String stmt = "INSERT INTO timeslots(timerange, provider, numberofshots, vaccineName) VALUES (" +timeid+','+"'"+provider+"', "+numberofshots+", '"+vaccinename.getName()+ "');";
-        postgresqlConnector.getInstance().connect(stmt);
+        if(isTimeSlotExisted(timeid,provider,numberofshots,vaccinename)==null){
+            String stmt = "INSERT INTO timeslots(timerange, provider, numberofshots, vaccineName) VALUES (" +timeid+','+"'"+provider+"', "+numberofshots+", '"+vaccinename.getName()+ "');";
+            postgresqlConnector.getInstance().connect(stmt);
+            return true;
+        }else{
+            return false;
+        }
     }
     public static timeSlotModel find (Integer id) {
         String stmt = "SELECT id, date, fromTime, toTime, provider, numberofshots, vaccinename, toage, fromage From (SELECT * FROM timeslots " +
