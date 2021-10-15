@@ -14,7 +14,7 @@ import java.util.Set;
 public class questionMapper {
     public static List<questionModel> getQuestions (){
         List<questionModel> result = new ArrayList<>();
-        String stmt = "SELECT * FROM questions";
+        String stmt = "SELECT * FROM questions ORDER BY id ASC";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try {
             while (rs.next()) {

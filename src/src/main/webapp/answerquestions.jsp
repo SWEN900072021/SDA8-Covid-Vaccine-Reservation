@@ -23,7 +23,8 @@
                 <%
                     for(int i = 0;i<questions.size();i++){
                         questionModel question =(questionModel) questions.get(i);%>
-                Question<%=question.getId()%>: <%=question.getQuestions()%>
+
+                Question<%=i+1%>: <%=question.getQuestions()%>
                 <input name=<%=question.getId()%> type="radio" value="true" checked="checked">True
                 <input name=<%=question.getId()%> type="radio" value="false">False</br>
                     <% }
