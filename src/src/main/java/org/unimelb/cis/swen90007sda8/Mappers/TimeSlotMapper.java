@@ -16,10 +16,9 @@ import java.util.List;
 
 
 public class TimeSlotMapper {
-    public static Integer isTimeSlotExisted(Integer timeid, String provider, String numberofshots,
+    public static Integer isTimeSlotExisted(Integer timeid, String provider,
                                            vaccineModel vaccinename) {
-        String stmt = "SELECT id From timeslots WHERE timerange ="+timeid+",provider='"+provider+"',numberofshots='"+
-                numberofshots+"',vaccinename='"+vaccinename.getName()+"';";
+        String stmt = "SELECT id From timeslots WHERE timerange ="+timeid+" AND provider='"+provider+"' AND vaccinename='"+vaccinename.getName()+"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
         try{
             if(rs.next()){
@@ -34,7 +33,7 @@ public class TimeSlotMapper {
     }
     public static Boolean insertTimeSlot (Integer timeid, String provider, String numberofshots,
                                        vaccineModel vaccinename) {
-        if(isTimeSlotExisted(timeid,provider,numberofshots,vaccinename)==null){
+        if(isTimeSlotExisted(timeid,provider,vaccinename)==null){
             String stmt = "INSERT INTO timeslots(timerange, provider, numberofshots, vaccineName) VALUES (" +timeid+','+"'"+provider+"', "+numberofshots+", '"+vaccinename.getName()+ "');";
             postgresqlConnector.getInstance().connect(stmt);
             return true;
