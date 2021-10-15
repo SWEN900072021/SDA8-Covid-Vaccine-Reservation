@@ -5,6 +5,7 @@ import org.unimelb.cis.swen90007sda8.Mappers.BookingMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 import org.unimelb.cis.swen90007sda8.Models.*;
 import org.unimelb.cis.swen90007sda8.UnitOfWork.bookingUnitOfWork;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +23,15 @@ public class bookServlet extends HttpServlet{
         HashMap<String, List<bookingModel>> context = new HashMap<>();
         BookingMapper bookingDB = new BookingMapper();
         bookingUnitOfWork unitOfwork = new bookingUnitOfWork(context,bookingDB);
+
+        lockManager.getInstance().acquireLock("bookings", Thread.currentThread().getName());
+
         bookingModel booking = new bookingModel(user,timeslot);
-
         unitOfwork.registerNew(booking);
-
         unitOfwork.commit();
-        
+
+        lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
+
         response.sendRedirect("bookvaccination");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{

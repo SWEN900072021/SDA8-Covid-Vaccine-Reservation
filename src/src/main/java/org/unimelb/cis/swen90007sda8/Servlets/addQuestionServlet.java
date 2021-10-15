@@ -1,10 +1,8 @@
 package org.unimelb.cis.swen90007sda8.Servlets;
 
-import org.apache.shiro.subject.Subject;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 import org.unimelb.cis.swen90007sda8.Mappers.*;
-import org.unimelb.cis.swen90007sda8.Models.hcpModel;
 import org.unimelb.cis.swen90007sda8.Models.vaccineModel;
-import org.apache.shiro.SecurityUtils;
 
 import java.io.*;
 import java.util.List;

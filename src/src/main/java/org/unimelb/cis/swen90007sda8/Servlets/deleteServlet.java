@@ -2,6 +2,7 @@ package org.unimelb.cis.swen90007sda8.Servlets;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
 
@@ -22,9 +23,11 @@ public class deleteServlet extends HttpServlet{
         PrintWriter writer = response.getWriter();
         try {
             if(currentUser.hasRole("Health Care Provider")){
+                lockManager.getInstance().acquireLock("bookings", Thread.currentThread().getName());
                 Integer timeid = TimeRangeMapper.getIdByDetail(date,from,to);
                 TimeSlotMapper.deleteTimeSlotByDetails(timeid,provider);
                 response.sendRedirect("get_timeslot");
+                lockManager.getInstance().releaseLock("bookings", Thread.currentThread().getName());
             }else{
                 writer.println("<h3>You can't delete timeslots");
             }

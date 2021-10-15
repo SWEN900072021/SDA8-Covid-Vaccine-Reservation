@@ -81,7 +81,6 @@ public class TimeSlotMapper {
     }
     public static void deleteTimeSlotByDetails(Integer timeid, String provider) throws SQLException {
         Integer slotId = getIdByDetails(timeid, provider);
-
         String stmt = "Delete FROM bookings where timeslotid =" + slotId+";";
         postgresqlConnector.getInstance().connect(stmt);
         stmt = "Delete FROM timeslots where id =" + slotId+";";
