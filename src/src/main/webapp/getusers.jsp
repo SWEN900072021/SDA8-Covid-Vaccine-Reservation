@@ -42,7 +42,7 @@
     <title>Users</title>
 </head>
 <body>
-    <header style="padding-top: 10px; padding-bottom: 10px;>
+    <header style="padding-top: 10px; padding-bottom: 10px;">
         <h2>View all System users</h2>
     </header>
 

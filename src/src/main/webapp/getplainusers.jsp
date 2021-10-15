@@ -61,7 +61,9 @@
         </select><br/>
             <input type = "submit" value = "View">
         </form>
-        <button href="get_user">Show All users</button><br>
+        <form action = "get_user" method = "get">
+            <input type = "submit" value = "Show All users">
+        </form>
         <p>Now viewing <%=(String)request.getAttribute("viewing") %>
         <table class="gridtable">
             <tr>
