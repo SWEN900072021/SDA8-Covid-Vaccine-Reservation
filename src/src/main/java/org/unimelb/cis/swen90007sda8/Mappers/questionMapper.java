@@ -14,8 +14,10 @@ import java.util.Set;
 public class questionMapper {
     public static List<questionModel> getQuestions (){
         List<questionModel> result = new ArrayList<>();
+        lockManager.getInstance().acquireLock("questions", Thread.currentThread().getName());
         String stmt = "SELECT * FROM questions";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
+        lockManager.getInstance().releaseLock("questions", Thread.currentThread().getName());
         try {
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -37,13 +39,16 @@ public class questionMapper {
     }
 
     public static void insertNewAnswer(String email, Integer qid, Boolean answer){
+        lockManager.getInstance().acquireLock("answer "+email, Thread.currentThread().getName());
         String stmt = "INSERT INTO user_answers_question(userid,questionid,answer) VALUES('" +
                 email+"',"+qid+","+answer+");";
         postgresqlConnector.getInstance().connect(stmt);
+        lockManager.getInstance().releaseLock("answer "+email, Thread.currentThread().getName());
     }
 
     public static List<String> getSuitableVaccines(String email){
         List<String> result = new ArrayList<>();
+        lockManager.getInstance().acquireLock("answer "+email, Thread.currentThread().getName());
         String stmt = "SELECT vaccinename From questions Left JOIN user_answers_question on " +
                 "questions.id=user_answers_question.questionid WHERE desiredanswer = answer AND " +
                 "userid ='"+ email +"';";
@@ -64,6 +69,7 @@ public class questionMapper {
                 "questions.id=user_answers_question.questionid WHERE desiredanswer != answer AND " +
                 "userid ='"+ email +"';";
         rs = postgresqlConnector.getInstance().connect(stmt);
+        lockManager.getInstance().releaseLock("answer "+email, Thread.currentThread().getName());
         try {
             while (rs.next()) {
                 String vname = rs.getString("vaccinename");

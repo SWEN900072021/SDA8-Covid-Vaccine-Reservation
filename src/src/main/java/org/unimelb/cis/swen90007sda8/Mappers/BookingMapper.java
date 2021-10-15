@@ -11,9 +11,9 @@ public class BookingMapper {
     public static void insert(bookingModel booking) {
             int oldBooking;
             String stmt;
+            lockManager.getInstance().acquireLock("booking "+booking.getUser().getEmail(), Thread.currentThread().getName());
             stmt = "SELECT timeslotid FROM bookings WHERE email ='"+ booking.getUser().getEmail()+"';";
             ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-
             try{
                 if(rs.next()){
                     oldBooking = rs.getInt("timeslotid");
@@ -28,16 +28,16 @@ public class BookingMapper {
             Integer targetNumberOfShots = TimeSlotMapper.find(booking.getTimeSlot().getId()).getNumberofshots();
             if(targetNumberOfShots>0){
                 if(oldBooking==0){
-                    lockManager.getInstance().acquireLock("timeslots "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
+                    lockManager.getInstance().acquireLock("timeslot "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
                     stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>0;";
                     if(!postgresqlConnector.getInstance().connectBoolean(stmt)){
                         stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUser().getEmail()+"'"+','+booking.getTimeSlot().getId()+','+"'"+booking.getTimeSlot().getVaccine().getName()+"'"+");";
                         postgresqlConnector.getInstance().connect(stmt);
                     }
-                    lockManager.getInstance().releaseLock("timeslots "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
+                    lockManager.getInstance().releaseLock("timeslot "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
                 }else{
-                    lockManager.getInstance().acquireLock("timeslots "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
-                    lockManager.getInstance().acquireLock("timeslots "+oldBooking, Thread.currentThread().getName());
+                    lockManager.getInstance().acquireLock("timeslot "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
+                    lockManager.getInstance().acquireLock("timeslot "+oldBooking, Thread.currentThread().getName());
                     stmt = "UPDATE timeslots SET numberofshots = numberofshots -1 WHERE id ="+ booking.getTimeSlot().getId()+" AND numberofshots>0;";
                     if(!postgresqlConnector.getInstance().connectBoolean(stmt)){
                         stmt = "UPDATE timeslots SET numberofshots = numberofshots + 1 WHERE id ="+ oldBooking+";";
@@ -47,9 +47,10 @@ public class BookingMapper {
                         stmt = "INSERT INTO bookings(email, timeslotid, vaccinename) VALUES (" +"'"+booking.getUser().getEmail()+"'"+','+booking.getTimeSlot().getId()+','+"'"+booking.getTimeSlot().getVaccine().getName()+"'"+");";
                         postgresqlConnector.getInstance().connect(stmt);
                     }
-                    lockManager.getInstance().releaseLock("timeslots "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
-                    lockManager.getInstance().releaseLock("timeslots "+oldBooking, Thread.currentThread().getName());
+                    lockManager.getInstance().releaseLock("timeslot "+booking.getTimeSlot().getId(), Thread.currentThread().getName());
+                    lockManager.getInstance().releaseLock("timeslot "+oldBooking, Thread.currentThread().getName());
                 }
             }
+        lockManager.getInstance().releaseLock("booking "+booking.getUser().getEmail(), Thread.currentThread().getName());
     }
 }

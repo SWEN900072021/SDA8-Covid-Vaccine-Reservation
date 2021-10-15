@@ -14,8 +14,10 @@ public class VaccineMapper {
         int fromAge = Integer.parseInt(from);
         int toAge = Integer.parseInt(to);
         if(toAge>=fromAge){
+            lockManager.getInstance().acquireLock("vaccines", Thread.currentThread().getName());
             String stmt = "INSERT INTO vaccines(name, fromAge, toAge) VALUES (" +"'"+name+"'"+','+"'"+from+"'"+','+"'"+to+"'"+");";
             postgresqlConnector.getInstance().connect(stmt);
+            lockManager.getInstance().releaseLock("vaccines", Thread.currentThread().getName());
         }else{
             result = false;
         }
@@ -23,8 +25,10 @@ public class VaccineMapper {
     }
     public static List<vaccineModel> getVaccines() {
         List<vaccineModel> result = new ArrayList<>();
+        lockManager.getInstance().acquireLock("vaccines", Thread.currentThread().getName());
         String stmt = "SELECT name, fromage, toage FROM vaccines;";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
+        lockManager.getInstance().releaseLock("vaccines", Thread.currentThread().getName());
         try {
             while (rs.next()) {
                 vaccineModel vaccine = new vaccineModel();
@@ -40,8 +44,10 @@ public class VaccineMapper {
     }
 
     public static vaccineModel find(String vname) {
+        lockManager.getInstance().acquireLock("vaccines", Thread.currentThread().getName());
         String stmt = "SELECT name, fromage, toage FROM vaccines WHERE name='"+ vname +"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
+        lockManager.getInstance().releaseLock("vaccines", Thread.currentThread().getName());
         vaccineModel vaccine = new vaccineModel();
         try {
             while (rs.next()) {
