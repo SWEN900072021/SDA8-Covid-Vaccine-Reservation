@@ -18,11 +18,9 @@ public class showCertificationServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         String email = SecurityUtils.getSubject().getPrincipals().toString();
         if(recipientMapper.getVaccinatedByEmail(email)){
-            writer.println("<h1>You are vaccinated!"+
-                    "<br><a href=\"mainpage.jsp\">Go Back<a>");
+            writer.println("<h1>You are vaccinated!</h1>");
         }else{
-            writer.println("<h1>You Are Not vaccinated!"+
-                    "<br><a href=\"mainpage.jsp\">Go Back<a>");
+            writer.println("<h1>You Are Not vaccinated!");
         }
     }
 }

@@ -16,7 +16,7 @@ import javax.servlet.http.*;
 @WebServlet(name = "signUpRecipientServlet", value = "/signuprecipient")
 public class signUpRecipientServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("signup.jsp");
+        response.sendRedirect("signuprecipient.jsp");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html");
@@ -37,11 +37,9 @@ public class signUpRecipientServlet extends HttpServlet{
 
         try {
             if(adminMapper.insertNewRecipient(user,passHashed,date,firstName,lastName,identity)){
-                writer.println("<h3>Registion Complete!" +
-                        "<br><a href=\"adminpage.jsp\">Go Back<a>");
+                writer.println("<h3>Registion Complete!");
             }else{
-                writer.println("<h3> User Existed!" +
-                        "<a href=\"adminpage.jsp\">Go Back<a>");
+                writer.println("<h3> User Existed!");
             }
         } catch (SQLException e) {
             e.printStackTrace();

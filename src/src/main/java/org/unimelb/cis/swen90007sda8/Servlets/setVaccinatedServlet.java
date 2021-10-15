@@ -16,8 +16,7 @@ public class setVaccinatedServlet extends HttpServlet{
         Subject currentUser = SecurityUtils.getSubject();
         if (!currentUser.hasRole("Health Care Provider")) {
             PrintWriter writer = response.getWriter();
-            writer.println("You don't have permission to set vaccinated!" +
-                    "<br><a href=\"getusers.jsp\">Go Back<a>");
+            writer.println("You don't have permission to set vaccinated!");
             return;
         }
         String email = request.getParameter("email");

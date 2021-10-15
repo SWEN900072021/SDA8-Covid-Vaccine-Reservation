@@ -36,12 +36,10 @@ public class addTimeSlotServlet extends HttpServlet{
         if(timeid!=null && timeid>=0){
             TimeSlotMapper.insertTimeSlot(timeid,provider,numberofshots,vaccine);
             response.setContentType("text/html");
-            writer.println("<h3> Slot "+date+" added!" +
-                    "<br><a href=\"hcppage.jsp\">Go Back<a>");
+            writer.println("<h3> Slot "+date+" added!");
         }else{
             response.setContentType("text/html");
-            writer.println("Time range wrong!" +
-                    "<br><a href=\"hcppage.jsp\">Go Back<a>");
+            writer.println("Time range wrong!");
         }
     }
 }

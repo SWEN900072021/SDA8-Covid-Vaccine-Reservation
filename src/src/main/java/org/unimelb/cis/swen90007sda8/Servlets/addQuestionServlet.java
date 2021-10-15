@@ -26,7 +26,6 @@ public class addQuestionServlet extends HttpServlet {
         Boolean answer = Boolean.parseBoolean(request.getParameter("answer"));
         adminMapper.insertQuestion(vname, questionBody, answer);
         response.setContentType("text/html");
-        writer.println("<h3> Question added!" +
-                "<br><a href=\"adminpage.jsp\">Go Back<a>");
+        writer.println("<h3> Question added!");
     }
 }

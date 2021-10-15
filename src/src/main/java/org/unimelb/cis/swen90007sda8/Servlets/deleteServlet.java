@@ -26,8 +26,7 @@ public class deleteServlet extends HttpServlet{
                 TimeSlotMapper.deleteTimeSlotByDetails(timeid,provider);
                 response.sendRedirect("get_timeslot");
             }else{
-                writer.println("<h3>You can't delete timeslots<br>" +
-                        "<br><a href=\"get_timeslot\">Go Back<a>");
+                writer.println("<h3>You can't delete timeslots");
             }
         } catch (SQLException e) {
             e.printStackTrace();

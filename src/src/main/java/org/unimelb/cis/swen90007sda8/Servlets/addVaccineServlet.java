@@ -21,12 +21,10 @@ public class addVaccineServlet extends HttpServlet{
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         if(VaccineMapper.insertVaccine(name,from,to)){
-            writer.println("<h3> Vaccine "+name+" added!" +
-                    "<br><a href=\"adminpage.jsp\">Go Back<a>");
+            writer.println("<h3> Vaccine "+name+" added!");
         }
         else{
-            writer.println("<h3> Age range is wrong!" +
-                    "<br><a href=\"adminpage.jsp\">Go Back<a>");
+            writer.println("<h3> Age range is wrong!");
         }
     }
 }
