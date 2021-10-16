@@ -35,7 +35,7 @@ public class addTimeSlotServlet extends HttpServlet{
         Integer timeid = TimeRangeMapper.insertTimeRange(date, from, to);
         vaccineModel vaccine = VaccineMapper.find(request.getParameter("vname1"));
         if(timeid!=null && timeid>=0){
-            lockManager.getInstance().acquireLock("timeslot "+provider, Thread.currentThread().getName());
+            lockManager.getInstance().acquireLock("editingTimeslotBy "+provider, Thread.currentThread().getName());
             if(TimeSlotMapper.insertTimeSlot(timeid,provider,numberofshots,vaccine)){
                 response.setContentType("text/html");
                 writer.println("<h3> Slot "+date+" added!");
@@ -43,7 +43,7 @@ public class addTimeSlotServlet extends HttpServlet{
                 response.setContentType("text/html");
                 writer.println("<h3>Timeslot existed!");
             }
-            lockManager.getInstance().releaseLock("timeslot "+provider, Thread.currentThread().getName());
+            lockManager.getInstance().releaseLock("editingTimeslotBy "+provider, Thread.currentThread().getName());
         }else{
             response.setContentType("text/html");
             writer.println("<h3>Time range wrong!");
