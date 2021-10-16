@@ -17,16 +17,16 @@ import org.apache.shiro.SecurityUtils;
 @WebServlet(name = "bookServlet", value = "/book")
 public class bookServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = Integer.parseInt(request.getParameter("id"));
+        Integer timeslotID = Integer.parseInt(request.getParameter("id"));
         PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
         userModel user = (userModel) SecurityUtils.getSubject().getSession().getAttribute("user");
-        timeSlotModel timeslot = TimeSlotMapper.find(id);
+        timeSlotModel timeslot = TimeSlotMapper.find(timeslotID);
         HashMap<String, List<bookingModel>> context = new HashMap<>();
         BookingMapper bookingDB = new BookingMapper();
         bookingUnitOfWork unitOfwork = new bookingUnitOfWork(context,bookingDB);
 
-        lockManager.getInstance().acquireLock("booking "+id, Thread.currentThread().getName());
+        lockManager.getInstance().acquireLock("booking "+timeslotID, Thread.currentThread().getName());
 
         bookingModel booking = new bookingModel(user,timeslot);
         unitOfwork.registerNew(booking);
@@ -38,7 +38,7 @@ public class bookServlet extends HttpServlet{
             writer.println("<h3>No available shots");
         }
 
-        lockManager.getInstance().releaseLock("booking "+id, Thread.currentThread().getName());
+        lockManager.getInstance().releaseLock("booking "+timeslotID, Thread.currentThread().getName());
 
         response.sendRedirect("bookvaccination");
     }
