@@ -32,14 +32,13 @@ public class bookServlet extends HttpServlet{
         unitOfwork.registerNew(booking);
         unitOfwork.commit();
 
+        lockManager.getInstance().releaseLock("booking "+timeslotID, Thread.currentThread().getName());
+
         if(bookingDB.find(SecurityUtils.getSubject().getPrincipals().toString())){
             writer.println("<h3>Book success!");
         }else{
             writer.println("<h3>No available shots");
         }
-
-        lockManager.getInstance().releaseLock("booking "+timeslotID, Thread.currentThread().getName());
-
         response.sendRedirect("bookvaccination");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
