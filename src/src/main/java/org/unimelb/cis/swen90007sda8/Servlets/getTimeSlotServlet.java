@@ -2,6 +2,7 @@ package org.unimelb.cis.swen90007sda8.Servlets;
 
 import org.apache.shiro.SecurityUtils;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
+import org.unimelb.cis.swen90007sda8.Mappers.adminMapper;
 import org.unimelb.cis.swen90007sda8.Models.*;
 
 import java.io.*;
@@ -13,7 +14,7 @@ import javax.servlet.http.*;
 @WebServlet(name = "getTimeSlotServlet", value = "/get_timeslot")
 public class getTimeSlotServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String identity = ((userModel) SecurityUtils.getSubject().getSession().getAttribute("user")).getIdentity();
+        String identity = adminMapper.find(SecurityUtils.getSubject().getPrincipals().toString()).getIdentity();
         String email = SecurityUtils.getSubject().getPrincipals().toString();
         String hcpname = new hcpModel(email).getHcpName();
         System.out.println(email);

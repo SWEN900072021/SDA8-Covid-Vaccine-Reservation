@@ -15,7 +15,7 @@ import javax.servlet.http.*;
 @WebServlet(name = "getUserServlet", value = "/get_user")
 public class getUserServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String identity = ((userModel) SecurityUtils.getSubject().getSession().getAttribute("user")).getIdentity();
+        String identity = adminMapper.find(SecurityUtils.getSubject().getPrincipals().toString()).getIdentity();
         String vaccinated = request.getParameter("vaccinated");
         Subject currentUser = SecurityUtils.getSubject();
         List<userModel> users = adminMapper.findWithVaccinated(vaccinated, identity);

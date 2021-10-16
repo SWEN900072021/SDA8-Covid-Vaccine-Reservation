@@ -3,6 +3,7 @@ package org.unimelb.cis.swen90007sda8.Servlets;
 
 import org.unimelb.cis.swen90007sda8.Mappers.BookingMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
+import org.unimelb.cis.swen90007sda8.Mappers.adminMapper;
 import org.unimelb.cis.swen90007sda8.Models.*;
 import org.unimelb.cis.swen90007sda8.UnitOfWork.bookingUnitOfWork;
 import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
@@ -20,7 +21,7 @@ public class bookServlet extends HttpServlet{
         Integer timeslotID = Integer.parseInt(request.getParameter("id"));
         PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
-        userModel user = (userModel) SecurityUtils.getSubject().getSession().getAttribute("user");
+        userModel user = adminMapper.find(SecurityUtils.getSubject().getPrincipals().toString());
         timeSlotModel timeslot = TimeSlotMapper.find(timeslotID);
         HashMap<String, List<bookingModel>> context = new HashMap<>();
         BookingMapper bookingDB = new BookingMapper();

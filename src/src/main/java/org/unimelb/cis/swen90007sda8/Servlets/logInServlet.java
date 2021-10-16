@@ -15,8 +15,6 @@ public class logInServlet extends HttpServlet{
 //        response.sendRedirect("index.jsp");
         response.setContentType("text/html");
         Subject currentUser = SecurityUtils.getSubject();
-        userModel user = adminMapper.find(currentUser.getPrincipals().toString());
-        SecurityUtils.getSubject().getSession().setAttribute("user", user);
         if(currentUser.hasRole("Admin")){
             response.sendRedirect("adminpage.jsp");
         }else if(currentUser.hasRole("Health Care Provider")) {
