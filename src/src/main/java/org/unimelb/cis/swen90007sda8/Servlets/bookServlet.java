@@ -35,11 +35,12 @@ public class bookServlet extends HttpServlet{
         lockManager.getInstance().releaseLock("timeslot "+timeslotID, Thread.currentThread().getName());
 
         if(bookingDB.find(SecurityUtils.getSubject().getPrincipals().toString())){
-            writer.println("<h3>Book success!");
+            writer.println("<h3>Book success!" +
+                    "</br><a href=\"bookvaccination\">Back</a>");
         }else{
-            writer.println("<h3>No available shots");
+            writer.println("<h3>No available shots"+
+                    "</br><a href=\"bookvaccination\">Back</a>");
         }
-        response.sendRedirect("bookvaccination");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         doGet(request,response);
