@@ -5,6 +5,14 @@ public class answerModel {
     private questionModel question;
     private Boolean answer;
 
+    public answerModel(userModel user) {
+        this.user = user;
+    }
+    public answerModel(userModel user, questionModel question, Boolean answer) {
+        this.user = user;
+        this.question = question;
+        this.answer = answer;
+    }
     public userModel getUser() {
         return user;
     }

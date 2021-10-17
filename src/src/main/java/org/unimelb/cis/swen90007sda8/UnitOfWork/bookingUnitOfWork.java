@@ -46,15 +46,14 @@ public class bookingUnitOfWork implements IUnitOfWork<bookingModel>{
         if (context == null || context.size() == 0) {
             return;
         }
+        if (context.containsKey(IUnitOfWork.DELETE)) {
+            commitDelete();
+        }
         if (context.containsKey(IUnitOfWork.INSERT)) {
             commitInsert();
         }
-
         if (context.containsKey(IUnitOfWork.MODIFY)) {
             commitModify();
-        }
-        if (context.containsKey(IUnitOfWork.DELETE)) {
-            commitDelete();
         }
     }
     private void commitInsert() {
