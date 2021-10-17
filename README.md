@@ -97,7 +97,6 @@ CREATE TABLE timeslots
     vaccinename text,
     PRIMARY KEY (id),
     FOREIGN KEY (provider) REFERENCES users(hcpname),
-    FOREIGN KEY (timerange) REFERENCES timerange(timeid),
     FOREIGN KEY (vaccinename) REFERENCES vaccines(name)
 );
 
