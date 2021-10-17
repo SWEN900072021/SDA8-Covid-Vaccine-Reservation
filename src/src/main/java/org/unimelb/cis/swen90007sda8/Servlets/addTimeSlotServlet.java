@@ -11,6 +11,8 @@ import org.apache.shiro.SecurityUtils;
 
 import java.io.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.*;
@@ -38,7 +40,7 @@ public class addTimeSlotServlet extends HttpServlet{
         timeRange timeRange = new timeRange(date, from, to);
         vaccineModel vaccine = VaccineMapper.find(request.getParameter("vname1"));
         if(toTime.compareTo(fromTime)>0){
-            lockManager.getInstance().acquireLock("editingTimeslotBy "+provider, Thread.currentThread().getName());
+            lockManager.getInstance().acquireLock(new ArrayList<String>(Arrays.asList("editingTimeslotBy "+provider)), Thread.currentThread().getName());
             if(TimeSlotMapper.insertTimeSlot(timeRange,provider,numberofshots,vaccine)){
                 response.setContentType("text/html");
                 writer.println("<h3> Slot "+date+" added!");
@@ -46,7 +48,7 @@ public class addTimeSlotServlet extends HttpServlet{
                 response.setContentType("text/html");
                 writer.println("<h3>Timeslot existed!");
             }
-            lockManager.getInstance().releaseLock("editingTimeslotBy "+provider, Thread.currentThread().getName());
+            lockManager.getInstance().releaseLock(new ArrayList<String>(Arrays.asList("editingTimeslotBy "+provider)), Thread.currentThread().getName());
         }else{
             response.setContentType("text/html");
             writer.println("<h3>Time range wrong!");
