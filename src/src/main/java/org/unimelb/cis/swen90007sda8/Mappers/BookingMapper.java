@@ -9,14 +9,14 @@ import java.sql.SQLException;
 
 public class BookingMapper {
 
-    public static Boolean find(String email) {
+    public static Integer find(String email) {
         String stmt;
-        stmt = "SELECT bookingid FROM bookings WHERE email ='"+ email+"';";
+        stmt = "SELECT timeslotid FROM bookings WHERE email ='"+ email+"';";
         ResultSet rs = postgresqlConnector.getInstance().connect(stmt);
-        Boolean result = false;
+        Integer result = null;
         try{
             if(rs.next()){
-                result = true;
+                result = rs.getInt(1);
             }
         }catch (SQLException e){
             e.printStackTrace();

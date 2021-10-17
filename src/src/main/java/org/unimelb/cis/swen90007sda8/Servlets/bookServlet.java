@@ -36,8 +36,8 @@ public class bookServlet extends HttpServlet{
         unitOfwork.commit();
 
         lockManager.getInstance().releaseLock(new ArrayList<String>(Arrays.asList("timeslot "+timeslotID)), Thread.currentThread().getName());
-
-        if(bookingDB.find(SecurityUtils.getSubject().getPrincipals().toString())){
+        
+        if(bookingDB.find(SecurityUtils.getSubject().getPrincipals().toString())==timeslotID){
             writer.println("<h3>Book success!" +
                     "</br><a href=\"bookvaccination\">Back</a>");
         }else{
