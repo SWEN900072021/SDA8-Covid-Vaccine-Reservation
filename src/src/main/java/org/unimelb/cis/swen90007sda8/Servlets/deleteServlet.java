@@ -3,8 +3,8 @@ package org.unimelb.cis.swen90007sda8.Servlets;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
-import org.unimelb.cis.swen90007sda8.Mappers.TimeRangeMapper;
 import org.unimelb.cis.swen90007sda8.Mappers.TimeSlotMapper;
+import org.unimelb.cis.swen90007sda8.Models.timeRange;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -23,8 +23,11 @@ public class deleteServlet extends HttpServlet{
         PrintWriter writer = response.getWriter();
         try {
             if(currentUser.hasRole("Health Care Provider")){
-                Integer timeid = TimeRangeMapper.getIdByDetail(date,from,to);
-                TimeSlotMapper.deleteTimeSlotByDetails(timeid,provider);
+                timeRange timeRange = new timeRange(date,from,to);
+                Integer timeslotID = TimeSlotMapper.getIdByDetails(timeRange,provider);
+                lockManager.getInstance().acquireLock("timeslot "+timeslotID, Thread.currentThread().getName());
+                TimeSlotMapper.deleteTimeSlotByDetails(timeRange,provider);
+                lockManager.getInstance().releaseLock("timeslot "+timeslotID, Thread.currentThread().getName());
                 response.sendRedirect("get_timeslot");
             }else{
                 writer.println("<h3>You can't delete timeslots");

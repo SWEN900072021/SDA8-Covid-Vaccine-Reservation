@@ -4,37 +4,37 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class timeRange {
-    private Date date;
-    private Time from;
-    private Time to;
+    private String date;
+    private String from;
+    private String to;
 
-    public timeRange(Date date, Time from, Time to) {
+    public timeRange(String date, String from, String to) {
         this.date = date;
         this.from = from;
         this.to = to;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Time getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(Time from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public Time getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(Time to) {
+    public void setTo(String to) {
         this.to = to;
     }
 }
