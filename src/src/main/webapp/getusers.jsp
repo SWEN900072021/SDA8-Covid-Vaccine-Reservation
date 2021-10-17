@@ -43,7 +43,7 @@
 </head>
 <body>
     <header style="padding-top: 10px; padding-bottom: 10px;">
-        <h2>View all System users</h2>
+        <h2>View all recipients booked your timeslot</h2>
     </header>
 
     <%

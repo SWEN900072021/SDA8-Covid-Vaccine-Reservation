@@ -73,6 +73,7 @@ public class recipientModel extends userModel{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     void load(){
         Dictionary<Object, Object> currentUser = recipientMapper.findUserByEmail(super.email);
         if (this.timeslotID == null){

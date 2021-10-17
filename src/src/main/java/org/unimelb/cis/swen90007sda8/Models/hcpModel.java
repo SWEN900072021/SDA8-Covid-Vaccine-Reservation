@@ -67,6 +67,7 @@ public class hcpModel extends userModel{
     public void setTypeofprovider(String typeofprovider) {
         this.typeofprovider = typeofprovider;
     }
+
     void load(){
         Dictionary<Object, Object> currentUser = hcpMapper.findUserByEmail(super.email);
         if (this.hcpName == null){
