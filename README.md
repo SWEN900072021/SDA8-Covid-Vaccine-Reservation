@@ -32,7 +32,7 @@ password - admin
 
 The Federal Government has recently released its plan to re-establish a "COVID-normal" in Australia, precipitated primarily on Australians receiving a dose of a COVID-19 vaccine. In order to assist with what is likely the single largest logistical challenge ever faced by this government, they require your help to build a vaccination booking and management system.
 
-The application will be a centralised vaccine management platform that can help public health officials manage vaccine distribution at scale and expedite vaccine administration for a large population. The solution should provide real-time access to vaccine-administration data to support decision-making and distribution efforts.
+The application will be a centralized vaccine management platform that can help public health officials manage vaccine distribution at scale and expedite vaccine administration for a large population. The solution should provide real-time access to vaccine-administration data to support decision-making and distribution efforts.
 
 ### Repository Index
 
@@ -136,6 +136,9 @@ CREATE TABLE user_answers_question
 INSERT INTO users(email, password,user_identity) VALUES ('admin@gmail.com', '$shiro1$SHA-256$500000$v4eixUCvn6V9KSudK8Ne7g==$Nelv3843Bf6h3oBPp4EBU+qNCDu+tf5dDGcdQIIngDs=','Admin');
 INSERT INTO vaccines(name, fromAge,toAge) VALUES ('AstraZeneca', '50','200');
 INSERT INTO vaccines(name, fromAge,toAge) VALUES ('Pfizer', '0','200');
+INSERT INTO questions(vaccinename, question, desiredanswer) VALUES ('AstraZeneca', 'Is your age above 50?', true);
+INSERT INTO questions(vaccinename, question, desiredanswer) VALUES ('Pfizer', 'Do you have heart disease?', false);
+INSERT INTO questions(vaccinename, question, desiredanswer) VALUES ('AstraZeneca', 'Are you a SUPERMAN?', true);
 ```
 </details>
 
