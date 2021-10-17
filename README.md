@@ -85,19 +85,13 @@ CREATE TABLE vaccines
     PRIMARY KEY (name)
 );
 
-CREATE TABLE timerange
-(
-    timeid SERIAL UNIQUE,
-    date date,
-    fromtime time,
-    totime time,
-    PRIMARY KEY (timeid),
-);
 
 CREATE TABLE timeslots
 (
     id SERIAL UNIQUE,
-    timerange integer,
+    date date,
+    fromtime time,
+    totime time,
     provider text,
     numberofshots integer,
     vaccinename text,
