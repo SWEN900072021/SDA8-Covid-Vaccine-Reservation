@@ -8,8 +8,6 @@ import org.unimelb.cis.swen90007sda8.Models.timeRange;
 
 import java.io.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
@@ -27,9 +25,9 @@ public class deleteServlet extends HttpServlet{
             if(currentUser.hasRole("Health Care Provider")){
                 timeRange timeRange = new timeRange(date,from,to);
                 Integer timeslotID = TimeSlotMapper.getIdByDetails(timeRange,provider);
-                lockManager.getInstance().acquireLock(new ArrayList<String>(Arrays.asList("timeslot "+timeslotID)), Thread.currentThread().getName());
+                lockManager.getInstance().acquireLock("timeslot "+timeslotID, Thread.currentThread().getName());
                 TimeSlotMapper.deleteTimeSlotByDetails(timeRange,provider);
-                lockManager.getInstance().releaseLock(new ArrayList<String>(Arrays.asList("timeslot "+timeslotID)), Thread.currentThread().getName());
+                lockManager.getInstance().releaseLock("timeslot "+timeslotID, Thread.currentThread().getName());
                 response.sendRedirect("get_timeslot");
             }else{
                 writer.println("<h3>You can't delete timeslots");

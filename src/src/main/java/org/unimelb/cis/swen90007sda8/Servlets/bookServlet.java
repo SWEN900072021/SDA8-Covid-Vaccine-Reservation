@@ -8,8 +8,6 @@ import org.unimelb.cis.swen90007sda8.Models.*;
 import org.unimelb.cis.swen90007sda8.UnitOfWork.bookingUnitOfWork;
 import org.unimelb.cis.swen90007sda8.LockManager.lockManager;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.annotation.*;
@@ -29,14 +27,14 @@ public class bookServlet extends HttpServlet{
         BookingMapper bookingDB = new BookingMapper();
         bookingUnitOfWork unitOfwork = new bookingUnitOfWork(context,bookingDB);
 
-        lockManager.getInstance().acquireLock(new ArrayList<String>(Arrays.asList("timeslot "+timeslotID)), Thread.currentThread().getName());
+        lockManager.getInstance().acquireLock("timeslot "+timeslotID, Thread.currentThread().getName());
 
         bookingModel booking = new bookingModel(user,timeslot);
         unitOfwork.registerNew(booking);
         unitOfwork.commit();
 
-        lockManager.getInstance().releaseLock(new ArrayList<String>(Arrays.asList("timeslot "+timeslotID)), Thread.currentThread().getName());
-        
+        lockManager.getInstance().releaseLock("timeslot "+timeslotID, Thread.currentThread().getName());
+
         if(bookingDB.find(SecurityUtils.getSubject().getPrincipals().toString())==timeslotID){
             writer.println("<h3>Book success!" +
                     "</br><a href=\"bookvaccination\">Back</a>");
