@@ -4,12 +4,6 @@ This repository contains structure related reports and source code for the COVID
 
 Link to application: https://covidvaccinesystem-sda8.herokuapp.com/
 
-Admin info
-
-email - admin@gmail.com
-
-password - admin
-
 ### Team Members
 
 | Name               | Student ID | Email                               |
@@ -26,13 +20,28 @@ password - admin
 | 15/08/2021 | Part 1 - Use Cases and Domain Model                          |
 | 16/09/2021 | Part 2 - Implemented some functionalities based on back-end servlets |
 | 26/09/2021 | Part 2 - Implemented patterns, Detailed Use Case and Architecture Documentation |
-|            |                                                              |
+| 17/10/2021 | Part 3 - Implemented patterns and concurrency testing        |
 
 ### Project Overview
 
 The Federal Government has recently released its plan to re-establish a "COVID-normal" in Australia, precipitated primarily on Australians receiving a dose of a COVID-19 vaccine. In order to assist with what is likely the single largest logistical challenge ever faced by this government, they require your help to build a vaccination booking and management system.
 
 The application will be a centralized vaccine management platform that can help public health officials manage vaccine distribution at scale and expedite vaccine administration for a large population. The solution should provide real-time access to vaccine-administration data to support decision-making and distribution efforts.
+
+### Data samples
+
+| Username (email)    | Password | Identity             |
+| ------------------- | -------- | -------------------- |
+| admin@gmail.com     | admin    | Admin                |
+| hcp@gmail.com       | test     | Health Care Provider |
+| recipient@gmail.com | test     | Recipient            |
+| test1@gmail.com     | test     | Recipient            |
+| ...                 | ...      | ...                  |
+| test20@gmail.com    | test     | Recipient            |
+
+There is one admin account, one HCP account, one recipient account for demonstration and 20 recipient accounts for testing.
+
+In addition, there is no other important data to be included in this section, timeslot, question, and booking can be created during runtime /demonstrating.
 
 ### Repository Index
 
@@ -143,15 +152,3 @@ INSERT INTO questions(vaccinename, question, desiredanswer) VALUES ('AstraZeneca
 </details>
 
 ![](docs\report%20src\database.png)
-
-### Part 3 Timeline
-
-Meeting date: 7/10/2021
-
-| Group member       | 7/10/2021 - 11/10/2021                                       | 12/10/2021 - 13/10/2021            | 14/10/2021 - 16/10/2021         | 17/10/2021                               |
-| ------------------ | ------------------------------------------------------------ | ---------------------------------- | ------------------------------- | ---------------------------------------- |
-| Jiashuai Yu        | Fix patterns inappropriately used in part 2 and complete use cases | Apply concurrency patterns         |                                 | Final review on codes and documentations |
-| Sufan Xia          | Front-end UI polishing                                       | Certificate and questionnaire JSPs | Architecture documentation      | Final review on codes and documentations |
-| Thomas Capicchiano | Abstract testing plan or equivalent                          |                                    | Testing plan and JMeter scripts | Final review on codes and documentations |
-| Zhuolun Wu         | Fix patterns inappropriately used in part 2 and complete use cases | Architecture documentation         | Architecture documentation      | Final review on codes and documentations |
-
