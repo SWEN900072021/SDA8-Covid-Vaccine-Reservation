@@ -71,6 +71,7 @@
                     <a href="delete?date=<%=timeslot.getTimeRange().getDate()%>&from=<%=timeslot.getTimeRange().getFrom()%>&to=<%=timeslot.getTimeRange().getTo()%>
                             &provider=<%=timeslot.getProvider()%>" οnclick= "return confirm('Are you sure about this deletion?')">Delete</a>
                 </td>
+            </tr>
                     <% }
                  %>
         </table>

@@ -76,19 +76,19 @@
 
             <%
                 for(int i = 0;i<users.size();i++){
-                    userModel user =(userModel) users.get(i);%>
+                    userModel user =(userModel) users.get(i);
+            %>
             <tr>
                 <td><%=user.getEmail() %></td>
                 <td><%=user.getFirstName()%></td>
                 <td><%=user.getLastName()%></td>
-                <td><%=user.getIdentity()%></td><br>
-                <td><%=user.getVaccinated()%></td><br>
-                    <% }
-                 %>
+                <td><%=user.getIdentity()%></td>
+                <td><%=user.getVaccinated()%></td></br>
+            </tr>
+            <%
+                }
+            %>
         </table>
-<%--        <form>--%>
-<%--            <input type="button" value="Back to last page" onclick="history.back()">--%>
-<%--        </form>--%>
     </div>
 </body>
 </html>
