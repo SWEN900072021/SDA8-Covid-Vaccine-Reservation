@@ -12,7 +12,6 @@ import javax.servlet.http.*;
 @WebServlet(name = "logInServlet", value = "")
 public class logInServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        response.sendRedirect("index.jsp");
         response.setContentType("text/html");
         Subject currentUser = SecurityUtils.getSubject();
         if(currentUser.hasRole("Admin")){
@@ -24,8 +23,6 @@ public class logInServlet extends HttpServlet{
         }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.setContentType("text/html");
-        System.out.println("Hello from GET method in logInServlet");
         response.setContentType("text/html");
         Subject currentUser = SecurityUtils.getSubject();
         if(currentUser.hasRole("Admin")){
