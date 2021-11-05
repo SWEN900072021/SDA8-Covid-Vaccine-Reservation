@@ -21,7 +21,7 @@ Link to application: https://covidvaccinesystem-sda8.herokuapp.com/
 | 16/09/2021 | Part 2 - Implemented some functionalities based on back-end servlets |
 | 26/09/2021 | Part 2 - Implemented patterns, Detailed Use Case and Architecture Documentation |
 | 17/10/2021 | Part 3 - Implemented patterns and concurrency testing        |
-| 05/11/2021 | Part 4 - Performance analysis                                |
+| 05/11/2021 | Part 4 - Performance analysis        |
 
 ### Project Overview
 
@@ -90,7 +90,7 @@ CREATE TABLE users
 CREATE TABLE vaccines
 (
     name text,
-    fromage text,
+    fromage text,s
     toage text,
     PRIMARY KEY (name)
 );
